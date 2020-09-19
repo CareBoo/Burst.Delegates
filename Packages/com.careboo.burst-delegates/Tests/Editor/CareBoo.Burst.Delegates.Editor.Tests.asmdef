@@ -1,8 +1,8 @@
 {
-    "name": "__MyOrganization__.__MyPackage__.Editor.Tests",
+    "name": "CareBoo.Burst.Delegates.Editor.Tests",
     "references": [
-        "__MyOrganization__.__MyPackage__.Editor",
-        "__MyOrganization__.__MyPackage__"
+        "CareBoo.Burst.Delegates.Editor",
+        "CareBoo.Burst.Delegates"
     ],
     "optionalUnityReferences": [
         "TestAssemblies"

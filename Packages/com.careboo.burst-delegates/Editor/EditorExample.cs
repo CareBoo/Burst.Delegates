@@ -4,7 +4,7 @@
 //
 // -----------------------------------------------------------------------------
 
-namespace __MyOrganization__.__MyPackage__.Editor
+namespace CareBoo.Burst.Delegates.Editor
 {
     /// <summary>
     /// Provide a general description of the public class.

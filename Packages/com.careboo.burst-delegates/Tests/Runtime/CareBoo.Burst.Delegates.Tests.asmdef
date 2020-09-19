@@ -1,7 +1,7 @@
 {
-    "name": "__MyOrganization__.__MyPackage__.Tests",
+    "name": "CareBoo.Burst.Delegates.Tests",
     "references": [
-        "__MyOrganization__.__MyPackage__"
+        "CareBoo.Burst.Delegates"
     ],
     "optionalUnityReferences": [
         "TestAssemblies"

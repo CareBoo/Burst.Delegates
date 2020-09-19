@@ -12,22 +12,22 @@
       "@semantic-release/changelog",
       {
         "preset": "angular",
-        "changelogFile": "Packages/com.__my-organization__.__my-package__/CHANGELOG.md"
+        "changelogFile": "Packages/com.careboo.burst-delegates/CHANGELOG.md"
       }
     ],
     [
       "@semantic-release/npm",
       {
         "npmPublish": false,
-        "pkgRoot": "Packages/com.__my-organization__.__my-package__"
+        "pkgRoot": "Packages/com.careboo.burst-delegates"
       }
     ],
     [
       "@semantic-release/git",
       {
         "assets": [
-          "Packages/com.__my-organization__.__my-package__/package.json",
-          "Packages/com.__my-organization__.__my-package__/CHANGELOG.md"
+          "Packages/com.careboo.burst-delegates/package.json",
+          "Packages/com.careboo.burst-delegates/CHANGELOG.md"
         ],
         "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
       }
