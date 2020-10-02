@@ -1,86 +1,65 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using Mono.Cecil;
+using static CareBoo.Burst.Delegates.CodeGen.ValueFuncProcessor;
 
 namespace CareBoo.Burst.Delegates.CodeGen
 {
-    public struct ValueFuncMethodProperties
+    public struct ValueFuncMethodKey : IEquatable<ValueFuncMethodKey>
     {
-        public readonly static Regex LambdaRegex = new Regex(
-            @"ValueFunc`(?<NumGenericParams>[1-9]).Lambda<(?<GenericParams>[\w,]+)>$"
-        );
+        public string Key { get; private set; }
 
-        public readonly static Regex StructRegex = new Regex(
-            @"ValueFunc`(?<NumGenericParams>[1-9]).Struct`1<(?<GenericParams>(\w+,)+)\w+>$"
-        );
-
-        public string Name { get; private set; }
-        public List<string> ParameterTypes { get; private set; }
-        public int GenericParameterCount { get; private set; }
-
-        public ValueFuncMethodProperties(MethodReference methodRef)
+        private ValueFuncMethodKey(string key)
         {
-            Name = methodRef.Name;
-            ParameterTypes = methodRef.HasParameters
+            Key = key;
+        }
+
+        public ValueFuncMethodKey(MethodReference methodRef)
+        {
+            var isLambda = IsMethodWithValueFuncLambdas(methodRef);
+            var isStruct = IsMethodWithValueFuncStructs(methodRef);
+            if (!isLambda && !isStruct)
+            {
+                Key = null;
+            }
+
+            var name = methodRef.FullName;
+            var parameterStrings = methodRef.HasParameters
                 ? methodRef.Parameters.Select(GetParameterTypeString).ToList()
                 : null;
-            GenericParameterCount = methodRef.HasGenericParameters
+            var genericCount = methodRef.HasGenericParameters
                 ? methodRef.GenericParameters.Count()
                 : 0;
+            if (isStruct)
+                genericCount -= 1;
+
+            Key = $"{name}{string.Join(string.Empty, parameterStrings)}{genericCount}";
         }
 
         public override bool Equals(object obj)
         {
-            return obj is ValueFuncMethodProperties other
-                && Name == other.Name
-                && (ParameterTypes == null || other.ParameterTypes == null
-                    ? ParameterTypes == other.ParameterTypes
-                    : ParameterTypes.SequenceEqual(other.ParameterTypes))
-                && GenericParameterCount == other.GenericParameterCount;
+            return obj is ValueFuncMethodKey other
+                && Key == other.Key;
         }
 
         public override int GetHashCode()
         {
-            unchecked
-            {
-                var hash = 17;
-                hash = hash * 23 + Name.GetHashCode();
-                if (ParameterTypes != null)
-                {
-                    hash *= 37;
-                    foreach (var type in ParameterTypes)
-                        hash *= 23 + type.GetHashCode();
-                }
-                hash = hash * 23 + GenericParameterCount;
-                return hash;
-            }
+            return Key.GetHashCode();
         }
 
         public override string ToString()
         {
-            var parameterTypesString = ParameterTypes != null && ParameterTypes.Count > 0
-                ? string.Join(",", ParameterTypes)
-                : "";
-            var genericParameterString = string.Concat(Enumerable.Repeat(",", GenericParameterCount - 1));
-            return $"{GetType().Name}<{Name}<{genericParameterString}>({parameterTypesString})>";
+            return Key;
         }
 
-        public static ValueFuncMethodProperties ReplaceValueFuncLambdasWithStructs(ValueFuncMethodProperties properties)
+        public static implicit operator string(ValueFuncMethodKey key)
         {
-            if (properties.ParameterTypes == null || properties.ParameterTypes.Count == 0)
-                return properties;
+            return key.Key;
+        }
 
-            for (var i = 0; i < properties.ParameterTypes.Count; i++)
-            {
-                var parameterType = properties.ParameterTypes[i];
-                if (!LambdaRegex.IsMatch(parameterType))
-                    continue;
-                properties.ParameterTypes[i] = LambdaRegex.Replace(parameterType, "ValueFunc`${NumGenericParams}.Struct`1<${GenericParams},>");
-                properties.GenericParameterCount += 1;
-            }
-            return properties;
+        public static implicit operator ValueFuncMethodKey(string key)
+        {
+            return new ValueFuncMethodKey(key);
         }
 
         private static string GetParameterTypeString(ParameterDefinition paramDef)
@@ -88,12 +67,17 @@ namespace CareBoo.Burst.Delegates.CodeGen
             var typeFullName = paramDef.ParameterType.FullName;
             if (!StructRegex.IsMatch(typeFullName))
                 return typeFullName;
-            return OmitStructGenericParameterFromTypeFullName(typeFullName);
+            return StructToLambdaTypeFullName(typeFullName);
         }
 
-        private static string OmitStructGenericParameterFromTypeFullName(string typeFullName)
+        private static string StructToLambdaTypeFullName(string typeFullName)
         {
-            return StructRegex.Replace(typeFullName, "ValueFunc`${NumGenericParams}.Struct`1<${GenericParams}>");
+            return StructRegex.Replace(typeFullName, "ValueFunc`${NumGenericParams}.Lambda`1<${GenericParams}>");
+        }
+
+        bool IEquatable<ValueFuncMethodKey>.Equals(ValueFuncMethodKey other)
+        {
+            return Key == other.Key;
         }
     }
 }
