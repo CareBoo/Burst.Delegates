@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Mono.Cecil;
-using static CareBoo.Burst.Delegates.CodeGen.ValueFuncProcessor;
+using static CareBoo.Burst.Delegates.CodeGen.ValueFuncUtil;
 
 namespace CareBoo.Burst.Delegates.CodeGen
 {
@@ -23,10 +23,10 @@ namespace CareBoo.Burst.Delegates.CodeGen
                 Key = null;
             }
 
-            var name = methodRef.FullName;
+            var name = methodRef.Name;
             var parameterStrings = methodRef.HasParameters
                 ? methodRef.Parameters.Select(GetParameterTypeString).ToList()
-                : null;
+                : Enumerable.Empty<string>();
             var genericCount = methodRef.HasGenericParameters
                 ? methodRef.GenericParameters.Count()
                 : 0;
@@ -72,7 +72,7 @@ namespace CareBoo.Burst.Delegates.CodeGen
 
         private static string StructToLambdaTypeFullName(string typeFullName)
         {
-            return StructRegex.Replace(typeFullName, "ValueFunc`${NumGenericParams}.Lambda`1<${GenericParams}>");
+            return StructRegex.Replace(typeFullName, "ValueFunc`${NumGenericParams}/Lambda<${GenericParams}>");
         }
 
         bool IEquatable<ValueFuncMethodKey>.Equals(ValueFuncMethodKey other)

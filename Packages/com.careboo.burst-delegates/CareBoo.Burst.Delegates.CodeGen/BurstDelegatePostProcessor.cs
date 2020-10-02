@@ -5,7 +5,7 @@ using Unity.CompilationPipeline.Common.Diagnostics;
 using Unity.CompilationPipeline.Common.ILPostProcessing;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
-using static CareBoo.Burst.Delegates.CodeGen.ValueFuncProcessor;
+using static CareBoo.Burst.Delegates.CodeGen.ValueFuncUtil;
 using System.Text;
 
 namespace CareBoo.Burst.Delegates.CodeGen
@@ -23,6 +23,7 @@ namespace CareBoo.Burst.Delegates.CodeGen
 
             var diagnostics = new List<DiagnosticMessage>();
             var messageBuilder = new StringBuilder();
+            var methodPairs = new Dictionary<ValueFuncMethodKey, ValueFuncMethodPair>();
 
             messageBuilder.AppendLine($"[{GetType().Name}]: post processing {compiledAssembly.Name}");
             var assemblyDefinition = AssemblyDefinitionFor(compiledAssembly);
@@ -30,8 +31,30 @@ namespace CareBoo.Burst.Delegates.CodeGen
             var lambdaMethods = GetMethods(assemblyDefinition, IsMethodWithValueFuncLambdas);
             messageBuilder.AppendLine($"Found Lambda Methods:\n{string.Join("\n", lambdaMethods.Select(m => m.FullName))}");
 
+            foreach (var method in lambdaMethods)
+            {
+                methodPairs.Add(new ValueFuncMethodKey(method), new ValueFuncMethodPair { MethodWithLambdas = method });
+            }
+
             var structMethods = GetMethods(assemblyDefinition, IsMethodWithValueFuncStructs);
             messageBuilder.AppendLine($"Found Struct Methods:\n{string.Join("\n", structMethods.Select(m => m.FullName))}");
+
+            foreach (var method in structMethods)
+            {
+                var key = new ValueFuncMethodKey(method);
+                if (!methodPairs.TryGetValue(key, out var pair))
+                {
+                    diagnostics.Add(new DiagnosticMessage { MessageData = $"Could not find lambda method with key: \"{key}\"...\nExisting keys:\n{string.Join("\n", methodPairs.Keys.Select(k => $"\"{k}\""))}", DiagnosticType = DiagnosticType.Error });
+                    continue;
+                }
+                pair.MethodWithStructs = method;
+                methodPairs[key] = pair;
+                messageBuilder.AppendLine($"");
+            }
+            messageBuilder.AppendLine($"Found ValueFuncMethodPairs:\n{string.Join("\n", methodPairs.Values.Select(pair => $"[\"{pair.MethodWithLambdas}\", \"{pair.MethodWithStructs}\"]"))}");
+
+            var methodsCallingLambda = GetMethods(assemblyDefinition, IsCallingMethodWhere(method => methodPairs.ContainsKey(new ValueFuncMethodKey(method))));
+            messageBuilder.AppendLine($"Found methods calling valuefunc delegates:\n{string.Join("\n", methodsCallingLambda)}");
 
             diagnostics.Add(new DiagnosticMessage { MessageData = messageBuilder.ToString(), DiagnosticType = DiagnosticType.Warning });
             return new ILPostProcessResult(null, diagnostics);

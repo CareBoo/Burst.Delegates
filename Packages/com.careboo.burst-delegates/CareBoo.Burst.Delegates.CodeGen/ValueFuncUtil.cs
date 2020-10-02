@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Mono.Cecil;
+using Mono.Cecil.Cil;
 
 namespace CareBoo.Burst.Delegates.CodeGen
 {
-    public class ValueFuncProcessor
+    public static class ValueFuncUtil
     {
         public readonly static Regex LambdaRegex = new Regex(
             @"ValueFunc`(?<NumGenericParams>[1-9]).Lambda<(?<GenericParams>[\w.<>,]+)>$",
@@ -33,16 +34,28 @@ namespace CareBoo.Burst.Delegates.CodeGen
             return assemblyDefinition.Modules.SelectMany(md => GetMethods(md, predicate));
         }
 
-        public static bool IsMethodWithValueFuncLambdas(MethodReference md)
+        public static bool IsMethodWithValueFuncLambdas(MethodReference mref)
         {
-            return md.HasParameters
-                && md.Parameters.Select(p => p.ParameterType.FullName).Any(LambdaRegex.IsMatch);
+            return mref.HasParameters
+                && mref.Parameters.Select(p => p.ParameterType.FullName).Any(LambdaRegex.IsMatch);
         }
 
-        public static bool IsMethodWithValueFuncStructs(MethodReference md)
+        public static bool IsMethodWithValueFuncStructs(MethodReference mref)
         {
-            return md.HasParameters
-                && md.Parameters.Select(p => p.ParameterType.FullName).Any(StructRegex.IsMatch);
+            return mref.HasParameters
+                && mref.Parameters.Select(p => p.ParameterType.FullName).Any(StructRegex.IsMatch);
+        }
+
+        public static Func<MethodDefinition, bool> IsCallingMethodWhere(Func<MethodReference, bool> predicate)
+        {
+            return (caller) =>
+            {
+                return caller.HasBody
+                    && caller.Body.Instructions.Any(instruction =>
+                        instruction.OpCode == OpCodes.Call
+                        && instruction.Operand is MethodReference methodCalled
+                        && predicate(methodCalled));
+            };
         }
     }
 }
