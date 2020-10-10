@@ -19,19 +19,19 @@ namespace CareBoo.Burst.Delegates.CodeGen
             RegexOptions.Compiled
         );
 
-        public static IEnumerable<MethodDefinition> GetMethods(TypeDefinition typeDefinition, Func<MethodDefinition, bool> predicate)
+        public static IEnumerable<MethodDefinition> GetMethods(TypeDefinition typeDefinition)
         {
-            return typeDefinition.Methods.Where(predicate);
+            return typeDefinition.Methods;
         }
 
-        public static IEnumerable<MethodDefinition> GetMethods(ModuleDefinition moduleDefinition, Func<MethodDefinition, bool> predicate)
+        public static IEnumerable<MethodDefinition> GetMethods(ModuleDefinition moduleDefinition)
         {
-            return moduleDefinition.Types.SelectMany(td => GetMethods(td, predicate));
+            return moduleDefinition.Types.SelectMany(td => GetMethods(td));
         }
 
-        public static IEnumerable<MethodDefinition> GetMethods(AssemblyDefinition assemblyDefinition, Func<MethodDefinition, bool> predicate)
+        public static IEnumerable<MethodDefinition> GetMethods(AssemblyDefinition assemblyDefinition)
         {
-            return assemblyDefinition.Modules.SelectMany(md => GetMethods(md, predicate));
+            return assemblyDefinition.Modules.SelectMany(md => GetMethods(md));
         }
 
         public static bool IsMethodWithValueFuncLambdas(MethodReference mref)
@@ -56,6 +56,16 @@ namespace CareBoo.Burst.Delegates.CodeGen
                         && instruction.Operand is MethodReference methodCalled
                         && predicate(methodCalled));
             };
+        }
+
+        public static void ConvertToValueFuncStructMethod(MethodReference lambdaMethod)
+        {
+            var lambdaParameters = lambdaMethod.Parameters.Where(p => LambdaRegex.IsMatch(p.ParameterType.FullName));
+        }
+
+        public static void ConvertToValueFuncStructParameter(ParameterDefinition lambdaParameter)
+        {
+
         }
     }
 }

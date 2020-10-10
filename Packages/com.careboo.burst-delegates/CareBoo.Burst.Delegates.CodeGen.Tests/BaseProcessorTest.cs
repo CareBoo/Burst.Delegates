@@ -74,7 +74,7 @@ internal abstract class BaseProcessorTest
         return null;
     }
 
-    public MethodDefinition GetMethodDefinition<T>(string methodName, int genericCount)
+    public MethodDefinition GetMethodDefinition<T>(string methodName, int genericCount = 0)
     {
         var td = GetTypeDefinition(typeof(T));
         return td.Methods.FirstOrDefault(

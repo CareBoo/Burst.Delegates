@@ -7,10 +7,25 @@ using Mono.Cecil;
 using Mono.Cecil.Cil;
 using static CareBoo.Burst.Delegates.CodeGen.ValueFuncUtil;
 using System.Text;
+using System;
 
+/*
+1. Find the methods that reference ValueFunc.Lambdas in their instructions.
+2. If there is a closure:
+    a. Copy the closure fields into a struct
+    b. Copy each method into a new struct inheriting IFunc, that has the closure as a ref struct
+    c. 
+3. For each set of instructions:
+    a. If there is a closure and there isn't a closure struct:
+        i. create a closure struct
+        ii. copy the closure fields to the closure struct
+    b. Copy the closure method referenced into a new struct inheriting IFunc
+        i. If the closure is referenced, need to add the closure struct as a field.
+        ii. Then replace calls to closure fields to the nested closure struct fields.
+*/
 namespace CareBoo.Burst.Delegates.CodeGen
 {
-    public class BurstDelegatePostProcessor : ILPostProcessor
+    public partial class BurstDelegatePostProcessor : ILPostProcessor
     {
         public override ILPostProcessor GetInstance()
         {
@@ -23,38 +38,17 @@ namespace CareBoo.Burst.Delegates.CodeGen
 
             var diagnostics = new List<DiagnosticMessage>();
             var messageBuilder = new StringBuilder();
-            var methodPairs = new Dictionary<ValueFuncMethodKey, ValueFuncMethodPair>();
 
             messageBuilder.AppendLine($"[{GetType().Name}]: post processing {compiledAssembly.Name}");
             var assemblyDefinition = AssemblyDefinitionFor(compiledAssembly);
 
-            var lambdaMethods = GetMethods(assemblyDefinition, IsMethodWithValueFuncLambdas);
-            messageBuilder.AppendLine($"Found Lambda Methods:\n{string.Join("\n", lambdaMethods.Select(m => m.FullName))}");
-
-            foreach (var method in lambdaMethods)
+            var methodsCallingLambda = GetMethods(assemblyDefinition).Where(IsCallingMethodWhere(IsMethodWithValueFuncLambdas));
+            messageBuilder.AppendLine($"Found methods calling valuefunc delegates:\n{string.Join("\n\n", methodsCallingLambda.Select(m => string.Join("\n", m.Body.Instructions)))}");
+            foreach (var type in methodsCallingLambda.First().DeclaringType.NestedTypes)
             {
-                methodPairs.Add(new ValueFuncMethodKey(method), new ValueFuncMethodPair { MethodWithLambdas = method });
+                type.BaseType = assemblyDefinition.MainModule.ImportReference(typeof(ValueType));
+                messageBuilder.AppendLine($"Nested {(type.IsValueType ? "struct" : "class")}: {type}");
             }
-
-            var structMethods = GetMethods(assemblyDefinition, IsMethodWithValueFuncStructs);
-            messageBuilder.AppendLine($"Found Struct Methods:\n{string.Join("\n", structMethods.Select(m => m.FullName))}");
-
-            foreach (var method in structMethods)
-            {
-                var key = new ValueFuncMethodKey(method);
-                if (!methodPairs.TryGetValue(key, out var pair))
-                {
-                    diagnostics.Add(new DiagnosticMessage { MessageData = $"Could not find lambda method with key: \"{key}\"...\nExisting keys:\n{string.Join("\n", methodPairs.Keys.Select(k => $"\"{k}\""))}", DiagnosticType = DiagnosticType.Error });
-                    continue;
-                }
-                pair.MethodWithStructs = method;
-                methodPairs[key] = pair;
-                messageBuilder.AppendLine($"");
-            }
-            messageBuilder.AppendLine($"Found ValueFuncMethodPairs:\n{string.Join("\n", methodPairs.Values.Select(pair => $"[\"{pair.MethodWithLambdas}\", \"{pair.MethodWithStructs}\"]"))}");
-
-            var methodsCallingLambda = GetMethods(assemblyDefinition, IsCallingMethodWhere(method => methodPairs.ContainsKey(new ValueFuncMethodKey(method))));
-            messageBuilder.AppendLine($"Found methods calling valuefunc delegates:\n{string.Join("\n", methodsCallingLambda)}");
 
             diagnostics.Add(new DiagnosticMessage { MessageData = messageBuilder.ToString(), DiagnosticType = DiagnosticType.Warning });
             return new ILPostProcessResult(null, diagnostics);

@@ -1,7 +1,8 @@
 {
     "name": "CareBoo.Burst.Delegates.Tests",
     "references": [
-        "CareBoo.Burst.Delegates"
+        "CareBoo.Burst.Delegates",
+        "Unity.Burst"
     ],
     "includePlatforms": [
         "Editor"
