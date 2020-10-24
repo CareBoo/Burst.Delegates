@@ -51,6 +51,14 @@ internal class CodeGenTestFixture
         Test((int arg0) => b == arg0);
     }
 
+    public void Input2()
+    {
+        var a = 3;
+        var b = 4;
+        Test((int arg0) => a == arg0);
+        Test((int arg0) => b == arg0);
+    }
+
     public void Expected()
     {
         var a = 1;
