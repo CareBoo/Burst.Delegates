@@ -74,6 +74,19 @@ internal class ILPrinter : BaseProcessorTest
             PrintIL(method);
     }
 
+    [Test, Parallelizable]
+    public void PrintGeneratedDisplayStructs()
+    {
+        var type = GetTypeDefinition(typeof(CodeGenTestFixture));
+        var displayClasses = type.NestedTypes.Where(t => t.Name.Contains("DisplayClass"));
+        var displayStruct = displayClasses.Select(dc => new DisplayStructDefinition(dc)).First();
+        foreach (var fieldRef in displayStruct.Definition.Fields)
+            PrintIL(fieldRef);
+
+        foreach (var method in displayStruct.ValueDelegateStructs.Values.SelectMany(vds => vds.Definition.Methods))
+            PrintIL(method);
+    }
+
     void PrintIL(MethodDefinition method)
     {
         Debug.Log($"IL for method \"{method.FullName}\":\n{string.Join("\n", method.Body.Variables.Select(v => $"{v}: {v.VariableType}"))}\n{string.Join("\n", method.Body.Instructions)}");
@@ -88,5 +101,10 @@ internal class ILPrinter : BaseProcessorTest
             .Append("\n")
             .Append($"{string.Join("\n", type.NestedTypes)}");
         Debug.Log(msg.ToString());
+    }
+
+    void PrintIL(FieldReference fieldRef)
+    {
+        Debug.Log($"{fieldRef.FieldType.FullName} {fieldRef.Name}");
     }
 }

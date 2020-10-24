@@ -7,17 +7,20 @@ namespace CareBoo.Burst.Delegates.CodeGen
 {
     public class ValueDelegateStructDefinition
     {
-        private readonly DisplayStructDefinition displayStruct;
+        private readonly TypeDefinition displayStruct;
+        private readonly TypeDefinition displayClass;
         private readonly MethodDefinition lambdaMethod;
 
         public TypeDefinition Definition { get; }
         public FieldDefinition ClosureField { get; }
         public MethodDefinition InvokeMethod { get; }
         public InterfaceImplementation DelegateInterface { get; }
+        public ModuleDefinition Module => displayClass.Module;
 
-        public ValueDelegateStructDefinition(DisplayStructDefinition displayStruct, MethodDefinition lambdaMethod)
+        public ValueDelegateStructDefinition(TypeDefinition displayStruct, TypeDefinition displayClass, MethodDefinition lambdaMethod)
         {
             this.displayStruct = displayStruct;
+            this.displayClass = displayClass;
             this.lambdaMethod = lambdaMethod;
 
             Definition = InitDefinition();
@@ -32,12 +35,11 @@ namespace CareBoo.Burst.Delegates.CodeGen
 
         TypeDefinition InitDefinition()
         {
-            return new TypeDefinition(
-                @namespace: displayStruct.Definition.Namespace,
-                name: "<>c__" + lambdaMethod.Name,
-                attributes: displayStruct.Definition.Attributes,
-                displayStruct.Definition.Module.ImportReference(typeof(ValueType))
-                );
+            var @namespace = displayStruct.Namespace;
+            var name = "<>c__" + lambdaMethod.Name;
+            var attributes = displayStruct.Attributes;
+            var structType = displayStruct.BaseType;
+            return new TypeDefinition(@namespace, name, attributes, structType);
         }
 
         FieldDefinition InitClosureField()
@@ -45,7 +47,7 @@ namespace CareBoo.Burst.Delegates.CodeGen
             return new FieldDefinition(
                 name: "closure",
                 attributes: FieldAttributes.Private,
-                fieldType: displayStruct.Definition
+                fieldType: displayStruct
                 );
         }
 
@@ -58,13 +60,16 @@ namespace CareBoo.Burst.Delegates.CodeGen
                 );
             foreach (var parameter in lambdaMethod.Parameters)
                 invokeMethod.Parameters.Add(parameter);
-            foreach (var genericParameter in lambdaMethod.GenericParameters)
-                invokeMethod.GenericParameters.Add(genericParameter);
             invokeMethod.Body = new MethodBody(lambdaMethod);
+            invokeMethod.Body.Instructions.Clear();
             var processor = invokeMethod.Body.GetILProcessor();
-            foreach (var instruction in invokeMethod.Body.Instructions)
+            foreach (var instruction in lambdaMethod.Body.Instructions)
+            {
                 if (IsReferencingClosureField(instruction))
                     FixClosureFieldReference(instruction, processor);
+                else
+                    processor.Append(instruction);
+            }
             return invokeMethod;
         }
 
@@ -77,27 +82,27 @@ namespace CareBoo.Burst.Delegates.CodeGen
         {
             return instruction.OpCode == OpCodes.Ldfld
                 && instruction.Operand is FieldReference fieldReference
-                && fieldReference.DeclaringType.FullName == displayStruct.DisplayClass.FullName;
+                && fieldReference.DeclaringType.FullName == displayClass.FullName;
         }
 
         void FixClosureFieldReference(Instruction instruction, ILProcessor processor)
         {
             var loadDisplayStructInstruction = processor.Create(OpCodes.Ldflda, ClosureField);
-            processor.InsertBefore(instruction, loadDisplayStructInstruction);
+            processor.Append(loadDisplayStructInstruction);
 
             var displayStructFieldRef = ClosureField.FieldType.Resolve().Fields.First(f => f.Name == ((FieldReference)instruction.Operand).Name);
             var loadDisplayStructFieldInstruction = processor.Create(OpCodes.Ldfld, displayStructFieldRef);
-            processor.Replace(instruction, loadDisplayStructFieldInstruction);
+            processor.Append(loadDisplayStructFieldInstruction);
         }
 
         TypeReference InitDelegateInterfaceTypeReference()
         {
-            var voidType = Definition.Module.ImportReference(typeof(void));
+            var voidType = Module.ImportReference(typeof(void));
             var lambdaParameters = lambdaMethod.Parameters;
             var paramCount = lambdaParameters.Count;
             var isAction = lambdaMethod.ReturnType.FullName == voidType.FullName;
             Type type = GetDelegateInterfaceType(isAction, paramCount);
-            var typeRef = Definition.Module.ImportReference(type);
+            var typeRef = Module.ImportReference(type);
             if (isAction && paramCount == 0)
                 return typeRef;
 

@@ -17,11 +17,11 @@ namespace CareBoo.Burst.Delegates.CodeGen
 
             Definition = InitDefinition();
             foreach (var field in displayClass.Fields)
-                Definition.Fields.Add(field);
+                Definition.Fields.Add(CloneField(field));
 
-            ValueDelegateStructs = displayClass.Methods.ToDictionary(
+            ValueDelegateStructs = displayClass.Methods.Where(m => !m.IsConstructor).ToDictionary(
                 m => m.FullName,
-                m => new ValueDelegateStructDefinition(this, m)
+                m => new ValueDelegateStructDefinition(Definition, displayClass, m)
                 );
         }
 
@@ -33,6 +33,11 @@ namespace CareBoo.Burst.Delegates.CodeGen
                 attributes: DisplayClass.Attributes,
                 DisplayClass.Module.ImportReference(typeof(ValueType))
                 );
+        }
+
+        private FieldDefinition CloneField(FieldDefinition field)
+        {
+            return new FieldDefinition(field.Name, field.Attributes, field.FieldType);
         }
     }
 }
