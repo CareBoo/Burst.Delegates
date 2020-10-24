@@ -58,6 +58,22 @@ internal class ILPrinter : BaseProcessorTest
         PrintIL(GetTypeDefinition(typeof(CodeGenTestFixture)));
     }
 
+    [Test, Parallelizable]
+    public void PrintDisplayClassMethods()
+    {
+        var type = GetTypeDefinition(typeof(CodeGenTestFixture));
+        foreach (var method in type.NestedTypes.Where(t => t.Name.Contains("DisplayClass")).SelectMany(t => t.Methods))
+            PrintIL(method);
+    }
+
+    [Test, Parallelizable]
+    public void PrintValueDelegateStructMethods()
+    {
+        var type = GetTypeDefinition(typeof(CodeGenTestFixture));
+        foreach (var method in type.NestedTypes.Where(t => t.Name.Contains("EqualsFunc")).SelectMany(t => t.Methods))
+            PrintIL(method);
+    }
+
     void PrintIL(MethodDefinition method)
     {
         Debug.Log($"IL for method \"{method.FullName}\":\n{string.Join("\n", method.Body.Variables.Select(v => $"{v}: {v.VariableType}"))}\n{string.Join("\n", method.Body.Instructions)}");

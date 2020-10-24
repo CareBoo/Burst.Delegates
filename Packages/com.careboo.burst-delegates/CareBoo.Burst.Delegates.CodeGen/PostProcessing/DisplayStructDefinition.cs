@@ -7,14 +7,13 @@ namespace CareBoo.Burst.Delegates.CodeGen
 {
     public class DisplayStructDefinition
     {
+        public TypeDefinition DisplayClass { get; }
         public TypeDefinition Definition { get; protected set; }
         public Dictionary<string, ValueDelegateStructDefinition> ValueDelegateStructs { get; protected set; }
 
-        private readonly TypeDefinition displayClass;
-
         public DisplayStructDefinition(TypeDefinition displayClass)
         {
-            this.displayClass = displayClass;
+            DisplayClass = displayClass;
 
             Definition = InitDefinition();
             foreach (var field in displayClass.Fields)
@@ -22,17 +21,17 @@ namespace CareBoo.Burst.Delegates.CodeGen
 
             ValueDelegateStructs = displayClass.Methods.ToDictionary(
                 m => m.FullName,
-                m => new ValueDelegateStructDefinition(Definition, m)
+                m => new ValueDelegateStructDefinition(this, m)
                 );
         }
 
         private TypeDefinition InitDefinition()
         {
             return new TypeDefinition(
-                @namespace: displayClass.Namespace,
-                name: displayClass.Name.Replace("DisplayClass", "DisplayStruct"),
-                attributes: displayClass.Attributes,
-                displayClass.Module.ImportReference(typeof(ValueType))
+                @namespace: DisplayClass.Namespace,
+                name: DisplayClass.Name.Replace("DisplayClass", "DisplayStruct"),
+                attributes: DisplayClass.Attributes,
+                DisplayClass.Module.ImportReference(typeof(ValueType))
                 );
         }
     }
