@@ -1,18 +1,17 @@
 ﻿namespace CareBoo.Burst.Delegates
 {
-    public struct ValueFunc<TResult>
-        where TResult : struct
+    public struct ValueAction
     {
-        public delegate TResult Lambda();
+        public delegate void Lambda();
 
         public struct Struct<TLambda>
-            where TLambda : struct, IFunc<TResult>
+            where TLambda : struct, IAction
         {
             readonly TLambda lambda;
 
-            public TResult Invoke()
+            public void Invoke()
             {
-                return lambda.Invoke();
+                lambda.Invoke();
             }
 
             internal Struct(TLambda lambda)
@@ -22,26 +21,25 @@
         }
 
         public static Struct<TLambda> CreateStruct<TLambda>(TLambda lambda)
-            where TLambda : struct, IFunc<TResult>
+            where TLambda : struct, IAction
         {
             return new Struct<TLambda>(lambda);
         }
     }
 
-    public struct ValueFunc<T, TResult>
+    public struct ValueAction<T>
         where T : struct
-        where TResult : struct
     {
-        public delegate TResult Lambda(T arg0);
+        public delegate void Lambda(T arg0);
 
         public struct Struct<TLambda>
-            where TLambda : struct, IFunc<T, TResult>
+            where TLambda : struct, IAction<T>
         {
             readonly TLambda lambda;
 
-            public TResult Invoke(T arg0)
+            public void Invoke(T arg0)
             {
-                return lambda.Invoke(arg0);
+                lambda.Invoke(arg0);
             }
 
             internal Struct(TLambda lambda)
@@ -51,27 +49,26 @@
         }
 
         public static Struct<TLambda> CreateStruct<TLambda>(TLambda lambda)
-            where TLambda : struct, IFunc<T, TResult>
+            where TLambda : struct, IAction<T>
         {
             return new Struct<TLambda>(lambda);
         }
     }
 
-    public struct ValueFunc<T, U, TResult>
+    public struct ValueAction<T, U>
         where T : struct
         where U : struct
-        where TResult : struct
     {
-        public delegate TResult Lambda(T arg0, U arg1);
+        public delegate void Lambda(T arg0, U arg1);
 
         public struct Struct<TLambda>
-            where TLambda : struct, IFunc<T, U, TResult>
+            where TLambda : struct, IAction<T, U>
         {
             readonly TLambda lambda;
 
-            public TResult Invoke(T arg0, U arg1)
+            public void Invoke(T arg0, U arg1)
             {
-                return lambda.Invoke(arg0, arg1);
+                lambda.Invoke(arg0, arg1);
             }
 
             internal Struct(TLambda lambda)
@@ -81,28 +78,27 @@
         }
 
         public static Struct<TLambda> CreateStruct<TLambda>(TLambda lambda)
-            where TLambda : struct, IFunc<T, U, TResult>
+            where TLambda : struct, IAction<T, U>
         {
             return new Struct<TLambda>(lambda);
         }
     }
 
-    public struct ValueFunc<T, U, V, TResult>
+    public struct ValueAction<T, U, V>
         where T : struct
         where U : struct
         where V : struct
-        where TResult : struct
     {
-        public delegate TResult Lambda(T arg0, U arg1, V arg2);
+        public delegate void Lambda(T arg0, U arg1, V arg2);
 
         public struct Struct<TLambda>
-            where TLambda : struct, IFunc<T, U, V, TResult>
+            where TLambda : struct, IAction<T, U, V>
         {
             readonly TLambda lambda;
 
-            public TResult Invoke(T arg0, U arg1, V arg2)
+            public void Invoke(T arg0, U arg1, V arg2)
             {
-                return lambda.Invoke(arg0, arg1, arg2);
+                lambda.Invoke(arg0, arg1, arg2);
             }
 
             internal Struct(TLambda lambda)
@@ -112,29 +108,28 @@
         }
 
         public static Struct<TLambda> CreateStruct<TLambda>(TLambda lambda)
-            where TLambda : struct, IFunc<T, U, V, TResult>
+            where TLambda : struct, IAction<T, U, V>
         {
             return new Struct<TLambda>(lambda);
         }
     }
 
-    public struct ValueFunc<T, U, V, W, TResult>
+    public struct ValueAction<T, U, V, W>
         where T : struct
         where U : struct
         where V : struct
         where W : struct
-        where TResult : struct
     {
-        public delegate TResult Lambda(T arg0, U arg1, V arg2, W arg3);
+        public delegate void Lambda(T arg0, U arg1, V arg2, W arg3);
 
         public struct Struct<TLambda>
-            where TLambda : struct, IFunc<T, U, V, W, TResult>
+            where TLambda : struct, IAction<T, U, V, W>
         {
             readonly TLambda lambda;
 
-            public TResult Invoke(T arg0, U arg1, V arg2, W arg3)
+            public void Invoke(T arg0, U arg1, V arg2, W arg3)
             {
-                return lambda.Invoke(arg0, arg1, arg2, arg3);
+                lambda.Invoke(arg0, arg1, arg2, arg3);
             }
 
             internal Struct(TLambda lambda)
@@ -144,30 +139,29 @@
         }
 
         public static Struct<TLambda> CreateStruct<TLambda>(TLambda lambda)
-            where TLambda : struct, IFunc<T, U, V, W, TResult>
+            where TLambda : struct, IAction<T, U, V, W>
         {
             return new Struct<TLambda>(lambda);
         }
     }
 
-    public struct ValueFunc<T, U, V, W, X, TResult>
+    public struct ValueAction<T, U, V, W, X>
         where T : struct
         where U : struct
         where V : struct
         where W : struct
         where X : struct
-        where TResult : struct
     {
-        public delegate TResult Lambda(T arg0, U arg1, V arg2, W arg3, X arg4);
+        public delegate void Lambda(T arg0, U arg1, V arg2, W arg3, X arg4);
 
         public struct Struct<TLambda>
-            where TLambda : struct, IFunc<T, U, V, W, X, TResult>
+            where TLambda : struct, IAction<T, U, V, W, X>
         {
             readonly TLambda lambda;
 
-            public TResult Invoke(T arg0, U arg1, V arg2, W arg3, X arg4)
+            public void Invoke(T arg0, U arg1, V arg2, W arg3, X arg4)
             {
-                return lambda.Invoke(arg0, arg1, arg2, arg3, arg4);
+                lambda.Invoke(arg0, arg1, arg2, arg3, arg4);
             }
 
             internal Struct(TLambda lambda)
@@ -177,31 +171,30 @@
         }
 
         public static Struct<TLambda> CreateStruct<TLambda>(TLambda lambda)
-            where TLambda : struct, IFunc<T, U, V, W, X, TResult>
+            where TLambda : struct, IAction<T, U, V, W, X>
         {
             return new Struct<TLambda>(lambda);
         }
     }
 
-    public struct ValueFunc<T, U, V, W, X, Y, TResult>
+    public struct ValueAction<T, U, V, W, X, Y>
         where T : struct
         where U : struct
         where V : struct
         where W : struct
         where X : struct
         where Y : struct
-        where TResult : struct
     {
-        public delegate TResult Lambda(T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5);
+        public delegate void Lambda(T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5);
 
         public struct Struct<TLambda>
-            where TLambda : struct, IFunc<T, U, V, W, X, Y, TResult>
+            where TLambda : struct, IAction<T, U, V, W, X, Y>
         {
             readonly TLambda lambda;
 
-            public TResult Invoke(T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5)
+            public void Invoke(T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5)
             {
-                return lambda.Invoke(arg0, arg1, arg2, arg3, arg4, arg5);
+                lambda.Invoke(arg0, arg1, arg2, arg3, arg4, arg5);
             }
 
             internal Struct(TLambda lambda)
@@ -211,13 +204,13 @@
         }
 
         public static Struct<TLambda> CreateStruct<TLambda>(TLambda lambda)
-            where TLambda : struct, IFunc<T, U, V, W, X, Y, TResult>
+            where TLambda : struct, IAction<T, U, V, W, X, Y>
         {
             return new Struct<TLambda>(lambda);
         }
     }
 
-    public struct ValueFunc<T, U, V, W, X, Y, Z, TResult>
+    public struct ValueAction<T, U, V, W, X, Y, Z>
         where T : struct
         where U : struct
         where V : struct
@@ -225,18 +218,17 @@
         where X : struct
         where Y : struct
         where Z : struct
-        where TResult : struct
     {
-        public delegate TResult Lambda(T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5, Z arg6);
+        public delegate void Lambda(T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5, Z arg6);
 
         public struct Struct<TLambda>
-            where TLambda : struct, IFunc<T, U, V, W, X, Y, Z, TResult>
+            where TLambda : struct, IAction<T, U, V, W, X, Y, Z>
         {
             readonly TLambda lambda;
 
-            public TResult Invoke(T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5, Z arg6)
+            public void Invoke(T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5, Z arg6)
             {
-                return lambda.Invoke(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
+                lambda.Invoke(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
             }
 
             internal Struct(TLambda lambda)
@@ -246,7 +238,7 @@
         }
 
         public static Struct<TLambda> CreateStruct<TLambda>(TLambda lambda)
-            where TLambda : struct, IFunc<T, U, V, W, X, Y, Z, TResult>
+            where TLambda : struct, IAction<T, U, V, W, X, Y, Z>
         {
             return new Struct<TLambda>(lambda);
         }

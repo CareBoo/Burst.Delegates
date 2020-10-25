@@ -9,20 +9,6 @@ using static CareBoo.Burst.Delegates.CodeGen.ValueFuncUtil;
 using System.Text;
 using System;
 
-/*
-1. Find the methods that reference ValueFunc.Lambdas in their instructions.
-2. If there is a closure:
-    a. Copy the closure fields into a struct
-    b. Copy each method into a new struct inheriting IFunc, that has the closure as a ref struct
-    c. 
-3. For each set of instructions:
-    a. If there is a closure and there isn't a closure struct:
-        i. create a closure struct
-        ii. copy the closure fields to the closure struct
-    b. Copy the closure method referenced into a new struct inheriting IFunc
-        i. If the closure is referenced, need to add the closure struct as a field.
-        ii. Then replace calls to closure fields to the nested closure struct fields.
-*/
 namespace CareBoo.Burst.Delegates.CodeGen
 {
     public partial class BurstDelegatePostProcessor : ILPostProcessor
