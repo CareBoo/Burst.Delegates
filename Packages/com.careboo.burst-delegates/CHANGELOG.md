@@ -3,6 +3,13 @@ All notable changes to this package will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+# [1.1.0](https://github.com/CareBoo/Burst.Delegates/compare/v1.0.0...v1.1.0) (2020-10-26)
+
+
+### Features
+
+* :sparkles: Support parameterless `New` ([3b627c2](https://github.com/CareBoo/Burst.Delegates/commit/3b627c236e40a9ae96771df282e79242c448591a))
+
 # 1.0.0 (2020-10-26)
 
 
