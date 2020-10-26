@@ -18,7 +18,7 @@
             }
         }
 
-        public static Struct<TLambda> New<TLambda>(TLambda lambda)
+        public static Struct<TLambda> New<TLambda>(TLambda lambda = default)
             where TLambda : struct, IAction
         {
             return new Struct<TLambda>(lambda);
@@ -44,7 +44,7 @@
             }
         }
 
-        public static Struct<TLambda> New<TLambda>(TLambda lambda)
+        public static Struct<TLambda> New<TLambda>(TLambda lambda = default)
             where TLambda : struct, IAction<T>
         {
             return new Struct<TLambda>(lambda);
@@ -71,7 +71,7 @@
             }
         }
 
-        public static Struct<TLambda> New<TLambda>(TLambda lambda)
+        public static Struct<TLambda> New<TLambda>(TLambda lambda = default)
             where TLambda : struct, IAction<T, U>
         {
             return new Struct<TLambda>(lambda);
@@ -99,7 +99,7 @@
             }
         }
 
-        public static Struct<TLambda> New<TLambda>(TLambda lambda)
+        public static Struct<TLambda> New<TLambda>(TLambda lambda = default)
             where TLambda : struct, IAction<T, U, V>
         {
             return new Struct<TLambda>(lambda);
@@ -128,7 +128,7 @@
             }
         }
 
-        public static Struct<TLambda> New<TLambda>(TLambda lambda)
+        public static Struct<TLambda> New<TLambda>(TLambda lambda = default)
             where TLambda : struct, IAction<T, U, V, W>
         {
             return new Struct<TLambda>(lambda);
@@ -158,7 +158,7 @@
             }
         }
 
-        public static Struct<TLambda> New<TLambda>(TLambda lambda)
+        public static Struct<TLambda> New<TLambda>(TLambda lambda = default)
             where TLambda : struct, IAction<T, U, V, W, X>
         {
             return new Struct<TLambda>(lambda);
@@ -189,7 +189,7 @@
             }
         }
 
-        public static Struct<TLambda> New<TLambda>(TLambda lambda)
+        public static Struct<TLambda> New<TLambda>(TLambda lambda = default)
             where TLambda : struct, IAction<T, U, V, W, X, Y>
         {
             return new Struct<TLambda>(lambda);
@@ -221,7 +221,7 @@
             }
         }
 
-        public static Struct<TLambda> New<TLambda>(TLambda lambda)
+        public static Struct<TLambda> New<TLambda>(TLambda lambda = default)
             where TLambda : struct, IAction<T, U, V, W, X, Y, Z>
         {
             return new Struct<TLambda>(lambda);
