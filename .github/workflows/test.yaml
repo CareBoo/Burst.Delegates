@@ -42,7 +42,7 @@ jobs:
             Library-
       - run: ./scripts/coverageAssemblyFilters
         id: assemblyFilters
-      - uses: webbertakken/unity-test-runner@v1.6
+      - uses: webbertakken/unity-test-runner@v1.7
         id: tests
         with:
           projectPath: ${{ matrix.projectPath }}
