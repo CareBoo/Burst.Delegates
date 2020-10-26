@@ -1,10 +1,86 @@
-# UPMTemplate
+# Burst.Delegates
 
-Unity Package Manager Template Repository
+A set of Burst-compatible struct APIs to use instead of C# delegates.
 
-## Setup
+## Examples
 
-1. Initialize the package with the organization name and the package name by running the `Initialize Package` action.
-2. Setup your Unity License file using the `Acquire Unity Activation File`.
-3. Add the license file as a secret to your account or the project, with the name `UNITY_LICENSE_2020_1`.
-4. If you'd like to customize the GitHub workflows even further, please check out [unity-ci](https://unity-ci.com/docs)
+Here are a couple examples showcasing how to write struct-based delegates
+
+### Creating Delegates
+
+C#:
+```cs
+Func<int, int, bool> greaterThan = (int a, int b) => a > b;
+```
+
+Struct-based:
+```cs
+public struct GreaterThanFunc : IFunc<int, int, bool>
+{
+  public bool Invoke(int a, int b) => a > b;
+}
+
+var greaterThan = ValueFunc<int, int, bool>.New<GreaterThanFunc>();
+```
+
+### Referencing Delegates
+
+C#:
+```cs
+public class MyClass
+{
+  public static List<int> CompareNextVal(List<int> vals, Func<int, int, int> comparer)
+  {
+    // ...
+  }
+}
+```
+
+Struct-based:
+```cs
+public class MyClass
+{
+  public static List<int> CompareNextVal<TComparer>(List<int> vals, ValueFunc<int, int, int>.Struct<TComparer> comparer)
+  {
+    // ...
+  }
+}
+```
+
+### Usage in a Job
+
+```cs
+public struct AggregateJob<TAggregator> : IJob
+  where TAggregator : struct, IFunc<int, int, int>
+{
+  public ValueFunc<int, int, int>.Struct<TAggregator> Aggregator;
+  public NativeArray<int> Input;
+  public NativeArray<int> Output;
+
+  public void Execute()
+  {
+    for (var i = 0; i < Input.Length; i++)
+      Output[0] = Aggregator.Invoke(Input[i], Output[0]);
+  }
+}
+
+public class MyClass
+{
+  struct SumFunc : IFunc<int, int, int>
+  {
+    public int Invoke(int a, int b) => a + b;
+  }
+
+  public static int SumSomeNumbers(int[] numbers)
+  {
+    using(var input = new NativeArray<int>(numbers, Allocator.Persistent))
+    using(var output = new NativeArray<int>(1, Allocator.Persistent))
+    {
+      var sum = ValueFunc<int, int, int>.New<SumFunc>();
+      var job = new AggregateJob<SumFunc> { Aggregator = sum, Input = input, Output = output };
+      job.Run();
+      return output[0];
+    }
+  }
+}
+```
