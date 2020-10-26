@@ -21,7 +21,7 @@
             }
         }
 
-        public static Struct<TLambda> CreateStruct<TLambda>(TLambda lambda)
+        public static Struct<TLambda> New<TLambda>(TLambda lambda)
             where TLambda : struct, IFunc<TResult>
         {
             return new Struct<TLambda>(lambda);
@@ -50,7 +50,7 @@
             }
         }
 
-        public static Struct<TLambda> CreateStruct<TLambda>(TLambda lambda)
+        public static Struct<TLambda> New<TLambda>(TLambda lambda)
             where TLambda : struct, IFunc<T, TResult>
         {
             return new Struct<TLambda>(lambda);
@@ -80,7 +80,7 @@
             }
         }
 
-        public static Struct<TLambda> CreateStruct<TLambda>(TLambda lambda)
+        public static Struct<TLambda> New<TLambda>(TLambda lambda)
             where TLambda : struct, IFunc<T, U, TResult>
         {
             return new Struct<TLambda>(lambda);
@@ -111,7 +111,7 @@
             }
         }
 
-        public static Struct<TLambda> CreateStruct<TLambda>(TLambda lambda)
+        public static Struct<TLambda> New<TLambda>(TLambda lambda)
             where TLambda : struct, IFunc<T, U, V, TResult>
         {
             return new Struct<TLambda>(lambda);
@@ -143,7 +143,7 @@
             }
         }
 
-        public static Struct<TLambda> CreateStruct<TLambda>(TLambda lambda)
+        public static Struct<TLambda> New<TLambda>(TLambda lambda)
             where TLambda : struct, IFunc<T, U, V, W, TResult>
         {
             return new Struct<TLambda>(lambda);
@@ -176,7 +176,7 @@
             }
         }
 
-        public static Struct<TLambda> CreateStruct<TLambda>(TLambda lambda)
+        public static Struct<TLambda> New<TLambda>(TLambda lambda)
             where TLambda : struct, IFunc<T, U, V, W, X, TResult>
         {
             return new Struct<TLambda>(lambda);
@@ -210,7 +210,7 @@
             }
         }
 
-        public static Struct<TLambda> CreateStruct<TLambda>(TLambda lambda)
+        public static Struct<TLambda> New<TLambda>(TLambda lambda)
             where TLambda : struct, IFunc<T, U, V, W, X, Y, TResult>
         {
             return new Struct<TLambda>(lambda);
@@ -245,7 +245,7 @@
             }
         }
 
-        public static Struct<TLambda> CreateStruct<TLambda>(TLambda lambda)
+        public static Struct<TLambda> New<TLambda>(TLambda lambda)
             where TLambda : struct, IFunc<T, U, V, W, X, Y, Z, TResult>
         {
             return new Struct<TLambda>(lambda);
