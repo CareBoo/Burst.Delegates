@@ -2,8 +2,6 @@
 {
     public struct ValueAction
     {
-        public delegate void Lambda();
-
         public struct Struct<TLambda>
             where TLambda : struct, IAction
         {
@@ -30,8 +28,6 @@
     public struct ValueAction<T>
         where T : struct
     {
-        public delegate void Lambda(T arg0);
-
         public struct Struct<TLambda>
             where TLambda : struct, IAction<T>
         {
@@ -59,8 +55,6 @@
         where T : struct
         where U : struct
     {
-        public delegate void Lambda(T arg0, U arg1);
-
         public struct Struct<TLambda>
             where TLambda : struct, IAction<T, U>
         {
@@ -89,8 +83,6 @@
         where U : struct
         where V : struct
     {
-        public delegate void Lambda(T arg0, U arg1, V arg2);
-
         public struct Struct<TLambda>
             where TLambda : struct, IAction<T, U, V>
         {
@@ -120,8 +112,6 @@
         where V : struct
         where W : struct
     {
-        public delegate void Lambda(T arg0, U arg1, V arg2, W arg3);
-
         public struct Struct<TLambda>
             where TLambda : struct, IAction<T, U, V, W>
         {
@@ -152,8 +142,6 @@
         where W : struct
         where X : struct
     {
-        public delegate void Lambda(T arg0, U arg1, V arg2, W arg3, X arg4);
-
         public struct Struct<TLambda>
             where TLambda : struct, IAction<T, U, V, W, X>
         {
@@ -185,8 +173,6 @@
         where X : struct
         where Y : struct
     {
-        public delegate void Lambda(T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5);
-
         public struct Struct<TLambda>
             where TLambda : struct, IAction<T, U, V, W, X, Y>
         {
@@ -219,8 +205,6 @@
         where Y : struct
         where Z : struct
     {
-        public delegate void Lambda(T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5, Z arg6);
-
         public struct Struct<TLambda>
             where TLambda : struct, IAction<T, U, V, W, X, Y, Z>
         {

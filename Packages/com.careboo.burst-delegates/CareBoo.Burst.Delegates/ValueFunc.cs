@@ -3,8 +3,6 @@
     public struct ValueFunc<TResult>
         where TResult : struct
     {
-        public delegate TResult Lambda();
-
         public struct Struct<TLambda>
             where TLambda : struct, IFunc<TResult>
         {
@@ -32,8 +30,6 @@
         where T : struct
         where TResult : struct
     {
-        public delegate TResult Lambda(T arg0);
-
         public struct Struct<TLambda>
             where TLambda : struct, IFunc<T, TResult>
         {
@@ -62,8 +58,6 @@
         where U : struct
         where TResult : struct
     {
-        public delegate TResult Lambda(T arg0, U arg1);
-
         public struct Struct<TLambda>
             where TLambda : struct, IFunc<T, U, TResult>
         {
@@ -93,8 +87,6 @@
         where V : struct
         where TResult : struct
     {
-        public delegate TResult Lambda(T arg0, U arg1, V arg2);
-
         public struct Struct<TLambda>
             where TLambda : struct, IFunc<T, U, V, TResult>
         {
@@ -125,8 +117,6 @@
         where W : struct
         where TResult : struct
     {
-        public delegate TResult Lambda(T arg0, U arg1, V arg2, W arg3);
-
         public struct Struct<TLambda>
             where TLambda : struct, IFunc<T, U, V, W, TResult>
         {
@@ -158,8 +148,6 @@
         where X : struct
         where TResult : struct
     {
-        public delegate TResult Lambda(T arg0, U arg1, V arg2, W arg3, X arg4);
-
         public struct Struct<TLambda>
             where TLambda : struct, IFunc<T, U, V, W, X, TResult>
         {
@@ -192,8 +180,6 @@
         where Y : struct
         where TResult : struct
     {
-        public delegate TResult Lambda(T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5);
-
         public struct Struct<TLambda>
             where TLambda : struct, IFunc<T, U, V, W, X, Y, TResult>
         {
@@ -227,8 +213,6 @@
         where Z : struct
         where TResult : struct
     {
-        public delegate TResult Lambda(T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5, Z arg6);
-
         public struct Struct<TLambda>
             where TLambda : struct, IFunc<T, U, V, W, X, Y, Z, TResult>
         {
