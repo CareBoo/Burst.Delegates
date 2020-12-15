@@ -11,10 +11,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System;
-using Unity.Burst;
-using static CareBoo.Burst.Delegates.SafetyChecks;
-
 namespace CareBoo.Burst.Delegates
 {
 <#
@@ -52,7 +48,7 @@ for (var i = 0; i < GENERIC_PARAMS.Length; i++)
         public struct Struct<TLambda>
             where TLambda : struct, IFunc<#=GENERIC_DEF#>
         {
-            readonly TLambda lambda;
+            internal readonly TLambda lambda;
 
             public TResult Invoke(<#=GENERIC_ARGS_TYPED#>)
             {

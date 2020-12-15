@@ -1,0 +1,21 @@
+{
+    "name": "CareBoo.Burst.Delegates.Tests",
+    "references": [
+        "UnityEngine.TestRunner",
+        "CareBoo.Burst.Delegates",
+        "Unity.Burst"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

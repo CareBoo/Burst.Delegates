@@ -33,6 +33,22 @@ namespace CareBoo.Burst.Delegates
             SupportedInBurstOnly();
             functionPointer.Invoke();
         }
+
+        public static BurstAction Compile(Action action)
+        {
+            var functionPointer = BurstCompiler.CompileFunctionPointer(action);
+            return new BurstAction(functionPointer);
+        }
+
+        public static implicit operator ValueAction.Struct<BurstAction>(BurstAction burstAction)
+        {
+            return ValueAction.New(burstAction);
+        }
+
+        public static implicit operator BurstAction(ValueAction.Struct<BurstAction> valueAction)
+        {
+            return valueAction.lambda;
+        }
     }
 
 
@@ -51,6 +67,22 @@ namespace CareBoo.Burst.Delegates
         {
             SupportedInBurstOnly();
             functionPointer.Invoke(arg0);
+        }
+
+        public static BurstAction<T> Compile(Action<T> action)
+        {
+            var functionPointer = BurstCompiler.CompileFunctionPointer(action);
+            return new BurstAction<T>(functionPointer);
+        }
+
+        public static implicit operator ValueAction<T>.Struct<BurstAction<T>>(BurstAction<T> burstAction)
+        {
+            return ValueAction<T>.New(burstAction);
+        }
+
+        public static implicit operator BurstAction<T>(ValueAction<T>.Struct<BurstAction<T>> valueAction)
+        {
+            return valueAction.lambda;
         }
     }
 
@@ -72,6 +104,22 @@ namespace CareBoo.Burst.Delegates
             SupportedInBurstOnly();
             functionPointer.Invoke(arg0, arg1);
         }
+
+        public static BurstAction<T, U> Compile(Action<T, U> action)
+        {
+            var functionPointer = BurstCompiler.CompileFunctionPointer(action);
+            return new BurstAction<T, U>(functionPointer);
+        }
+
+        public static implicit operator ValueAction<T, U>.Struct<BurstAction<T, U>>(BurstAction<T, U> burstAction)
+        {
+            return ValueAction<T, U>.New(burstAction);
+        }
+
+        public static implicit operator BurstAction<T, U>(ValueAction<T, U>.Struct<BurstAction<T, U>> valueAction)
+        {
+            return valueAction.lambda;
+        }
     }
 
 
@@ -92,6 +140,22 @@ namespace CareBoo.Burst.Delegates
         {
             SupportedInBurstOnly();
             functionPointer.Invoke(arg0, arg1, arg2);
+        }
+
+        public static BurstAction<T, U, V> Compile(Action<T, U, V> action)
+        {
+            var functionPointer = BurstCompiler.CompileFunctionPointer(action);
+            return new BurstAction<T, U, V>(functionPointer);
+        }
+
+        public static implicit operator ValueAction<T, U, V>.Struct<BurstAction<T, U, V>>(BurstAction<T, U, V> burstAction)
+        {
+            return ValueAction<T, U, V>.New(burstAction);
+        }
+
+        public static implicit operator BurstAction<T, U, V>(ValueAction<T, U, V>.Struct<BurstAction<T, U, V>> valueAction)
+        {
+            return valueAction.lambda;
         }
     }
 
@@ -115,6 +179,22 @@ namespace CareBoo.Burst.Delegates
             SupportedInBurstOnly();
             functionPointer.Invoke(arg0, arg1, arg2, arg3);
         }
+
+        public static BurstAction<T, U, V, W> Compile(Action<T, U, V, W> action)
+        {
+            var functionPointer = BurstCompiler.CompileFunctionPointer(action);
+            return new BurstAction<T, U, V, W>(functionPointer);
+        }
+
+        public static implicit operator ValueAction<T, U, V, W>.Struct<BurstAction<T, U, V, W>>(BurstAction<T, U, V, W> burstAction)
+        {
+            return ValueAction<T, U, V, W>.New(burstAction);
+        }
+
+        public static implicit operator BurstAction<T, U, V, W>(ValueAction<T, U, V, W>.Struct<BurstAction<T, U, V, W>> valueAction)
+        {
+            return valueAction.lambda;
+        }
     }
 
 
@@ -137,6 +217,22 @@ namespace CareBoo.Burst.Delegates
         {
             SupportedInBurstOnly();
             functionPointer.Invoke(arg0, arg1, arg2, arg3, arg4);
+        }
+
+        public static BurstAction<T, U, V, W, X> Compile(Action<T, U, V, W, X> action)
+        {
+            var functionPointer = BurstCompiler.CompileFunctionPointer(action);
+            return new BurstAction<T, U, V, W, X>(functionPointer);
+        }
+
+        public static implicit operator ValueAction<T, U, V, W, X>.Struct<BurstAction<T, U, V, W, X>>(BurstAction<T, U, V, W, X> burstAction)
+        {
+            return ValueAction<T, U, V, W, X>.New(burstAction);
+        }
+
+        public static implicit operator BurstAction<T, U, V, W, X>(ValueAction<T, U, V, W, X>.Struct<BurstAction<T, U, V, W, X>> valueAction)
+        {
+            return valueAction.lambda;
         }
     }
 
@@ -162,6 +258,22 @@ namespace CareBoo.Burst.Delegates
             SupportedInBurstOnly();
             functionPointer.Invoke(arg0, arg1, arg2, arg3, arg4, arg5);
         }
+
+        public static BurstAction<T, U, V, W, X, Y> Compile(Action<T, U, V, W, X, Y> action)
+        {
+            var functionPointer = BurstCompiler.CompileFunctionPointer(action);
+            return new BurstAction<T, U, V, W, X, Y>(functionPointer);
+        }
+
+        public static implicit operator ValueAction<T, U, V, W, X, Y>.Struct<BurstAction<T, U, V, W, X, Y>>(BurstAction<T, U, V, W, X, Y> burstAction)
+        {
+            return ValueAction<T, U, V, W, X, Y>.New(burstAction);
+        }
+
+        public static implicit operator BurstAction<T, U, V, W, X, Y>(ValueAction<T, U, V, W, X, Y>.Struct<BurstAction<T, U, V, W, X, Y>> valueAction)
+        {
+            return valueAction.lambda;
+        }
     }
 
 
@@ -186,6 +298,22 @@ namespace CareBoo.Burst.Delegates
         {
             SupportedInBurstOnly();
             functionPointer.Invoke(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
+        }
+
+        public static BurstAction<T, U, V, W, X, Y, Z> Compile(Action<T, U, V, W, X, Y, Z> action)
+        {
+            var functionPointer = BurstCompiler.CompileFunctionPointer(action);
+            return new BurstAction<T, U, V, W, X, Y, Z>(functionPointer);
+        }
+
+        public static implicit operator ValueAction<T, U, V, W, X, Y, Z>.Struct<BurstAction<T, U, V, W, X, Y, Z>>(BurstAction<T, U, V, W, X, Y, Z> burstAction)
+        {
+            return ValueAction<T, U, V, W, X, Y, Z>.New(burstAction);
+        }
+
+        public static implicit operator BurstAction<T, U, V, W, X, Y, Z>(ValueAction<T, U, V, W, X, Y, Z>.Struct<BurstAction<T, U, V, W, X, Y, Z>> valueAction)
+        {
+            return valueAction.lambda;
         }
     }
 
