@@ -1,6 +1,8 @@
 {
     "name": "CareBoo.Burst.Delegates",
-    "references": [],
+    "references": [
+        "Unity.Burst"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": true,
