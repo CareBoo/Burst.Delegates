@@ -1,20 +1,15 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using CareBoo.Burst.Delegates;
 using NUnit.Framework;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
+using UnityEngine.TestTools;
 
 [BurstCompile]
 internal class BurstDelegateTests
 {
-    public enum FuncFlags
-    {
-        None,
-        BurstCalled = 1,
-        ValueFuncCalled = 2,
-    }
-
     [BurstCompile]
     public struct CallFuncJob : IJob
     {
@@ -44,10 +39,18 @@ internal class BurstDelegateTests
         using (var input = new NativeArray<int>(new int[1], Allocator.Persistent))
         using (var output = new NativeArray<int>(new int[1], Allocator.Persistent))
         {
-            var expected = Add4(input[0]);
-            new CallFuncJob { Func = Add4Func, Input = input, Output = output }.Run();
-            var actual = output[0];
-            Assert.AreEqual(expected, actual);
+            if (!BurstCompiler.IsEnabled || !BurstCompiler.Options.IsEnabled || !BurstCompiler.Options.EnableBurstCompilation)
+            {
+                LogAssert.Expect(UnityEngine.LogType.Error, new Regex("BurstFunc"));
+                new CallFuncJob { Func = Add4Func, Input = input, Output = output }.Run();
+            }
+            else
+            {
+                var expected = Add4(input[0]);
+                new CallFuncJob { Func = Add4Func, Input = input, Output = output }.Run();
+                var actual = output[0];
+                Assert.AreEqual(expected, actual);
+            }
         }
     }
 
@@ -57,16 +60,8 @@ internal class BurstDelegateTests
         using (var input = new NativeArray<int>(new int[1], Allocator.Persistent))
         using (var output = new NativeArray<int>(new int[1], Allocator.Persistent))
         {
-            var expected = Add4(input[0]);
-            try
-            {
-                var actual = Add4Func.Invoke(input[0]);
-                Assert.Fail("Expecting an error when called in dotnet code.");
-            }
-            catch (NotSupportedException)
-            {
-                Assert.Pass();
-            }
+            LogAssert.Expect(UnityEngine.LogType.Error, new Regex("BurstFunc"));
+            Add4Func.Invoke(input[0]);
         }
     }
 }

@@ -13,7 +13,7 @@
 
 using System;
 using Unity.Burst;
-using static CareBoo.Burst.Delegates.SafetyChecks;
+using UnityEngine;
 
 namespace CareBoo.Burst.Delegates
 {
@@ -24,15 +24,28 @@ namespace CareBoo.Burst.Delegates
     {
         readonly FunctionPointer<Func<TResult>> functionPointer;
 
+        bool burstFlag;
+
         public BurstFunc(FunctionPointer<Func<TResult>> functionPointer)
         {
             this.functionPointer = functionPointer;
+            burstFlag = true;
         }
 
         public TResult Invoke()
         {
-            SupportedInBurstOnly();
-            return functionPointer.Invoke();
+            CheckBurst();
+
+            return burstFlag
+                ? functionPointer.Invoke()
+                : default;
+        }
+
+        [BurstDiscard]
+        private void CheckBurst()
+        {
+            burstFlag = false;
+            Debug.LogError("BurstFunc does not support being run outside burst-compiled code.");
         }
 
         public static BurstFunc<TResult> Compile(Func<TResult> func)
@@ -60,15 +73,28 @@ namespace CareBoo.Burst.Delegates
     {
         readonly FunctionPointer<Func<T, TResult>> functionPointer;
 
+        bool burstFlag;
+
         public BurstFunc(FunctionPointer<Func<T, TResult>> functionPointer)
         {
             this.functionPointer = functionPointer;
+            burstFlag = true;
         }
 
         public TResult Invoke(T arg0)
         {
-            SupportedInBurstOnly();
-            return functionPointer.Invoke(arg0);
+            CheckBurst();
+
+            return burstFlag
+                ? functionPointer.Invoke(arg0)
+                : default;
+        }
+
+        [BurstDiscard]
+        private void CheckBurst()
+        {
+            burstFlag = false;
+            Debug.LogError("BurstFunc does not support being run outside burst-compiled code.");
         }
 
         public static BurstFunc<T, TResult> Compile(Func<T, TResult> func)
@@ -97,15 +123,28 @@ namespace CareBoo.Burst.Delegates
     {
         readonly FunctionPointer<Func<T, U, TResult>> functionPointer;
 
+        bool burstFlag;
+
         public BurstFunc(FunctionPointer<Func<T, U, TResult>> functionPointer)
         {
             this.functionPointer = functionPointer;
+            burstFlag = true;
         }
 
         public TResult Invoke(T arg0, U arg1)
         {
-            SupportedInBurstOnly();
-            return functionPointer.Invoke(arg0, arg1);
+            CheckBurst();
+
+            return burstFlag
+                ? functionPointer.Invoke(arg0, arg1)
+                : default;
+        }
+
+        [BurstDiscard]
+        private void CheckBurst()
+        {
+            burstFlag = false;
+            Debug.LogError("BurstFunc does not support being run outside burst-compiled code.");
         }
 
         public static BurstFunc<T, U, TResult> Compile(Func<T, U, TResult> func)
@@ -135,15 +174,28 @@ namespace CareBoo.Burst.Delegates
     {
         readonly FunctionPointer<Func<T, U, V, TResult>> functionPointer;
 
+        bool burstFlag;
+
         public BurstFunc(FunctionPointer<Func<T, U, V, TResult>> functionPointer)
         {
             this.functionPointer = functionPointer;
+            burstFlag = true;
         }
 
         public TResult Invoke(T arg0, U arg1, V arg2)
         {
-            SupportedInBurstOnly();
-            return functionPointer.Invoke(arg0, arg1, arg2);
+            CheckBurst();
+
+            return burstFlag
+                ? functionPointer.Invoke(arg0, arg1, arg2)
+                : default;
+        }
+
+        [BurstDiscard]
+        private void CheckBurst()
+        {
+            burstFlag = false;
+            Debug.LogError("BurstFunc does not support being run outside burst-compiled code.");
         }
 
         public static BurstFunc<T, U, V, TResult> Compile(Func<T, U, V, TResult> func)
@@ -174,15 +226,28 @@ namespace CareBoo.Burst.Delegates
     {
         readonly FunctionPointer<Func<T, U, V, W, TResult>> functionPointer;
 
+        bool burstFlag;
+
         public BurstFunc(FunctionPointer<Func<T, U, V, W, TResult>> functionPointer)
         {
             this.functionPointer = functionPointer;
+            burstFlag = true;
         }
 
         public TResult Invoke(T arg0, U arg1, V arg2, W arg3)
         {
-            SupportedInBurstOnly();
-            return functionPointer.Invoke(arg0, arg1, arg2, arg3);
+            CheckBurst();
+
+            return burstFlag
+                ? functionPointer.Invoke(arg0, arg1, arg2, arg3)
+                : default;
+        }
+
+        [BurstDiscard]
+        private void CheckBurst()
+        {
+            burstFlag = false;
+            Debug.LogError("BurstFunc does not support being run outside burst-compiled code.");
         }
 
         public static BurstFunc<T, U, V, W, TResult> Compile(Func<T, U, V, W, TResult> func)
@@ -214,15 +279,28 @@ namespace CareBoo.Burst.Delegates
     {
         readonly FunctionPointer<Func<T, U, V, W, X, TResult>> functionPointer;
 
+        bool burstFlag;
+
         public BurstFunc(FunctionPointer<Func<T, U, V, W, X, TResult>> functionPointer)
         {
             this.functionPointer = functionPointer;
+            burstFlag = true;
         }
 
         public TResult Invoke(T arg0, U arg1, V arg2, W arg3, X arg4)
         {
-            SupportedInBurstOnly();
-            return functionPointer.Invoke(arg0, arg1, arg2, arg3, arg4);
+            CheckBurst();
+
+            return burstFlag
+                ? functionPointer.Invoke(arg0, arg1, arg2, arg3, arg4)
+                : default;
+        }
+
+        [BurstDiscard]
+        private void CheckBurst()
+        {
+            burstFlag = false;
+            Debug.LogError("BurstFunc does not support being run outside burst-compiled code.");
         }
 
         public static BurstFunc<T, U, V, W, X, TResult> Compile(Func<T, U, V, W, X, TResult> func)
@@ -255,15 +333,28 @@ namespace CareBoo.Burst.Delegates
     {
         readonly FunctionPointer<Func<T, U, V, W, X, Y, TResult>> functionPointer;
 
+        bool burstFlag;
+
         public BurstFunc(FunctionPointer<Func<T, U, V, W, X, Y, TResult>> functionPointer)
         {
             this.functionPointer = functionPointer;
+            burstFlag = true;
         }
 
         public TResult Invoke(T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5)
         {
-            SupportedInBurstOnly();
-            return functionPointer.Invoke(arg0, arg1, arg2, arg3, arg4, arg5);
+            CheckBurst();
+
+            return burstFlag
+                ? functionPointer.Invoke(arg0, arg1, arg2, arg3, arg4, arg5)
+                : default;
+        }
+
+        [BurstDiscard]
+        private void CheckBurst()
+        {
+            burstFlag = false;
+            Debug.LogError("BurstFunc does not support being run outside burst-compiled code.");
         }
 
         public static BurstFunc<T, U, V, W, X, Y, TResult> Compile(Func<T, U, V, W, X, Y, TResult> func)
@@ -297,15 +388,28 @@ namespace CareBoo.Burst.Delegates
     {
         readonly FunctionPointer<Func<T, U, V, W, X, Y, Z, TResult>> functionPointer;
 
+        bool burstFlag;
+
         public BurstFunc(FunctionPointer<Func<T, U, V, W, X, Y, Z, TResult>> functionPointer)
         {
             this.functionPointer = functionPointer;
+            burstFlag = true;
         }
 
         public TResult Invoke(T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5, Z arg6)
         {
-            SupportedInBurstOnly();
-            return functionPointer.Invoke(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
+            CheckBurst();
+
+            return burstFlag
+                ? functionPointer.Invoke(arg0, arg1, arg2, arg3, arg4, arg5, arg6)
+                : default;
+        }
+
+        [BurstDiscard]
+        private void CheckBurst()
+        {
+            burstFlag = false;
+            Debug.LogError("BurstFunc does not support being run outside burst-compiled code.");
         }
 
         public static BurstFunc<T, U, V, W, X, Y, Z, TResult> Compile(Func<T, U, V, W, X, Y, Z, TResult> func)
