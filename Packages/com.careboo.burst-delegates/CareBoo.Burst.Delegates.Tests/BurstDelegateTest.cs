@@ -1,9 +1,11 @@
-﻿using CareBoo.Burst.Delegates;
+﻿using System;
+using CareBoo.Burst.Delegates;
 using NUnit.Framework;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
 
+[BurstCompile]
 internal class BurstDelegateTests
 {
     public enum FuncFlags
@@ -31,8 +33,23 @@ internal class BurstDelegateTests
         }
     }
 
+    [BurstCompile]
     public static int Add4(int val) => val + 4;
 
+    public static readonly BurstFunc<int, int> Add4Func = BurstFunc<int, int>.Compile(Add4);
+
+    [Test]
+    public void TestCanInvokeInsideOfBurstedCode()
+    {
+        using (var input = new NativeArray<int>(new int[1], Allocator.Persistent))
+        using (var output = new NativeArray<int>(new int[1], Allocator.Persistent))
+        {
+            var expected = Add4(input[0]);
+            new CallFuncJob { Func = Add4Func, Input = input, Output = output }.Run();
+            var actual = output[0];
+            Assert.AreEqual(expected, actual);
+        }
+    }
 
     [Test]
     public void TestCannotInvokeOutsideOfBurstedCode()
@@ -40,6 +57,16 @@ internal class BurstDelegateTests
         using (var input = new NativeArray<int>(new int[1], Allocator.Persistent))
         using (var output = new NativeArray<int>(new int[1], Allocator.Persistent))
         {
+            var expected = Add4(input[0]);
+            try
+            {
+                var actual = Add4Func.Invoke(input[0]);
+                Assert.Fail("Expecting an error when called in dotnet code.");
+            }
+            catch (NotSupportedException)
+            {
+                Assert.Pass();
+            }
         }
     }
 }
