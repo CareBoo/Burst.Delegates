@@ -11,10 +11,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System;
-using Unity.Burst;
-using static CareBoo.Burst.Delegates.SafetyChecks;
-
 namespace CareBoo.Burst.Delegates
 {
 
@@ -23,7 +19,7 @@ namespace CareBoo.Burst.Delegates
         public struct Struct<TLambda>
             where TLambda : struct, IAction
         {
-            readonly TLambda lambda;
+            internal readonly TLambda lambda;
 
             public void Invoke()
             {
@@ -50,7 +46,7 @@ namespace CareBoo.Burst.Delegates
         public struct Struct<TLambda>
             where TLambda : struct, IAction<T>
         {
-            readonly TLambda lambda;
+            internal readonly TLambda lambda;
 
             public void Invoke(T arg0)
             {
@@ -78,7 +74,7 @@ namespace CareBoo.Burst.Delegates
         public struct Struct<TLambda>
             where TLambda : struct, IAction<T, U>
         {
-            readonly TLambda lambda;
+            internal readonly TLambda lambda;
 
             public void Invoke(T arg0, U arg1)
             {
@@ -107,7 +103,7 @@ namespace CareBoo.Burst.Delegates
         public struct Struct<TLambda>
             where TLambda : struct, IAction<T, U, V>
         {
-            readonly TLambda lambda;
+            internal readonly TLambda lambda;
 
             public void Invoke(T arg0, U arg1, V arg2)
             {
@@ -137,7 +133,7 @@ namespace CareBoo.Burst.Delegates
         public struct Struct<TLambda>
             where TLambda : struct, IAction<T, U, V, W>
         {
-            readonly TLambda lambda;
+            internal readonly TLambda lambda;
 
             public void Invoke(T arg0, U arg1, V arg2, W arg3)
             {
@@ -168,7 +164,7 @@ namespace CareBoo.Burst.Delegates
         public struct Struct<TLambda>
             where TLambda : struct, IAction<T, U, V, W, X>
         {
-            readonly TLambda lambda;
+            internal readonly TLambda lambda;
 
             public void Invoke(T arg0, U arg1, V arg2, W arg3, X arg4)
             {
@@ -200,7 +196,7 @@ namespace CareBoo.Burst.Delegates
         public struct Struct<TLambda>
             where TLambda : struct, IAction<T, U, V, W, X, Y>
         {
-            readonly TLambda lambda;
+            internal readonly TLambda lambda;
 
             public void Invoke(T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5)
             {
@@ -233,7 +229,7 @@ namespace CareBoo.Burst.Delegates
         public struct Struct<TLambda>
             where TLambda : struct, IAction<T, U, V, W, X, Y, Z>
         {
-            readonly TLambda lambda;
+            internal readonly TLambda lambda;
 
             public void Invoke(T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5, Z arg6)
             {

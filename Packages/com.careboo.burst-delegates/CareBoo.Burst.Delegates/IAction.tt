@@ -11,10 +11,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System;
-using Unity.Burst;
-using static CareBoo.Burst.Delegates.SafetyChecks;
-
 namespace CareBoo.Burst.Delegates
 {
 <#

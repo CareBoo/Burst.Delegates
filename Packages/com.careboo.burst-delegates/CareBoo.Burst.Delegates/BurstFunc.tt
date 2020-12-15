@@ -62,6 +62,22 @@ for (var i = 0; i < GENERIC_PARAMS.Length; i++)
             SupportedInBurstOnly();
             return functionPointer.Invoke(<#=GENERIC_ARGS#>);
         }
+
+        public static BurstFunc<#=GENERIC_DEF#> Compile(Func<#=GENERIC_DEF#> func)
+        {
+            var functionPointer = BurstCompiler.CompileFunctionPointer(func);
+            return new BurstFunc<#=GENERIC_DEF#>(functionPointer);
+        }
+
+        public static implicit operator ValueFunc<#=GENERIC_DEF#>.Struct<BurstFunc<#=GENERIC_DEF#>>(BurstFunc<#=GENERIC_DEF#> burstFunc)
+        {
+            return ValueFunc<#=GENERIC_DEF#>.New(burstFunc);
+        }
+
+        public static implicit operator BurstFunc<#=GENERIC_DEF#>(ValueFunc<#=GENERIC_DEF#>.Struct<BurstFunc<#=GENERIC_DEF#>> valueFunc)
+        {
+            return valueFunc.lambda;
+        }
     }
 
 <#
