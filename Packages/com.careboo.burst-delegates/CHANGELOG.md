@@ -3,6 +3,13 @@ All notable changes to this package will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+# [1.2.0-preview.2](https://github.com/CareBoo/Burst.Delegates/compare/v1.2.0-preview.1...v1.2.0-preview.2) (2020-12-15)
+
+
+### Features
+
+* :sparkles: Add implicit conversion between BurstDelegates and ValueDelegates ([9d5542c](https://github.com/CareBoo/Burst.Delegates/commit/9d5542cf9beac7372877ad5a8b36423662ea99fc))
+
 # [1.2.0-preview.1](https://github.com/CareBoo/Burst.Delegates/compare/v1.1.0...v1.2.0-preview.1) (2020-12-15)
 
 
