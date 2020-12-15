@@ -1,4 +1,7 @@
-﻿namespace CareBoo.Burst.Delegates
+﻿using System;
+using Unity.Burst;
+
+namespace CareBoo.Burst.Delegates
 {
     public struct ValueFunc<TResult>
         where TResult : struct
@@ -23,6 +26,13 @@
             where TLambda : struct, IFunc<TResult>
         {
             return new Struct<TLambda>(lambda);
+        }
+
+        public static Struct<BurstFunc<TResult>> Compile(Func<TResult> func)
+        {
+            var fPtr = BurstCompiler.CompileFunctionPointer(func);
+            var burstAction = new BurstFunc<TResult>(fPtr);
+            return New(burstAction);
         }
     }
 
@@ -50,6 +60,13 @@
             where TLambda : struct, IFunc<T, TResult>
         {
             return new Struct<TLambda>(lambda);
+        }
+
+        public static Struct<BurstFunc<T, TResult>> Compile(Func<T, TResult> func)
+        {
+            var fPtr = BurstCompiler.CompileFunctionPointer(func);
+            var burstAction = new BurstFunc<T, TResult>(fPtr);
+            return New(burstAction);
         }
     }
 
@@ -79,6 +96,13 @@
         {
             return new Struct<TLambda>(lambda);
         }
+
+        public static Struct<BurstFunc<T, U, TResult>> Compile(Func<T, U, TResult> func)
+        {
+            var fPtr = BurstCompiler.CompileFunctionPointer(func);
+            var burstAction = new BurstFunc<T, U, TResult>(fPtr);
+            return New(burstAction);
+        }
     }
 
     public struct ValueFunc<T, U, V, TResult>
@@ -107,6 +131,13 @@
             where TLambda : struct, IFunc<T, U, V, TResult>
         {
             return new Struct<TLambda>(lambda);
+        }
+
+        public static Struct<BurstFunc<T, U, V, TResult>> Compile(Func<T, U, V, TResult> func)
+        {
+            var fPtr = BurstCompiler.CompileFunctionPointer(func);
+            var burstAction = new BurstFunc<T, U, V, TResult>(fPtr);
+            return New(burstAction);
         }
     }
 
@@ -138,6 +169,13 @@
         {
             return new Struct<TLambda>(lambda);
         }
+
+        public static Struct<BurstFunc<T, U, V, W, TResult>> Compile(Func<T, U, V, W, TResult> func)
+        {
+            var fPtr = BurstCompiler.CompileFunctionPointer(func);
+            var burstAction = new BurstFunc<T, U, V, W, TResult>(fPtr);
+            return New(burstAction);
+        }
     }
 
     public struct ValueFunc<T, U, V, W, X, TResult>
@@ -168,6 +206,13 @@
             where TLambda : struct, IFunc<T, U, V, W, X, TResult>
         {
             return new Struct<TLambda>(lambda);
+        }
+
+        public static Struct<BurstFunc<T, U, V, W, X, TResult>> Compile(Func<T, U, V, W, X, TResult> func)
+        {
+            var fPtr = BurstCompiler.CompileFunctionPointer(func);
+            var burstAction = new BurstFunc<T, U, V, W, X, TResult>(fPtr);
+            return New(burstAction);
         }
     }
 
@@ -201,6 +246,13 @@
         {
             return new Struct<TLambda>(lambda);
         }
+
+        public static Struct<BurstFunc<T, U, V, W, X, Y, TResult>> Compile(Func<T, U, V, W, X, Y, TResult> func)
+        {
+            var fPtr = BurstCompiler.CompileFunctionPointer(func);
+            var burstAction = new BurstFunc<T, U, V, W, X, Y, TResult>(fPtr);
+            return New(burstAction);
+        }
     }
 
     public struct ValueFunc<T, U, V, W, X, Y, Z, TResult>
@@ -233,6 +285,13 @@
             where TLambda : struct, IFunc<T, U, V, W, X, Y, Z, TResult>
         {
             return new Struct<TLambda>(lambda);
+        }
+
+        public static Struct<BurstFunc<T, U, V, W, X, Y, Z, TResult>> Compile(Func<T, U, V, W, X, Y, Z, TResult> func)
+        {
+            var fPtr = BurstCompiler.CompileFunctionPointer(func);
+            var burstAction = new BurstFunc<T, U, V, W, X, Y, Z, TResult>(fPtr);
+            return New(burstAction);
         }
     }
 }
