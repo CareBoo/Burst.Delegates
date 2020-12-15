@@ -3,6 +3,13 @@ All notable changes to this package will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+# [1.2.0-preview.3](https://github.com/CareBoo/Burst.Delegates/compare/v1.2.0-preview.2...v1.2.0-preview.3) (2020-12-15)
+
+
+### Bug Fixes
+
+* :bug: Fix BurstAction and BurstFunc so they don't throw exceptions ([3ea2f3c](https://github.com/CareBoo/Burst.Delegates/commit/3ea2f3c84b7c6149e3303c939cdeed5a35120c44))
+
 # [1.2.0-preview.2](https://github.com/CareBoo/Burst.Delegates/compare/v1.2.0-preview.1...v1.2.0-preview.2) (2020-12-15)
 
 
