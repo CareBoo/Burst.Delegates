@@ -13,7 +13,7 @@
 
 using System;
 using Unity.Burst;
-using static CareBoo.Burst.Delegates.SafetyChecks;
+using UnityEngine;
 
 namespace CareBoo.Burst.Delegates
 {
@@ -48,15 +48,27 @@ for (var i = 0; i < GENERIC_PARAMS.Length; i++)
     {
         readonly FunctionPointer<Action<#=GENERIC_DEF#>> functionPointer;
 
+        bool burstFlag;
+
         public BurstAction(FunctionPointer<Action<#=GENERIC_DEF#>> functionPointer)
         {
             this.functionPointer = functionPointer;
+            burstFlag = true;
         }
 
         public void Invoke(<#=GENERIC_ARGS_TYPED#>)
         {
-            SupportedInBurstOnly();
-            functionPointer.Invoke(<#=GENERIC_ARGS#>);
+            CheckBurst();
+
+            if (burstFlag)
+                functionPointer.Invoke(<#=GENERIC_ARGS#>);
+        }
+
+        [BurstDiscard]
+        private void CheckBurst()
+        {
+            burstFlag = false;
+            Debug.LogError("BurstAction does not support being run outside burst-compiled code.");
         }
 
         public static BurstAction<#=GENERIC_DEF#> Compile(Action<#=GENERIC_DEF#> action)

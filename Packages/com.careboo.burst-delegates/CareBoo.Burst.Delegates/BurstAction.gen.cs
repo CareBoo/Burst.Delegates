@@ -13,7 +13,7 @@
 
 using System;
 using Unity.Burst;
-using static CareBoo.Burst.Delegates.SafetyChecks;
+using UnityEngine;
 
 namespace CareBoo.Burst.Delegates
 {
@@ -23,15 +23,27 @@ namespace CareBoo.Burst.Delegates
     {
         readonly FunctionPointer<Action> functionPointer;
 
+        bool burstFlag;
+
         public BurstAction(FunctionPointer<Action> functionPointer)
         {
             this.functionPointer = functionPointer;
+            burstFlag = true;
         }
 
         public void Invoke()
         {
-            SupportedInBurstOnly();
-            functionPointer.Invoke();
+            CheckBurst();
+
+            if (burstFlag)
+                functionPointer.Invoke();
+        }
+
+        [BurstDiscard]
+        private void CheckBurst()
+        {
+            burstFlag = false;
+            Debug.LogError("BurstAction does not support being run outside burst-compiled code.");
         }
 
         public static BurstAction Compile(Action action)
@@ -58,15 +70,27 @@ namespace CareBoo.Burst.Delegates
     {
         readonly FunctionPointer<Action<T>> functionPointer;
 
+        bool burstFlag;
+
         public BurstAction(FunctionPointer<Action<T>> functionPointer)
         {
             this.functionPointer = functionPointer;
+            burstFlag = true;
         }
 
         public void Invoke(T arg0)
         {
-            SupportedInBurstOnly();
-            functionPointer.Invoke(arg0);
+            CheckBurst();
+
+            if (burstFlag)
+                functionPointer.Invoke(arg0);
+        }
+
+        [BurstDiscard]
+        private void CheckBurst()
+        {
+            burstFlag = false;
+            Debug.LogError("BurstAction does not support being run outside burst-compiled code.");
         }
 
         public static BurstAction<T> Compile(Action<T> action)
@@ -94,15 +118,27 @@ namespace CareBoo.Burst.Delegates
     {
         readonly FunctionPointer<Action<T, U>> functionPointer;
 
+        bool burstFlag;
+
         public BurstAction(FunctionPointer<Action<T, U>> functionPointer)
         {
             this.functionPointer = functionPointer;
+            burstFlag = true;
         }
 
         public void Invoke(T arg0, U arg1)
         {
-            SupportedInBurstOnly();
-            functionPointer.Invoke(arg0, arg1);
+            CheckBurst();
+
+            if (burstFlag)
+                functionPointer.Invoke(arg0, arg1);
+        }
+
+        [BurstDiscard]
+        private void CheckBurst()
+        {
+            burstFlag = false;
+            Debug.LogError("BurstAction does not support being run outside burst-compiled code.");
         }
 
         public static BurstAction<T, U> Compile(Action<T, U> action)
@@ -131,15 +167,27 @@ namespace CareBoo.Burst.Delegates
     {
         readonly FunctionPointer<Action<T, U, V>> functionPointer;
 
+        bool burstFlag;
+
         public BurstAction(FunctionPointer<Action<T, U, V>> functionPointer)
         {
             this.functionPointer = functionPointer;
+            burstFlag = true;
         }
 
         public void Invoke(T arg0, U arg1, V arg2)
         {
-            SupportedInBurstOnly();
-            functionPointer.Invoke(arg0, arg1, arg2);
+            CheckBurst();
+
+            if (burstFlag)
+                functionPointer.Invoke(arg0, arg1, arg2);
+        }
+
+        [BurstDiscard]
+        private void CheckBurst()
+        {
+            burstFlag = false;
+            Debug.LogError("BurstAction does not support being run outside burst-compiled code.");
         }
 
         public static BurstAction<T, U, V> Compile(Action<T, U, V> action)
@@ -169,15 +217,27 @@ namespace CareBoo.Burst.Delegates
     {
         readonly FunctionPointer<Action<T, U, V, W>> functionPointer;
 
+        bool burstFlag;
+
         public BurstAction(FunctionPointer<Action<T, U, V, W>> functionPointer)
         {
             this.functionPointer = functionPointer;
+            burstFlag = true;
         }
 
         public void Invoke(T arg0, U arg1, V arg2, W arg3)
         {
-            SupportedInBurstOnly();
-            functionPointer.Invoke(arg0, arg1, arg2, arg3);
+            CheckBurst();
+
+            if (burstFlag)
+                functionPointer.Invoke(arg0, arg1, arg2, arg3);
+        }
+
+        [BurstDiscard]
+        private void CheckBurst()
+        {
+            burstFlag = false;
+            Debug.LogError("BurstAction does not support being run outside burst-compiled code.");
         }
 
         public static BurstAction<T, U, V, W> Compile(Action<T, U, V, W> action)
@@ -208,15 +268,27 @@ namespace CareBoo.Burst.Delegates
     {
         readonly FunctionPointer<Action<T, U, V, W, X>> functionPointer;
 
+        bool burstFlag;
+
         public BurstAction(FunctionPointer<Action<T, U, V, W, X>> functionPointer)
         {
             this.functionPointer = functionPointer;
+            burstFlag = true;
         }
 
         public void Invoke(T arg0, U arg1, V arg2, W arg3, X arg4)
         {
-            SupportedInBurstOnly();
-            functionPointer.Invoke(arg0, arg1, arg2, arg3, arg4);
+            CheckBurst();
+
+            if (burstFlag)
+                functionPointer.Invoke(arg0, arg1, arg2, arg3, arg4);
+        }
+
+        [BurstDiscard]
+        private void CheckBurst()
+        {
+            burstFlag = false;
+            Debug.LogError("BurstAction does not support being run outside burst-compiled code.");
         }
 
         public static BurstAction<T, U, V, W, X> Compile(Action<T, U, V, W, X> action)
@@ -248,15 +320,27 @@ namespace CareBoo.Burst.Delegates
     {
         readonly FunctionPointer<Action<T, U, V, W, X, Y>> functionPointer;
 
+        bool burstFlag;
+
         public BurstAction(FunctionPointer<Action<T, U, V, W, X, Y>> functionPointer)
         {
             this.functionPointer = functionPointer;
+            burstFlag = true;
         }
 
         public void Invoke(T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5)
         {
-            SupportedInBurstOnly();
-            functionPointer.Invoke(arg0, arg1, arg2, arg3, arg4, arg5);
+            CheckBurst();
+
+            if (burstFlag)
+                functionPointer.Invoke(arg0, arg1, arg2, arg3, arg4, arg5);
+        }
+
+        [BurstDiscard]
+        private void CheckBurst()
+        {
+            burstFlag = false;
+            Debug.LogError("BurstAction does not support being run outside burst-compiled code.");
         }
 
         public static BurstAction<T, U, V, W, X, Y> Compile(Action<T, U, V, W, X, Y> action)
@@ -289,15 +373,27 @@ namespace CareBoo.Burst.Delegates
     {
         readonly FunctionPointer<Action<T, U, V, W, X, Y, Z>> functionPointer;
 
+        bool burstFlag;
+
         public BurstAction(FunctionPointer<Action<T, U, V, W, X, Y, Z>> functionPointer)
         {
             this.functionPointer = functionPointer;
+            burstFlag = true;
         }
 
         public void Invoke(T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5, Z arg6)
         {
-            SupportedInBurstOnly();
-            functionPointer.Invoke(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
+            CheckBurst();
+
+            if (burstFlag)
+                functionPointer.Invoke(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
+        }
+
+        [BurstDiscard]
+        private void CheckBurst()
+        {
+            burstFlag = false;
+            Debug.LogError("BurstAction does not support being run outside burst-compiled code.");
         }
 
         public static BurstAction<T, U, V, W, X, Y, Z> Compile(Action<T, U, V, W, X, Y, Z> action)
