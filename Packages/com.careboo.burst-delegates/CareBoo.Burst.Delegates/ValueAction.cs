@@ -1,4 +1,7 @@
-﻿namespace CareBoo.Burst.Delegates
+﻿using System;
+using Unity.Burst;
+
+namespace CareBoo.Burst.Delegates
 {
     public struct ValueAction
     {
@@ -22,6 +25,13 @@
             where TLambda : struct, IAction
         {
             return new Struct<TLambda>(lambda);
+        }
+
+        public static Struct<BurstAction> Compile(Action action)
+        {
+            var fPtr = BurstCompiler.CompileFunctionPointer(action);
+            var burstAction = new BurstAction(fPtr);
+            return New(burstAction);
         }
     }
 
@@ -48,6 +58,13 @@
             where TLambda : struct, IAction<T>
         {
             return new Struct<TLambda>(lambda);
+        }
+
+        public static Struct<BurstAction<T>> Compile(Action<T> action)
+        {
+            var fPtr = BurstCompiler.CompileFunctionPointer(action);
+            var burstAction = new BurstAction<T>(fPtr);
+            return New(burstAction);
         }
     }
 
@@ -76,6 +93,13 @@
         {
             return new Struct<TLambda>(lambda);
         }
+
+        public static Struct<BurstAction<T, U>> Compile(Action<T, U> action)
+        {
+            var fPtr = BurstCompiler.CompileFunctionPointer(action);
+            var burstAction = new BurstAction<T, U>(fPtr);
+            return New(burstAction);
+        }
     }
 
     public struct ValueAction<T, U, V>
@@ -103,6 +127,13 @@
             where TLambda : struct, IAction<T, U, V>
         {
             return new Struct<TLambda>(lambda);
+        }
+
+        public static Struct<BurstAction<T, U, V>> Compile(Action<T, U, V> action)
+        {
+            var fPtr = BurstCompiler.CompileFunctionPointer(action);
+            var burstAction = new BurstAction<T, U, V>(fPtr);
+            return New(burstAction);
         }
     }
 
@@ -133,6 +164,13 @@
         {
             return new Struct<TLambda>(lambda);
         }
+
+        public static Struct<BurstAction<T, U, V, W>> Compile(Action<T, U, V, W> action)
+        {
+            var fPtr = BurstCompiler.CompileFunctionPointer(action);
+            var burstAction = new BurstAction<T, U, V, W>(fPtr);
+            return New(burstAction);
+        }
     }
 
     public struct ValueAction<T, U, V, W, X>
@@ -162,6 +200,13 @@
             where TLambda : struct, IAction<T, U, V, W, X>
         {
             return new Struct<TLambda>(lambda);
+        }
+
+        public static Struct<BurstAction<T, U, V, W, X>> Compile(Action<T, U, V, W, X> action)
+        {
+            var fPtr = BurstCompiler.CompileFunctionPointer(action);
+            var burstAction = new BurstAction<T, U, V, W, X>(fPtr);
+            return New(burstAction);
         }
     }
 
@@ -194,6 +239,13 @@
         {
             return new Struct<TLambda>(lambda);
         }
+
+        public static Struct<BurstAction<T, U, V, W, X, Y>> Compile(Action<T, U, V, W, X, Y> action)
+        {
+            var fPtr = BurstCompiler.CompileFunctionPointer(action);
+            var burstAction = new BurstAction<T, U, V, W, X, Y>(fPtr);
+            return New(burstAction);
+        }
     }
 
     public struct ValueAction<T, U, V, W, X, Y, Z>
@@ -225,6 +277,13 @@
             where TLambda : struct, IAction<T, U, V, W, X, Y, Z>
         {
             return new Struct<TLambda>(lambda);
+        }
+
+        public static Struct<BurstAction<T, U, V, W, X, Y, Z>> Compile(Action<T, U, V, W, X, Y, Z> action)
+        {
+            var fPtr = BurstCompiler.CompileFunctionPointer(action);
+            var burstAction = new BurstAction<T, U, V, W, X, Y, Z>(fPtr);
+            return New(burstAction);
         }
     }
 }
