@@ -13,7 +13,6 @@
 
 using System;
 using Unity.Burst;
-using UnityEngine;
 
 namespace CareBoo.Burst.Delegates
 {
@@ -23,32 +22,34 @@ namespace CareBoo.Burst.Delegates
     {
         readonly FunctionPointer<Action> functionPointer;
 
-        bool burstFlag;
+        bool burstEnabled;
 
         public BurstAction(FunctionPointer<Action> functionPointer)
         {
             this.functionPointer = functionPointer;
-            burstFlag = true;
+            burstEnabled = true;
         }
 
         public void Invoke()
         {
             CheckBurst();
 
-            if (burstFlag)
+            Unity.Burst.CompilerServices.Hint.Assume(burstEnabled);
+            if (burstEnabled)
                 functionPointer.Invoke();
         }
 
         [BurstDiscard]
         private void CheckBurst()
         {
-            burstFlag = false;
-            Debug.LogError("BurstAction does not support being run outside burst-compiled code.");
+            burstEnabled = false;
+            DelegateCache<Action>.GetDelegate(functionPointer.Value).Invoke();
         }
 
         public static BurstAction Compile(Action action)
         {
             var functionPointer = BurstCompiler.CompileFunctionPointer(action);
+            DelegateCache<Action>.SetDelegate(functionPointer.Value, action);
             return new BurstAction(functionPointer);
         }
 
@@ -70,32 +71,34 @@ namespace CareBoo.Burst.Delegates
     {
         readonly FunctionPointer<Action<T>> functionPointer;
 
-        bool burstFlag;
+        bool burstEnabled;
 
         public BurstAction(FunctionPointer<Action<T>> functionPointer)
         {
             this.functionPointer = functionPointer;
-            burstFlag = true;
+            burstEnabled = true;
         }
 
         public void Invoke(T arg0)
         {
-            CheckBurst();
+            CheckBurst(arg0);
 
-            if (burstFlag)
+            Unity.Burst.CompilerServices.Hint.Assume(burstEnabled);
+            if (burstEnabled)
                 functionPointer.Invoke(arg0);
         }
 
         [BurstDiscard]
-        private void CheckBurst()
+        private void CheckBurst(T arg0)
         {
-            burstFlag = false;
-            Debug.LogError("BurstAction does not support being run outside burst-compiled code.");
+            burstEnabled = false;
+            DelegateCache<Action<T>>.GetDelegate(functionPointer.Value).Invoke(arg0);
         }
 
         public static BurstAction<T> Compile(Action<T> action)
         {
             var functionPointer = BurstCompiler.CompileFunctionPointer(action);
+            DelegateCache<Action<T>>.SetDelegate(functionPointer.Value, action);
             return new BurstAction<T>(functionPointer);
         }
 
@@ -118,32 +121,34 @@ namespace CareBoo.Burst.Delegates
     {
         readonly FunctionPointer<Action<T, U>> functionPointer;
 
-        bool burstFlag;
+        bool burstEnabled;
 
         public BurstAction(FunctionPointer<Action<T, U>> functionPointer)
         {
             this.functionPointer = functionPointer;
-            burstFlag = true;
+            burstEnabled = true;
         }
 
         public void Invoke(T arg0, U arg1)
         {
-            CheckBurst();
+            CheckBurst(arg0, arg1);
 
-            if (burstFlag)
+            Unity.Burst.CompilerServices.Hint.Assume(burstEnabled);
+            if (burstEnabled)
                 functionPointer.Invoke(arg0, arg1);
         }
 
         [BurstDiscard]
-        private void CheckBurst()
+        private void CheckBurst(T arg0, U arg1)
         {
-            burstFlag = false;
-            Debug.LogError("BurstAction does not support being run outside burst-compiled code.");
+            burstEnabled = false;
+            DelegateCache<Action<T, U>>.GetDelegate(functionPointer.Value).Invoke(arg0, arg1);
         }
 
         public static BurstAction<T, U> Compile(Action<T, U> action)
         {
             var functionPointer = BurstCompiler.CompileFunctionPointer(action);
+            DelegateCache<Action<T, U>>.SetDelegate(functionPointer.Value, action);
             return new BurstAction<T, U>(functionPointer);
         }
 
@@ -167,32 +172,34 @@ namespace CareBoo.Burst.Delegates
     {
         readonly FunctionPointer<Action<T, U, V>> functionPointer;
 
-        bool burstFlag;
+        bool burstEnabled;
 
         public BurstAction(FunctionPointer<Action<T, U, V>> functionPointer)
         {
             this.functionPointer = functionPointer;
-            burstFlag = true;
+            burstEnabled = true;
         }
 
         public void Invoke(T arg0, U arg1, V arg2)
         {
-            CheckBurst();
+            CheckBurst(arg0, arg1, arg2);
 
-            if (burstFlag)
+            Unity.Burst.CompilerServices.Hint.Assume(burstEnabled);
+            if (burstEnabled)
                 functionPointer.Invoke(arg0, arg1, arg2);
         }
 
         [BurstDiscard]
-        private void CheckBurst()
+        private void CheckBurst(T arg0, U arg1, V arg2)
         {
-            burstFlag = false;
-            Debug.LogError("BurstAction does not support being run outside burst-compiled code.");
+            burstEnabled = false;
+            DelegateCache<Action<T, U, V>>.GetDelegate(functionPointer.Value).Invoke(arg0, arg1, arg2);
         }
 
         public static BurstAction<T, U, V> Compile(Action<T, U, V> action)
         {
             var functionPointer = BurstCompiler.CompileFunctionPointer(action);
+            DelegateCache<Action<T, U, V>>.SetDelegate(functionPointer.Value, action);
             return new BurstAction<T, U, V>(functionPointer);
         }
 
@@ -217,32 +224,34 @@ namespace CareBoo.Burst.Delegates
     {
         readonly FunctionPointer<Action<T, U, V, W>> functionPointer;
 
-        bool burstFlag;
+        bool burstEnabled;
 
         public BurstAction(FunctionPointer<Action<T, U, V, W>> functionPointer)
         {
             this.functionPointer = functionPointer;
-            burstFlag = true;
+            burstEnabled = true;
         }
 
         public void Invoke(T arg0, U arg1, V arg2, W arg3)
         {
-            CheckBurst();
+            CheckBurst(arg0, arg1, arg2, arg3);
 
-            if (burstFlag)
+            Unity.Burst.CompilerServices.Hint.Assume(burstEnabled);
+            if (burstEnabled)
                 functionPointer.Invoke(arg0, arg1, arg2, arg3);
         }
 
         [BurstDiscard]
-        private void CheckBurst()
+        private void CheckBurst(T arg0, U arg1, V arg2, W arg3)
         {
-            burstFlag = false;
-            Debug.LogError("BurstAction does not support being run outside burst-compiled code.");
+            burstEnabled = false;
+            DelegateCache<Action<T, U, V, W>>.GetDelegate(functionPointer.Value).Invoke(arg0, arg1, arg2, arg3);
         }
 
         public static BurstAction<T, U, V, W> Compile(Action<T, U, V, W> action)
         {
             var functionPointer = BurstCompiler.CompileFunctionPointer(action);
+            DelegateCache<Action<T, U, V, W>>.SetDelegate(functionPointer.Value, action);
             return new BurstAction<T, U, V, W>(functionPointer);
         }
 
@@ -268,32 +277,34 @@ namespace CareBoo.Burst.Delegates
     {
         readonly FunctionPointer<Action<T, U, V, W, X>> functionPointer;
 
-        bool burstFlag;
+        bool burstEnabled;
 
         public BurstAction(FunctionPointer<Action<T, U, V, W, X>> functionPointer)
         {
             this.functionPointer = functionPointer;
-            burstFlag = true;
+            burstEnabled = true;
         }
 
         public void Invoke(T arg0, U arg1, V arg2, W arg3, X arg4)
         {
-            CheckBurst();
+            CheckBurst(arg0, arg1, arg2, arg3, arg4);
 
-            if (burstFlag)
+            Unity.Burst.CompilerServices.Hint.Assume(burstEnabled);
+            if (burstEnabled)
                 functionPointer.Invoke(arg0, arg1, arg2, arg3, arg4);
         }
 
         [BurstDiscard]
-        private void CheckBurst()
+        private void CheckBurst(T arg0, U arg1, V arg2, W arg3, X arg4)
         {
-            burstFlag = false;
-            Debug.LogError("BurstAction does not support being run outside burst-compiled code.");
+            burstEnabled = false;
+            DelegateCache<Action<T, U, V, W, X>>.GetDelegate(functionPointer.Value).Invoke(arg0, arg1, arg2, arg3, arg4);
         }
 
         public static BurstAction<T, U, V, W, X> Compile(Action<T, U, V, W, X> action)
         {
             var functionPointer = BurstCompiler.CompileFunctionPointer(action);
+            DelegateCache<Action<T, U, V, W, X>>.SetDelegate(functionPointer.Value, action);
             return new BurstAction<T, U, V, W, X>(functionPointer);
         }
 
@@ -320,32 +331,34 @@ namespace CareBoo.Burst.Delegates
     {
         readonly FunctionPointer<Action<T, U, V, W, X, Y>> functionPointer;
 
-        bool burstFlag;
+        bool burstEnabled;
 
         public BurstAction(FunctionPointer<Action<T, U, V, W, X, Y>> functionPointer)
         {
             this.functionPointer = functionPointer;
-            burstFlag = true;
+            burstEnabled = true;
         }
 
         public void Invoke(T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5)
         {
-            CheckBurst();
+            CheckBurst(arg0, arg1, arg2, arg3, arg4, arg5);
 
-            if (burstFlag)
+            Unity.Burst.CompilerServices.Hint.Assume(burstEnabled);
+            if (burstEnabled)
                 functionPointer.Invoke(arg0, arg1, arg2, arg3, arg4, arg5);
         }
 
         [BurstDiscard]
-        private void CheckBurst()
+        private void CheckBurst(T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5)
         {
-            burstFlag = false;
-            Debug.LogError("BurstAction does not support being run outside burst-compiled code.");
+            burstEnabled = false;
+            DelegateCache<Action<T, U, V, W, X, Y>>.GetDelegate(functionPointer.Value).Invoke(arg0, arg1, arg2, arg3, arg4, arg5);
         }
 
         public static BurstAction<T, U, V, W, X, Y> Compile(Action<T, U, V, W, X, Y> action)
         {
             var functionPointer = BurstCompiler.CompileFunctionPointer(action);
+            DelegateCache<Action<T, U, V, W, X, Y>>.SetDelegate(functionPointer.Value, action);
             return new BurstAction<T, U, V, W, X, Y>(functionPointer);
         }
 
@@ -373,32 +386,34 @@ namespace CareBoo.Burst.Delegates
     {
         readonly FunctionPointer<Action<T, U, V, W, X, Y, Z>> functionPointer;
 
-        bool burstFlag;
+        bool burstEnabled;
 
         public BurstAction(FunctionPointer<Action<T, U, V, W, X, Y, Z>> functionPointer)
         {
             this.functionPointer = functionPointer;
-            burstFlag = true;
+            burstEnabled = true;
         }
 
         public void Invoke(T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5, Z arg6)
         {
-            CheckBurst();
+            CheckBurst(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
 
-            if (burstFlag)
+            Unity.Burst.CompilerServices.Hint.Assume(burstEnabled);
+            if (burstEnabled)
                 functionPointer.Invoke(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
         }
 
         [BurstDiscard]
-        private void CheckBurst()
+        private void CheckBurst(T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5, Z arg6)
         {
-            burstFlag = false;
-            Debug.LogError("BurstAction does not support being run outside burst-compiled code.");
+            burstEnabled = false;
+            DelegateCache<Action<T, U, V, W, X, Y, Z>>.GetDelegate(functionPointer.Value).Invoke(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
         }
 
         public static BurstAction<T, U, V, W, X, Y, Z> Compile(Action<T, U, V, W, X, Y, Z> action)
         {
             var functionPointer = BurstCompiler.CompileFunctionPointer(action);
+            DelegateCache<Action<T, U, V, W, X, Y, Z>>.SetDelegate(functionPointer.Value, action);
             return new BurstAction<T, U, V, W, X, Y, Z>(functionPointer);
         }
 
