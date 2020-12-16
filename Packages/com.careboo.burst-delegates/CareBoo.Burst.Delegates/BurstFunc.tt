@@ -13,7 +13,6 @@
 
 using System;
 using Unity.Burst;
-using UnityEngine;
 
 namespace CareBoo.Burst.Delegates
 {
@@ -52,33 +51,39 @@ for (var i = 0; i < GENERIC_PARAMS.Length; i++)
     {
         readonly FunctionPointer<Func<#=GENERIC_DEF#>> functionPointer;
 
-        bool burstFlag;
+        bool burstEnabled;
+
+        TResult value;
 
         public BurstFunc(FunctionPointer<Func<#=GENERIC_DEF#>> functionPointer)
         {
             this.functionPointer = functionPointer;
-            burstFlag = true;
+            burstEnabled = true;
+            value = default;
         }
 
         public TResult Invoke(<#=GENERIC_ARGS_TYPED#>)
         {
-            CheckBurst();
+            CheckBurst(<#=GENERIC_ARGS#>);
+            Unity.Burst.CompilerServices.Hint.Assume(burstEnabled);
 
-            return burstFlag
-                ? functionPointer.Invoke(<#=GENERIC_ARGS#>)
-                : default;
+            if (burstEnabled)
+                return functionPointer.Invoke(<#=GENERIC_ARGS#>);
+            else
+                return value;
         }
 
         [BurstDiscard]
-        private void CheckBurst()
+        private void CheckBurst(<#=GENERIC_ARGS_TYPED#>)
         {
-            burstFlag = false;
-            Debug.LogError("BurstFunc does not support being run outside burst-compiled code.");
+            burstEnabled = false;
+            value = DelegateCache<Func<#=GENERIC_DEF#>>.GetDelegate(functionPointer.Value).Invoke(<#=GENERIC_ARGS#>);
         }
 
         public static BurstFunc<#=GENERIC_DEF#> Compile(Func<#=GENERIC_DEF#> func)
         {
             var functionPointer = BurstCompiler.CompileFunctionPointer(func);
+            DelegateCache<Func<#=GENERIC_DEF#>>.SetDelegate(functionPointer.Value, func);
             return new BurstFunc<#=GENERIC_DEF#>(functionPointer);
         }
 
