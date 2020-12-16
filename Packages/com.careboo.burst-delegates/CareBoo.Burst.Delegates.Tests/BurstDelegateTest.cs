@@ -39,18 +39,10 @@ internal class BurstDelegateTests
         using (var input = new NativeArray<int>(new int[1], Allocator.Persistent))
         using (var output = new NativeArray<int>(new int[1], Allocator.Persistent))
         {
-            if (!BurstCompiler.IsEnabled || !BurstCompiler.Options.IsEnabled || !BurstCompiler.Options.EnableBurstCompilation)
-            {
-                LogAssert.Expect(UnityEngine.LogType.Error, new Regex("BurstFunc"));
-                new CallFuncJob { Func = Add4Func, Input = input, Output = output }.Run();
-            }
-            else
-            {
-                var expected = Add4(input[0]);
-                new CallFuncJob { Func = Add4Func, Input = input, Output = output }.Run();
-                var actual = output[0];
-                Assert.AreEqual(expected, actual);
-            }
+            var expected = Add4(input[0]);
+            new CallFuncJob { Func = Add4Func, Input = input, Output = output }.Run();
+            var actual = output[0];
+            Assert.AreEqual(expected, actual);
         }
     }
 
@@ -60,8 +52,9 @@ internal class BurstDelegateTests
         using (var input = new NativeArray<int>(new int[1], Allocator.Persistent))
         using (var output = new NativeArray<int>(new int[1], Allocator.Persistent))
         {
-            LogAssert.Expect(UnityEngine.LogType.Error, new Regex("BurstFunc"));
-            Add4Func.Invoke(input[0]);
+            var expected = Add4(input[0]);
+            var actual = Add4Func.Invoke(input[0]);
+            Assert.AreEqual(expected, actual);
         }
     }
 }

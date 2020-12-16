@@ -13,7 +13,6 @@
 
 using System;
 using Unity.Burst;
-using UnityEngine;
 
 namespace CareBoo.Burst.Delegates
 {
@@ -48,32 +47,34 @@ for (var i = 0; i < GENERIC_PARAMS.Length; i++)
     {
         readonly FunctionPointer<Action<#=GENERIC_DEF#>> functionPointer;
 
-        bool burstFlag;
+        bool burstEnabled;
 
         public BurstAction(FunctionPointer<Action<#=GENERIC_DEF#>> functionPointer)
         {
             this.functionPointer = functionPointer;
-            burstFlag = true;
+            burstEnabled = true;
         }
 
         public void Invoke(<#=GENERIC_ARGS_TYPED#>)
         {
-            CheckBurst();
+            CheckBurst(<#=GENERIC_ARGS#>);
 
-            if (burstFlag)
+            Unity.Burst.CompilerServices.Hint.Assume(burstEnabled);
+            if (burstEnabled)
                 functionPointer.Invoke(<#=GENERIC_ARGS#>);
         }
 
         [BurstDiscard]
-        private void CheckBurst()
+        private void CheckBurst(<#=GENERIC_ARGS_TYPED#>)
         {
-            burstFlag = false;
-            Debug.LogError("BurstAction does not support being run outside burst-compiled code.");
+            burstEnabled = false;
+            DelegateCache<Action<#=GENERIC_DEF#>>.GetDelegate(functionPointer.Value).Invoke(<#=GENERIC_ARGS#>);
         }
 
         public static BurstAction<#=GENERIC_DEF#> Compile(Action<#=GENERIC_DEF#> action)
         {
             var functionPointer = BurstCompiler.CompileFunctionPointer(action);
+            DelegateCache<Action<#=GENERIC_DEF#>>.SetDelegate(functionPointer.Value, action);
             return new BurstAction<#=GENERIC_DEF#>(functionPointer);
         }
 
