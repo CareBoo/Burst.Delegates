@@ -3,6 +3,13 @@ All notable changes to this package will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+# [1.2.0-preview.4](https://github.com/CareBoo/Burst.Delegates/compare/v1.2.0-preview.3...v1.2.0-preview.4) (2020-12-16)
+
+
+### Features
+
+* :sparkles: Introduce working generic FuncPointer ([e74a2c8](https://github.com/CareBoo/Burst.Delegates/commit/e74a2c889f363cb022b3ad0268babee9f4165bca))
+
 # [1.2.0-preview.3](https://github.com/CareBoo/Burst.Delegates/compare/v1.2.0-preview.2...v1.2.0-preview.3) (2020-12-15)
 
 
