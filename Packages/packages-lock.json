@@ -4,7 +4,9 @@
       "version": "file:com.careboo.burst-delegates",
       "depth": 0,
       "source": "embedded",
-      "dependencies": {}
+      "dependencies": {
+        "com.unity.burst": "1.5.0-pre.3"
+      }
     },
     "com.unity.burst": {
       "version": "1.5.0-pre.3",
