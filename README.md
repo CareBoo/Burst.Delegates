@@ -8,12 +8,12 @@ Here are a couple examples showcasing how to write struct-based delegates
 
 ### Creating Delegates
 
-C#:
+Delegate:
 ```cs
 Func<int, int, bool> greaterThan = (int a, int b) => a > b;
 ```
 
-Struct-based:
+Value Delegate:
 ```cs
 public struct GreaterThanFunc : IFunc<int, int, bool>
 {
@@ -23,9 +23,17 @@ public struct GreaterThanFunc : IFunc<int, int, bool>
 var greaterThan = ValueFunc<int, int, bool>.New<GreaterThanFunc>();
 ```
 
+Burst Delegate:
+```cs
+[BurstCompile]
+public static bool GreaterThan(int a, int b) => a > b;
+
+BurstFunc<int, int, bool> greaterThan = BurstFunc<int, int, bool>.Compile(GreaterThan);
+```
+
 ### Referencing Delegates
 
-C#:
+System.Delegate:
 ```cs
 public class MyClass
 {
@@ -36,11 +44,22 @@ public class MyClass
 }
 ```
 
-Struct-based:
+Value Delegate:
 ```cs
 public class MyClass
 {
   public static List<int> CompareNextVal<TComparer>(List<int> vals, ValueFunc<int, int, int>.Struct<TComparer> comparer)
+  {
+    // ...
+  }
+}
+```
+
+Burst Delegate:
+```cs
+public class MyClass
+{
+  public static List<int> CompareNextVal(List<int> vals, BurstFunc<int, int, int> comparer)
   {
     // ...
   }
@@ -64,20 +83,25 @@ public struct AggregateJob<TAggregator> : IJob
   }
 }
 
+[BurstCompile]
 public class MyClass
 {
-  struct SumFunc : IFunc<int, int, int>
-  {
-    public int Invoke(int a, int b) => a + b;
-  }
+  [BurstCompile]
+  public static int Sum(int a, int b) => a + b;
+
+  public static readonly BurstFunc<int, int, int> SumFunc = BurstFunc<int, int, int>.Compile(Sum);
 
   public static int SumSomeNumbers(int[] numbers)
   {
     using(var input = new NativeArray<int>(numbers, Allocator.Persistent))
     using(var output = new NativeArray<int>(1, Allocator.Persistent))
     {
-      var sum = ValueFunc<int, int, int>.New<SumFunc>();
-      var job = new AggregateJob<SumFunc> { Aggregator = sum, Input = input, Output = output };
+      var job = new AggregateJob<BurstFunc<int, int, int>>
+      {
+        Aggregator = SumFunc, // BurstFunc has an implicit operator to ValueFunc
+        Input = input,
+        Output = output
+      };
       job.Run();
       return output[0];
     }
