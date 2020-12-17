@@ -3,6 +3,13 @@ All notable changes to this package will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+# [1.2.0-preview.5](https://github.com/CareBoo/Burst.Delegates/compare/v1.2.0-preview.4...v1.2.0-preview.5) (2020-12-17)
+
+
+### Bug Fixes
+
+* :bug: Fix missing dependency ([369826a](https://github.com/CareBoo/Burst.Delegates/commit/369826ad174b42c4b8406b84d79c648be0084aa5))
+
 # [1.2.0-preview.4](https://github.com/CareBoo/Burst.Delegates/compare/v1.2.0-preview.3...v1.2.0-preview.4) (2020-12-16)
 
 
