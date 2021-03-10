@@ -3,9 +3,9 @@
   "displayName": "Burst.Delegates",
   "version": "1.2.0-preview.5",
   "unity": "2020.1",
-  "description": "Replace this string with your own description of the package. This description appears in the Package Manager window when the user selects this package from the list. \n\nFor best results, use this text to summarize: \n\u25aa What the package does \n\u25aa How it can benefit the user \n\nNote: Special formatting characters are supported, including line breaks ('\\n') and bullets ('\\u25AA').",
+  "description": "Burst supported delegates for functional-style jobs.\n\nIncludes:\n- Action and Func interface for defining APIs\n- ValueAction and ValueFunc for implementing IAction and IFunc interfaces with structs\n- BurstAction and BurstFunc which is a generic-supported wrapper around FunctionPointer",
   "dependencies": {
-    "com.unity.burst": "1.5.0-pre.3"
+    "com.unity.burst": "1.5.0"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/@careboo"
