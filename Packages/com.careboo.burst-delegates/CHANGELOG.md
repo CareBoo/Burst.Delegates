@@ -3,6 +3,22 @@ All notable changes to this package will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+# [1.2.0](https://github.com/CareBoo/Burst.Delegates/compare/v1.1.0...v1.2.0) (2021-03-10)
+
+
+### Bug Fixes
+
+* :bug: Fix BurstAction and BurstFunc so they don't throw exceptions ([8c7cc97](https://github.com/CareBoo/Burst.Delegates/commit/8c7cc97609f79700ce2485a5bfc000fc9f77600e))
+* :bug: Fix missing dependency ([c84691a](https://github.com/CareBoo/Burst.Delegates/commit/c84691a29039d5bfadbc1e913145d26583489604))
+
+
+### Features
+
+* :sparkles: Add Compile implementation to Value Delegates ([24271cd](https://github.com/CareBoo/Burst.Delegates/commit/24271cd36aa308f57a8ee81c17e160e1e3fae54a))
+* :sparkles: Add FunctionPointer compatible Value Delegates ([5538a6f](https://github.com/CareBoo/Burst.Delegates/commit/5538a6f44e9b0e72a7e73b33a45f47b66276016f))
+* :sparkles: Add implicit conversion between BurstDelegates and ValueDelegates ([5d0f915](https://github.com/CareBoo/Burst.Delegates/commit/5d0f91533e36cc5df9f8d2deb4b36a9a824a8bd7))
+* :sparkles: Introduce working generic FuncPointer ([8c8be4f](https://github.com/CareBoo/Burst.Delegates/commit/8c8be4f55b5471c516182cb0db187761ddc9b42d))
+
 # [1.2.0-preview.5](https://github.com/CareBoo/Burst.Delegates/compare/v1.2.0-preview.4...v1.2.0-preview.5) (2020-12-17)
 
 
