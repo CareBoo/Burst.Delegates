@@ -10,294 +10,103 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System;
 using Unity.Burst;
+using System;
 
 namespace CareBoo.Burst.Delegates
 {
 
-    public struct BurstFunc<TResult>
-        : IFunc<TResult>
+    public unsafe struct BurstFunc<TResult> //: IFunc<TResult>
         where TResult : struct
     {
-        readonly FunctionPointer<Func<TResult>> functionPointer;
+        //delegate*<TResult> _ptr;
 
-        bool burstEnabled;
+        //BurstFunc(delegate*<TResult> ptr) => _ptr = ptr;
 
-        TResult value;
+        //public TResult Invoke() => _ptr();
 
-        public BurstFunc(FunctionPointer<Func<TResult>> functionPointer)
-        {
-            this.functionPointer = functionPointer;
-            burstEnabled = true;
-            value = default;
-        }
-
-        public TResult Invoke()
-        {
-            CheckBurst();
-            Unity.Burst.CompilerServices.Hint.Assume(burstEnabled);
-
-            if (burstEnabled)
-                return functionPointer.Invoke();
-            else
-                return value;
-        }
-
-        [BurstDiscard]
-        private void CheckBurst()
-        {
-            burstEnabled = false;
-            value = DelegateCache<Func<TResult>>.GetDelegate(functionPointer.Value).Invoke();
-        }
-
-        public static BurstFunc<TResult> Compile(Func<TResult> func)
-        {
-            var functionPointer = BurstCompiler.CompileFunctionPointer(func);
-            DelegateCache<Func<TResult>>.SetDelegate(functionPointer.Value, func);
-            return new BurstFunc<TResult>(functionPointer);
-        }
-
-        public static implicit operator ValueFunc<TResult>.Struct<BurstFunc<TResult>>(BurstFunc<TResult> burstFunc)
-        {
-            return ValueFunc<TResult>.New(burstFunc);
-        }
-
-        public static implicit operator BurstFunc<TResult>(ValueFunc<TResult>.Struct<BurstFunc<TResult>> valueFunc)
-        {
-            return valueFunc.lambda;
-        }
+        //public static BurstFunc<TResult> Compile(Func<TResult> func)
+        //{
+        //    var ptr = BurstCompiler.CompileFunctionPointer(func).Value;
+        //    return new BurstFunc<TResult>((delegate*<TResult>)ptr);
+        //}
     }
 
-
-    public struct BurstFunc<T, TResult>
-        : IFunc<T, TResult>
+    public unsafe struct BurstFunc<T, TResult> //: IFunc<T, TResult>
         where T : struct
         where TResult : struct
     {
-        readonly FunctionPointer<Func<T, TResult>> functionPointer;
+        //delegate*<T, TResult> _ptr;
 
-        bool burstEnabled;
+        //BurstFunc(delegate*<T, TResult> ptr) => _ptr = ptr;
 
-        TResult value;
+        //public TResult Invoke(T arg0) => _ptr(arg0);
 
-        public BurstFunc(FunctionPointer<Func<T, TResult>> functionPointer)
-        {
-            this.functionPointer = functionPointer;
-            burstEnabled = true;
-            value = default;
-        }
-
-        public TResult Invoke(T arg0)
-        {
-            CheckBurst(arg0);
-            Unity.Burst.CompilerServices.Hint.Assume(burstEnabled);
-
-            if (burstEnabled)
-                return functionPointer.Invoke(arg0);
-            else
-                return value;
-        }
-
-        [BurstDiscard]
-        private void CheckBurst(T arg0)
-        {
-            burstEnabled = false;
-            value = DelegateCache<Func<T, TResult>>.GetDelegate(functionPointer.Value).Invoke(arg0);
-        }
-
-        public static BurstFunc<T, TResult> Compile(Func<T, TResult> func)
-        {
-            var functionPointer = BurstCompiler.CompileFunctionPointer(func);
-            DelegateCache<Func<T, TResult>>.SetDelegate(functionPointer.Value, func);
-            return new BurstFunc<T, TResult>(functionPointer);
-        }
-
-        public static implicit operator ValueFunc<T, TResult>.Struct<BurstFunc<T, TResult>>(BurstFunc<T, TResult> burstFunc)
-        {
-            return ValueFunc<T, TResult>.New(burstFunc);
-        }
-
-        public static implicit operator BurstFunc<T, TResult>(ValueFunc<T, TResult>.Struct<BurstFunc<T, TResult>> valueFunc)
-        {
-            return valueFunc.lambda;
-        }
+        //public static BurstFunc<T, TResult> Compile(Func<T, TResult> func)
+        //{
+        //    var ptr = BurstCompiler.CompileFunctionPointer(func).Value;
+        //    return new BurstFunc<T, TResult>((delegate*<T, TResult>)ptr);
+        //}
     }
 
-
-    public struct BurstFunc<T, U, TResult>
-        : IFunc<T, U, TResult>
+    public unsafe struct BurstFunc<T, U, TResult> //: IFunc<T, U, TResult>
         where T : struct
         where U : struct
         where TResult : struct
     {
-        readonly FunctionPointer<Func<T, U, TResult>> functionPointer;
+        //delegate*<T, U, TResult> _ptr;
 
-        bool burstEnabled;
+        //BurstFunc(delegate*<T, U, TResult> ptr) => _ptr = ptr;
 
-        TResult value;
+        //public TResult Invoke(T arg0, U arg1) => _ptr(arg0, arg1);
 
-        public BurstFunc(FunctionPointer<Func<T, U, TResult>> functionPointer)
-        {
-            this.functionPointer = functionPointer;
-            burstEnabled = true;
-            value = default;
-        }
-
-        public TResult Invoke(T arg0, U arg1)
-        {
-            CheckBurst(arg0, arg1);
-            Unity.Burst.CompilerServices.Hint.Assume(burstEnabled);
-
-            if (burstEnabled)
-                return functionPointer.Invoke(arg0, arg1);
-            else
-                return value;
-        }
-
-        [BurstDiscard]
-        private void CheckBurst(T arg0, U arg1)
-        {
-            burstEnabled = false;
-            value = DelegateCache<Func<T, U, TResult>>.GetDelegate(functionPointer.Value).Invoke(arg0, arg1);
-        }
-
-        public static BurstFunc<T, U, TResult> Compile(Func<T, U, TResult> func)
-        {
-            var functionPointer = BurstCompiler.CompileFunctionPointer(func);
-            DelegateCache<Func<T, U, TResult>>.SetDelegate(functionPointer.Value, func);
-            return new BurstFunc<T, U, TResult>(functionPointer);
-        }
-
-        public static implicit operator ValueFunc<T, U, TResult>.Struct<BurstFunc<T, U, TResult>>(BurstFunc<T, U, TResult> burstFunc)
-        {
-            return ValueFunc<T, U, TResult>.New(burstFunc);
-        }
-
-        public static implicit operator BurstFunc<T, U, TResult>(ValueFunc<T, U, TResult>.Struct<BurstFunc<T, U, TResult>> valueFunc)
-        {
-            return valueFunc.lambda;
-        }
+        //public static BurstFunc<T, U, TResult> Compile(Func<T, U, TResult> func)
+        //{
+        //    var ptr = BurstCompiler.CompileFunctionPointer(func).Value;
+        //    return new BurstFunc<T, U, TResult>((delegate*<T, U, TResult>)ptr);
+        //}
     }
 
-
-    public struct BurstFunc<T, U, V, TResult>
-        : IFunc<T, U, V, TResult>
+    public unsafe struct BurstFunc<T, U, V, TResult> //: IFunc<T, U, V, TResult>
         where T : struct
         where U : struct
         where V : struct
         where TResult : struct
     {
-        readonly FunctionPointer<Func<T, U, V, TResult>> functionPointer;
+        //delegate*<T, U, V, TResult> _ptr;
 
-        bool burstEnabled;
+        //BurstFunc(delegate*<T, U, V, TResult> ptr) => _ptr = ptr;
 
-        TResult value;
+        //public TResult Invoke(T arg0, U arg1, V arg2) => _ptr(arg0, arg1, arg2);
 
-        public BurstFunc(FunctionPointer<Func<T, U, V, TResult>> functionPointer)
-        {
-            this.functionPointer = functionPointer;
-            burstEnabled = true;
-            value = default;
-        }
-
-        public TResult Invoke(T arg0, U arg1, V arg2)
-        {
-            CheckBurst(arg0, arg1, arg2);
-            Unity.Burst.CompilerServices.Hint.Assume(burstEnabled);
-
-            if (burstEnabled)
-                return functionPointer.Invoke(arg0, arg1, arg2);
-            else
-                return value;
-        }
-
-        [BurstDiscard]
-        private void CheckBurst(T arg0, U arg1, V arg2)
-        {
-            burstEnabled = false;
-            value = DelegateCache<Func<T, U, V, TResult>>.GetDelegate(functionPointer.Value).Invoke(arg0, arg1, arg2);
-        }
-
-        public static BurstFunc<T, U, V, TResult> Compile(Func<T, U, V, TResult> func)
-        {
-            var functionPointer = BurstCompiler.CompileFunctionPointer(func);
-            DelegateCache<Func<T, U, V, TResult>>.SetDelegate(functionPointer.Value, func);
-            return new BurstFunc<T, U, V, TResult>(functionPointer);
-        }
-
-        public static implicit operator ValueFunc<T, U, V, TResult>.Struct<BurstFunc<T, U, V, TResult>>(BurstFunc<T, U, V, TResult> burstFunc)
-        {
-            return ValueFunc<T, U, V, TResult>.New(burstFunc);
-        }
-
-        public static implicit operator BurstFunc<T, U, V, TResult>(ValueFunc<T, U, V, TResult>.Struct<BurstFunc<T, U, V, TResult>> valueFunc)
-        {
-            return valueFunc.lambda;
-        }
+        //public static BurstFunc<T, U, V, TResult> Compile(Func<T, U, V, TResult> func)
+        //{
+        //    var ptr = BurstCompiler.CompileFunctionPointer(func).Value;
+        //    return new BurstFunc<T, U, V, TResult>((delegate*<T, U, V, TResult>)ptr);
+        //}
     }
 
-
-    public struct BurstFunc<T, U, V, W, TResult>
-        : IFunc<T, U, V, W, TResult>
+    public unsafe struct BurstFunc<T, U, V, W, TResult> //: IFunc<T, U, V, W, TResult>
         where T : struct
         where U : struct
         where V : struct
         where W : struct
         where TResult : struct
     {
-        readonly FunctionPointer<Func<T, U, V, W, TResult>> functionPointer;
+        //delegate*<T, U, V, W, TResult> _ptr;
 
-        bool burstEnabled;
+        //BurstFunc(delegate*<T, U, V, W, TResult> ptr) => _ptr = ptr;
 
-        TResult value;
+        //public TResult Invoke(T arg0, U arg1, V arg2, W arg3) => _ptr(arg0, arg1, arg2, arg3);
 
-        public BurstFunc(FunctionPointer<Func<T, U, V, W, TResult>> functionPointer)
-        {
-            this.functionPointer = functionPointer;
-            burstEnabled = true;
-            value = default;
-        }
-
-        public TResult Invoke(T arg0, U arg1, V arg2, W arg3)
-        {
-            CheckBurst(arg0, arg1, arg2, arg3);
-            Unity.Burst.CompilerServices.Hint.Assume(burstEnabled);
-
-            if (burstEnabled)
-                return functionPointer.Invoke(arg0, arg1, arg2, arg3);
-            else
-                return value;
-        }
-
-        [BurstDiscard]
-        private void CheckBurst(T arg0, U arg1, V arg2, W arg3)
-        {
-            burstEnabled = false;
-            value = DelegateCache<Func<T, U, V, W, TResult>>.GetDelegate(functionPointer.Value).Invoke(arg0, arg1, arg2, arg3);
-        }
-
-        public static BurstFunc<T, U, V, W, TResult> Compile(Func<T, U, V, W, TResult> func)
-        {
-            var functionPointer = BurstCompiler.CompileFunctionPointer(func);
-            DelegateCache<Func<T, U, V, W, TResult>>.SetDelegate(functionPointer.Value, func);
-            return new BurstFunc<T, U, V, W, TResult>(functionPointer);
-        }
-
-        public static implicit operator ValueFunc<T, U, V, W, TResult>.Struct<BurstFunc<T, U, V, W, TResult>>(BurstFunc<T, U, V, W, TResult> burstFunc)
-        {
-            return ValueFunc<T, U, V, W, TResult>.New(burstFunc);
-        }
-
-        public static implicit operator BurstFunc<T, U, V, W, TResult>(ValueFunc<T, U, V, W, TResult>.Struct<BurstFunc<T, U, V, W, TResult>> valueFunc)
-        {
-            return valueFunc.lambda;
-        }
+        //public static BurstFunc<T, U, V, W, TResult> Compile(Func<T, U, V, W, TResult> func)
+        //{
+        //    var ptr = BurstCompiler.CompileFunctionPointer(func).Value;
+        //    return new BurstFunc<T, U, V, W, TResult>((delegate*<T, U, V, W, TResult>)ptr);
+        //}
     }
 
-
-    public struct BurstFunc<T, U, V, W, X, TResult>
-        : IFunc<T, U, V, W, X, TResult>
+    public unsafe struct BurstFunc<T, U, V, W, X, TResult> //: IFunc<T, U, V, W, X, TResult>
         where T : struct
         where U : struct
         where V : struct
@@ -305,58 +114,20 @@ namespace CareBoo.Burst.Delegates
         where X : struct
         where TResult : struct
     {
-        readonly FunctionPointer<Func<T, U, V, W, X, TResult>> functionPointer;
+        //delegate*<T, U, V, W, X, TResult> _ptr;
 
-        bool burstEnabled;
+        //BurstFunc(delegate*<T, U, V, W, X, TResult> ptr) => _ptr = ptr;
 
-        TResult value;
+        //public TResult Invoke(T arg0, U arg1, V arg2, W arg3, X arg4) => _ptr(arg0, arg1, arg2, arg3, arg4);
 
-        public BurstFunc(FunctionPointer<Func<T, U, V, W, X, TResult>> functionPointer)
-        {
-            this.functionPointer = functionPointer;
-            burstEnabled = true;
-            value = default;
-        }
-
-        public TResult Invoke(T arg0, U arg1, V arg2, W arg3, X arg4)
-        {
-            CheckBurst(arg0, arg1, arg2, arg3, arg4);
-            Unity.Burst.CompilerServices.Hint.Assume(burstEnabled);
-
-            if (burstEnabled)
-                return functionPointer.Invoke(arg0, arg1, arg2, arg3, arg4);
-            else
-                return value;
-        }
-
-        [BurstDiscard]
-        private void CheckBurst(T arg0, U arg1, V arg2, W arg3, X arg4)
-        {
-            burstEnabled = false;
-            value = DelegateCache<Func<T, U, V, W, X, TResult>>.GetDelegate(functionPointer.Value).Invoke(arg0, arg1, arg2, arg3, arg4);
-        }
-
-        public static BurstFunc<T, U, V, W, X, TResult> Compile(Func<T, U, V, W, X, TResult> func)
-        {
-            var functionPointer = BurstCompiler.CompileFunctionPointer(func);
-            DelegateCache<Func<T, U, V, W, X, TResult>>.SetDelegate(functionPointer.Value, func);
-            return new BurstFunc<T, U, V, W, X, TResult>(functionPointer);
-        }
-
-        public static implicit operator ValueFunc<T, U, V, W, X, TResult>.Struct<BurstFunc<T, U, V, W, X, TResult>>(BurstFunc<T, U, V, W, X, TResult> burstFunc)
-        {
-            return ValueFunc<T, U, V, W, X, TResult>.New(burstFunc);
-        }
-
-        public static implicit operator BurstFunc<T, U, V, W, X, TResult>(ValueFunc<T, U, V, W, X, TResult>.Struct<BurstFunc<T, U, V, W, X, TResult>> valueFunc)
-        {
-            return valueFunc.lambda;
-        }
+        //public static BurstFunc<T, U, V, W, X, TResult> Compile(Func<T, U, V, W, X, TResult> func)
+        //{
+        //    var ptr = BurstCompiler.CompileFunctionPointer(func).Value;
+        //    return new BurstFunc<T, U, V, W, X, TResult>((delegate*<T, U, V, W, X, TResult>)ptr);
+        //}
     }
 
-
-    public struct BurstFunc<T, U, V, W, X, Y, TResult>
-        : IFunc<T, U, V, W, X, Y, TResult>
+    public unsafe struct BurstFunc<T, U, V, W, X, Y, TResult> //: IFunc<T, U, V, W, X, Y, TResult>
         where T : struct
         where U : struct
         where V : struct
@@ -365,58 +136,20 @@ namespace CareBoo.Burst.Delegates
         where Y : struct
         where TResult : struct
     {
-        readonly FunctionPointer<Func<T, U, V, W, X, Y, TResult>> functionPointer;
+        //delegate*<T, U, V, W, X, Y, TResult> _ptr;
 
-        bool burstEnabled;
+        //BurstFunc(delegate*<T, U, V, W, X, Y, TResult> ptr) => _ptr = ptr;
 
-        TResult value;
+        //public TResult Invoke(T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5) => _ptr(arg0, arg1, arg2, arg3, arg4, arg5);
 
-        public BurstFunc(FunctionPointer<Func<T, U, V, W, X, Y, TResult>> functionPointer)
-        {
-            this.functionPointer = functionPointer;
-            burstEnabled = true;
-            value = default;
-        }
-
-        public TResult Invoke(T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5)
-        {
-            CheckBurst(arg0, arg1, arg2, arg3, arg4, arg5);
-            Unity.Burst.CompilerServices.Hint.Assume(burstEnabled);
-
-            if (burstEnabled)
-                return functionPointer.Invoke(arg0, arg1, arg2, arg3, arg4, arg5);
-            else
-                return value;
-        }
-
-        [BurstDiscard]
-        private void CheckBurst(T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5)
-        {
-            burstEnabled = false;
-            value = DelegateCache<Func<T, U, V, W, X, Y, TResult>>.GetDelegate(functionPointer.Value).Invoke(arg0, arg1, arg2, arg3, arg4, arg5);
-        }
-
-        public static BurstFunc<T, U, V, W, X, Y, TResult> Compile(Func<T, U, V, W, X, Y, TResult> func)
-        {
-            var functionPointer = BurstCompiler.CompileFunctionPointer(func);
-            DelegateCache<Func<T, U, V, W, X, Y, TResult>>.SetDelegate(functionPointer.Value, func);
-            return new BurstFunc<T, U, V, W, X, Y, TResult>(functionPointer);
-        }
-
-        public static implicit operator ValueFunc<T, U, V, W, X, Y, TResult>.Struct<BurstFunc<T, U, V, W, X, Y, TResult>>(BurstFunc<T, U, V, W, X, Y, TResult> burstFunc)
-        {
-            return ValueFunc<T, U, V, W, X, Y, TResult>.New(burstFunc);
-        }
-
-        public static implicit operator BurstFunc<T, U, V, W, X, Y, TResult>(ValueFunc<T, U, V, W, X, Y, TResult>.Struct<BurstFunc<T, U, V, W, X, Y, TResult>> valueFunc)
-        {
-            return valueFunc.lambda;
-        }
+        //public static BurstFunc<T, U, V, W, X, Y, TResult> Compile(Func<T, U, V, W, X, Y, TResult> func)
+        //{
+        //    var ptr = BurstCompiler.CompileFunctionPointer(func).Value;
+        //    return new BurstFunc<T, U, V, W, X, Y, TResult>((delegate*<T, U, V, W, X, Y, TResult>)ptr);
+        //}
     }
 
-
-    public struct BurstFunc<T, U, V, W, X, Y, Z, TResult>
-        : IFunc<T, U, V, W, X, Y, Z, TResult>
+    public unsafe struct BurstFunc<T, U, V, W, X, Y, Z, TResult> //: IFunc<T, U, V, W, X, Y, Z, TResult>
         where T : struct
         where U : struct
         where V : struct
@@ -426,54 +159,17 @@ namespace CareBoo.Burst.Delegates
         where Z : struct
         where TResult : struct
     {
-        readonly FunctionPointer<Func<T, U, V, W, X, Y, Z, TResult>> functionPointer;
+        //delegate*<T, U, V, W, X, Y, Z, TResult> _ptr;
 
-        bool burstEnabled;
+        //BurstFunc(delegate*<T, U, V, W, X, Y, Z, TResult> ptr) => _ptr = ptr;
 
-        TResult value;
+        //public TResult Invoke(T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5, Z arg6) => _ptr(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
 
-        public BurstFunc(FunctionPointer<Func<T, U, V, W, X, Y, Z, TResult>> functionPointer)
-        {
-            this.functionPointer = functionPointer;
-            burstEnabled = true;
-            value = default;
-        }
-
-        public TResult Invoke(T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5, Z arg6)
-        {
-            CheckBurst(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
-            Unity.Burst.CompilerServices.Hint.Assume(burstEnabled);
-
-            if (burstEnabled)
-                return functionPointer.Invoke(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
-            else
-                return value;
-        }
-
-        [BurstDiscard]
-        private void CheckBurst(T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5, Z arg6)
-        {
-            burstEnabled = false;
-            value = DelegateCache<Func<T, U, V, W, X, Y, Z, TResult>>.GetDelegate(functionPointer.Value).Invoke(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
-        }
-
-        public static BurstFunc<T, U, V, W, X, Y, Z, TResult> Compile(Func<T, U, V, W, X, Y, Z, TResult> func)
-        {
-            var functionPointer = BurstCompiler.CompileFunctionPointer(func);
-            DelegateCache<Func<T, U, V, W, X, Y, Z, TResult>>.SetDelegate(functionPointer.Value, func);
-            return new BurstFunc<T, U, V, W, X, Y, Z, TResult>(functionPointer);
-        }
-
-        public static implicit operator ValueFunc<T, U, V, W, X, Y, Z, TResult>.Struct<BurstFunc<T, U, V, W, X, Y, Z, TResult>>(BurstFunc<T, U, V, W, X, Y, Z, TResult> burstFunc)
-        {
-            return ValueFunc<T, U, V, W, X, Y, Z, TResult>.New(burstFunc);
-        }
-
-        public static implicit operator BurstFunc<T, U, V, W, X, Y, Z, TResult>(ValueFunc<T, U, V, W, X, Y, Z, TResult>.Struct<BurstFunc<T, U, V, W, X, Y, Z, TResult>> valueFunc)
-        {
-            return valueFunc.lambda;
-        }
+        //public static BurstFunc<T, U, V, W, X, Y, Z, TResult> Compile(Func<T, U, V, W, X, Y, Z, TResult> func)
+        //{
+        //    var ptr = BurstCompiler.CompileFunctionPointer(func).Value;
+        //    return new BurstFunc<T, U, V, W, X, Y, Z, TResult>((delegate*<T, U, V, W, X, Y, Z, TResult>)ptr);
+        //}
     }
-
 
 }
