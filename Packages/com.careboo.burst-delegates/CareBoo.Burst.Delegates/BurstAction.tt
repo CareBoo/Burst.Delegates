@@ -10,8 +10,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System;
 using Unity.Burst;
+using System;
 
 namespace CareBoo.Burst.Delegates
 {
@@ -37,57 +37,26 @@ for (var i = 0; i < GENERIC_PARAMS.Length; i++)
     }
 
     var GENERIC_DEF = i > 0 ? $"<{string.Join(", ", GENERIC_PARAMS.Skip(1).Take(i))}>" : "";
+    var GENERIC_DEF_VOID = i > 0 ? $"<{string.Join(", ", GENERIC_PARAMS.Skip(1).Take(i))}, void>" : "<void>";
     var GENERIC_ARGS_TYPED = string.Join(", ", GENERIC_PARAMS.Skip(1).Take(i).Select((t, n) => $"{t} arg{n}"));
     var GENERIC_ARGS = string.Join(", ", GENERIC_PARAMS.Skip(1).Take(i).Select((t, n) => $"arg{n}"));
 
 #>
-    public struct BurstAction<#=GENERIC_DEF#>
-        : IAction<#=GENERIC_DEF#><#=GENERIC_CONSTRAINTS#>
+    public unsafe struct BurstAction<#=GENERIC_DEF#> //: IAction<#=GENERIC_DEF#>
+        <#=GENERIC_CONSTRAINTS#>
     {
-        readonly FunctionPointer<Action<#=GENERIC_DEF#>> functionPointer;
+        //delegate*<#=GENERIC_DEF_VOID#> _ptr;
 
-        bool burstEnabled;
+        //BurstAction(delegate*<#=GENERIC_DEF_VOID#> ptr) => _ptr = ptr;
 
-        public BurstAction(FunctionPointer<Action<#=GENERIC_DEF#>> functionPointer)
-        {
-            this.functionPointer = functionPointer;
-            burstEnabled = true;
-        }
+        //public void Invoke(<#=GENERIC_ARGS_TYPED#>) => _ptr(<#=GENERIC_ARGS#>);
 
-        public void Invoke(<#=GENERIC_ARGS_TYPED#>)
-        {
-            CheckBurst(<#=GENERIC_ARGS#>);
-
-            Unity.Burst.CompilerServices.Hint.Assume(burstEnabled);
-            if (burstEnabled)
-                functionPointer.Invoke(<#=GENERIC_ARGS#>);
-        }
-
-        [BurstDiscard]
-        private void CheckBurst(<#=GENERIC_ARGS_TYPED#>)
-        {
-            burstEnabled = false;
-            DelegateCache<Action<#=GENERIC_DEF#>>.GetDelegate(functionPointer.Value).Invoke(<#=GENERIC_ARGS#>);
-        }
-
-        public static BurstAction<#=GENERIC_DEF#> Compile(Action<#=GENERIC_DEF#> action)
-        {
-            var functionPointer = BurstCompiler.CompileFunctionPointer(action);
-            DelegateCache<Action<#=GENERIC_DEF#>>.SetDelegate(functionPointer.Value, action);
-            return new BurstAction<#=GENERIC_DEF#>(functionPointer);
-        }
-
-        public static implicit operator ValueAction<#=GENERIC_DEF#>.Struct<BurstAction<#=GENERIC_DEF#>>(BurstAction<#=GENERIC_DEF#> burstAction)
-        {
-            return ValueAction<#=GENERIC_DEF#>.New(burstAction);
-        }
-
-        public static implicit operator BurstAction<#=GENERIC_DEF#>(ValueAction<#=GENERIC_DEF#>.Struct<BurstAction<#=GENERIC_DEF#>> valueAction)
-        {
-            return valueAction.lambda;
-        }
+        //public static BurstAction<#=GENERIC_DEF#> Compile(Action<#=GENERIC_DEF#> action)
+        //{
+         //   var ptr = BurstCompiler.CompileFunctionPointer(action).Value;
+        //    return new BurstAction<#=GENERIC_DEF#>((delegate*<#=GENERIC_DEF_VOID#>)ptr);
+        //}
     }
-
 <#
 }
 #>
