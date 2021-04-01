@@ -1,14 +1,13 @@
 {
   "dependencies": {
-    "com.unity.burst": "1.5.0",
-    "com.unity.entities": "0.17.0-preview.41",
+    "com.unity.burst": "1.5.1",
     "com.unity.ide.vscode": "1.2.3",
     "com.unity.package-validation-suite": "0.19.3-preview",
     "com.unity.settings-manager": "1.0.3",
     "com.unity.test-framework": "1.1.24",
     "com.unity.test-framework.performance": "2.8.0-preview",
     "com.unity.testtools.codecoverage": "1.0.0",
-    "com.unity.upm.develop": "0.3.0",
+    "com.unity.upm.develop": "0.4.0",
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.androidjni": "1.0.0",
     "com.unity.modules.animation": "1.0.0",
