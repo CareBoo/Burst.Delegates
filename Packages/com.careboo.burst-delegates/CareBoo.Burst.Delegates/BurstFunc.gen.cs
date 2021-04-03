@@ -33,8 +33,7 @@ namespace CareBoo.Burst.Delegates
 
         public static BurstFunc<TResult> Compile(Func<TResult> func)
         {
-            var ptr = BurstCompiler.CompileFunctionPointer(func).Value;
-            return new BurstFunc<TResult>(ptr);
+            return BurstCompiler.CompileFunctionPointer(func);
         }
 
         public static implicit operator BurstFunc<TResult>(delegate*<TResult> ptr)
@@ -45,6 +44,16 @@ namespace CareBoo.Burst.Delegates
         public static implicit operator delegate*<TResult>(BurstFunc<TResult> burstFunc)
         {
             return (delegate*<TResult>)burstFunc._ptr;
+        }
+
+        public static implicit operator BurstFunc<TResult>(FunctionPointer<Func<TResult>> unityFunctionPointer)
+        {
+            return new BurstFunc<TResult>(unityFunctionPointer.Value);
+        }
+
+        public static implicit operator FunctionPointer<Func<TResult>>(BurstFunc<TResult> burstFunc)
+        {
+            return new FunctionPointer<Func<TResult>>(burstFunc._ptr);
         }
     }
 
@@ -65,8 +74,7 @@ namespace CareBoo.Burst.Delegates
 
         public static BurstFunc<T, TResult> Compile(Func<T, TResult> func)
         {
-            var ptr = BurstCompiler.CompileFunctionPointer(func).Value;
-            return new BurstFunc<T, TResult>(ptr);
+            return BurstCompiler.CompileFunctionPointer(func);
         }
 
         public static implicit operator BurstFunc<T, TResult>(delegate*<T, TResult> ptr)
@@ -77,6 +85,16 @@ namespace CareBoo.Burst.Delegates
         public static implicit operator delegate*<T, TResult>(BurstFunc<T, TResult> burstFunc)
         {
             return (delegate*<T, TResult>)burstFunc._ptr;
+        }
+
+        public static implicit operator BurstFunc<T, TResult>(FunctionPointer<Func<T, TResult>> unityFunctionPointer)
+        {
+            return new BurstFunc<T, TResult>(unityFunctionPointer.Value);
+        }
+
+        public static implicit operator FunctionPointer<Func<T, TResult>>(BurstFunc<T, TResult> burstFunc)
+        {
+            return new FunctionPointer<Func<T, TResult>>(burstFunc._ptr);
         }
     }
 
@@ -98,8 +116,7 @@ namespace CareBoo.Burst.Delegates
 
         public static BurstFunc<T, U, TResult> Compile(Func<T, U, TResult> func)
         {
-            var ptr = BurstCompiler.CompileFunctionPointer(func).Value;
-            return new BurstFunc<T, U, TResult>(ptr);
+            return BurstCompiler.CompileFunctionPointer(func);
         }
 
         public static implicit operator BurstFunc<T, U, TResult>(delegate*<T, U, TResult> ptr)
@@ -110,6 +127,16 @@ namespace CareBoo.Burst.Delegates
         public static implicit operator delegate*<T, U, TResult>(BurstFunc<T, U, TResult> burstFunc)
         {
             return (delegate*<T, U, TResult>)burstFunc._ptr;
+        }
+
+        public static implicit operator BurstFunc<T, U, TResult>(FunctionPointer<Func<T, U, TResult>> unityFunctionPointer)
+        {
+            return new BurstFunc<T, U, TResult>(unityFunctionPointer.Value);
+        }
+
+        public static implicit operator FunctionPointer<Func<T, U, TResult>>(BurstFunc<T, U, TResult> burstFunc)
+        {
+            return new FunctionPointer<Func<T, U, TResult>>(burstFunc._ptr);
         }
     }
 
@@ -132,8 +159,7 @@ namespace CareBoo.Burst.Delegates
 
         public static BurstFunc<T, U, V, TResult> Compile(Func<T, U, V, TResult> func)
         {
-            var ptr = BurstCompiler.CompileFunctionPointer(func).Value;
-            return new BurstFunc<T, U, V, TResult>(ptr);
+            return BurstCompiler.CompileFunctionPointer(func);
         }
 
         public static implicit operator BurstFunc<T, U, V, TResult>(delegate*<T, U, V, TResult> ptr)
@@ -144,6 +170,16 @@ namespace CareBoo.Burst.Delegates
         public static implicit operator delegate*<T, U, V, TResult>(BurstFunc<T, U, V, TResult> burstFunc)
         {
             return (delegate*<T, U, V, TResult>)burstFunc._ptr;
+        }
+
+        public static implicit operator BurstFunc<T, U, V, TResult>(FunctionPointer<Func<T, U, V, TResult>> unityFunctionPointer)
+        {
+            return new BurstFunc<T, U, V, TResult>(unityFunctionPointer.Value);
+        }
+
+        public static implicit operator FunctionPointer<Func<T, U, V, TResult>>(BurstFunc<T, U, V, TResult> burstFunc)
+        {
+            return new FunctionPointer<Func<T, U, V, TResult>>(burstFunc._ptr);
         }
     }
 
@@ -167,8 +203,7 @@ namespace CareBoo.Burst.Delegates
 
         public static BurstFunc<T, U, V, W, TResult> Compile(Func<T, U, V, W, TResult> func)
         {
-            var ptr = BurstCompiler.CompileFunctionPointer(func).Value;
-            return new BurstFunc<T, U, V, W, TResult>(ptr);
+            return BurstCompiler.CompileFunctionPointer(func);
         }
 
         public static implicit operator BurstFunc<T, U, V, W, TResult>(delegate*<T, U, V, W, TResult> ptr)
@@ -179,6 +214,16 @@ namespace CareBoo.Burst.Delegates
         public static implicit operator delegate*<T, U, V, W, TResult>(BurstFunc<T, U, V, W, TResult> burstFunc)
         {
             return (delegate*<T, U, V, W, TResult>)burstFunc._ptr;
+        }
+
+        public static implicit operator BurstFunc<T, U, V, W, TResult>(FunctionPointer<Func<T, U, V, W, TResult>> unityFunctionPointer)
+        {
+            return new BurstFunc<T, U, V, W, TResult>(unityFunctionPointer.Value);
+        }
+
+        public static implicit operator FunctionPointer<Func<T, U, V, W, TResult>>(BurstFunc<T, U, V, W, TResult> burstFunc)
+        {
+            return new FunctionPointer<Func<T, U, V, W, TResult>>(burstFunc._ptr);
         }
     }
 
@@ -203,8 +248,7 @@ namespace CareBoo.Burst.Delegates
 
         public static BurstFunc<T, U, V, W, X, TResult> Compile(Func<T, U, V, W, X, TResult> func)
         {
-            var ptr = BurstCompiler.CompileFunctionPointer(func).Value;
-            return new BurstFunc<T, U, V, W, X, TResult>(ptr);
+            return BurstCompiler.CompileFunctionPointer(func);
         }
 
         public static implicit operator BurstFunc<T, U, V, W, X, TResult>(delegate*<T, U, V, W, X, TResult> ptr)
@@ -215,6 +259,16 @@ namespace CareBoo.Burst.Delegates
         public static implicit operator delegate*<T, U, V, W, X, TResult>(BurstFunc<T, U, V, W, X, TResult> burstFunc)
         {
             return (delegate*<T, U, V, W, X, TResult>)burstFunc._ptr;
+        }
+
+        public static implicit operator BurstFunc<T, U, V, W, X, TResult>(FunctionPointer<Func<T, U, V, W, X, TResult>> unityFunctionPointer)
+        {
+            return new BurstFunc<T, U, V, W, X, TResult>(unityFunctionPointer.Value);
+        }
+
+        public static implicit operator FunctionPointer<Func<T, U, V, W, X, TResult>>(BurstFunc<T, U, V, W, X, TResult> burstFunc)
+        {
+            return new FunctionPointer<Func<T, U, V, W, X, TResult>>(burstFunc._ptr);
         }
     }
 
@@ -240,8 +294,7 @@ namespace CareBoo.Burst.Delegates
 
         public static BurstFunc<T, U, V, W, X, Y, TResult> Compile(Func<T, U, V, W, X, Y, TResult> func)
         {
-            var ptr = BurstCompiler.CompileFunctionPointer(func).Value;
-            return new BurstFunc<T, U, V, W, X, Y, TResult>(ptr);
+            return BurstCompiler.CompileFunctionPointer(func);
         }
 
         public static implicit operator BurstFunc<T, U, V, W, X, Y, TResult>(delegate*<T, U, V, W, X, Y, TResult> ptr)
@@ -252,6 +305,16 @@ namespace CareBoo.Burst.Delegates
         public static implicit operator delegate*<T, U, V, W, X, Y, TResult>(BurstFunc<T, U, V, W, X, Y, TResult> burstFunc)
         {
             return (delegate*<T, U, V, W, X, Y, TResult>)burstFunc._ptr;
+        }
+
+        public static implicit operator BurstFunc<T, U, V, W, X, Y, TResult>(FunctionPointer<Func<T, U, V, W, X, Y, TResult>> unityFunctionPointer)
+        {
+            return new BurstFunc<T, U, V, W, X, Y, TResult>(unityFunctionPointer.Value);
+        }
+
+        public static implicit operator FunctionPointer<Func<T, U, V, W, X, Y, TResult>>(BurstFunc<T, U, V, W, X, Y, TResult> burstFunc)
+        {
+            return new FunctionPointer<Func<T, U, V, W, X, Y, TResult>>(burstFunc._ptr);
         }
     }
 
@@ -278,8 +341,7 @@ namespace CareBoo.Burst.Delegates
 
         public static BurstFunc<T, U, V, W, X, Y, Z, TResult> Compile(Func<T, U, V, W, X, Y, Z, TResult> func)
         {
-            var ptr = BurstCompiler.CompileFunctionPointer(func).Value;
-            return new BurstFunc<T, U, V, W, X, Y, Z, TResult>(ptr);
+            return BurstCompiler.CompileFunctionPointer(func);
         }
 
         public static implicit operator BurstFunc<T, U, V, W, X, Y, Z, TResult>(delegate*<T, U, V, W, X, Y, Z, TResult> ptr)
@@ -290,6 +352,16 @@ namespace CareBoo.Burst.Delegates
         public static implicit operator delegate*<T, U, V, W, X, Y, Z, TResult>(BurstFunc<T, U, V, W, X, Y, Z, TResult> burstFunc)
         {
             return (delegate*<T, U, V, W, X, Y, Z, TResult>)burstFunc._ptr;
+        }
+
+        public static implicit operator BurstFunc<T, U, V, W, X, Y, Z, TResult>(FunctionPointer<Func<T, U, V, W, X, Y, Z, TResult>> unityFunctionPointer)
+        {
+            return new BurstFunc<T, U, V, W, X, Y, Z, TResult>(unityFunctionPointer.Value);
+        }
+
+        public static implicit operator FunctionPointer<Func<T, U, V, W, X, Y, Z, TResult>>(BurstFunc<T, U, V, W, X, Y, Z, TResult> burstFunc)
+        {
+            return new FunctionPointer<Func<T, U, V, W, X, Y, Z, TResult>>(burstFunc._ptr);
         }
     }
 

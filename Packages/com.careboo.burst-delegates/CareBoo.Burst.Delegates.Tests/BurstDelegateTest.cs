@@ -31,7 +31,7 @@ internal class BurstDelegateTests
     [BurstCompile]
     public static int Add4(int val) => val + 4;
 
-    public static unsafe readonly BurstFunc<int, int> Add4Func = new BurstFunc<int, int>(&Add4);
+    public static readonly BurstFunc<int, int> Add4Func = BurstFunc<int, int>.Compile(Add4);
 
     [Test]
     public void TestCompiledPointerCanInvokeInsideOfBurstedCode()
