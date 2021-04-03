@@ -3,6 +3,23 @@ All notable changes to this package will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+# [2.0.0-pre.1](https://github.com/CareBoo/Burst.Delegates/compare/v1.2.0...v2.0.0-pre.1) (2021-04-03)
+
+
+### Code Refactoring
+
+* :fire: Remove ValueFunc, ValueAction, and use new C# 9 function pointer syntax ([e5ea11a](https://github.com/CareBoo/Burst.Delegates/commit/e5ea11aca68bf824cfc2d055b5ef23ee2feb189a))
+
+
+### Performance Improvements
+
+* :zap: Use C# 9 function pointers ([bf91f66](https://github.com/CareBoo/Burst.Delegates/commit/bf91f66dca68720a09f453c603395e71a2392620))
+
+
+### BREAKING CHANGES
+
+* Removed ValueFunc, ValueAction
+
 # [1.2.0](https://github.com/CareBoo/Burst.Delegates/compare/v1.1.0...v1.2.0) (2021-03-10)
 
 
