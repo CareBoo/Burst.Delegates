@@ -61,8 +61,7 @@ for (var i = 0; i < GENERIC_PARAMS.Length; i++)
 
         public static BurstFunc<#=GENERIC_DEF#> Compile(Func<#=GENERIC_DEF#> func)
         {
-            var ptr = BurstCompiler.CompileFunctionPointer(func).Value;
-            return new BurstFunc<#=GENERIC_DEF#>(ptr);
+            return BurstCompiler.CompileFunctionPointer(func);
         }
 
         public static implicit operator BurstFunc<#=GENERIC_DEF#>(delegate*<#=GENERIC_DEF#> ptr)
@@ -73,6 +72,16 @@ for (var i = 0; i < GENERIC_PARAMS.Length; i++)
         public static implicit operator delegate*<#=GENERIC_DEF#>(BurstFunc<#=GENERIC_DEF#> burstFunc)
         {
             return (delegate*<#=GENERIC_DEF#>)burstFunc._ptr;
+        }
+
+        public static implicit operator BurstFunc<#=GENERIC_DEF#>(FunctionPointer<Func<#=GENERIC_DEF#>> unityFunctionPointer)
+        {
+            return new BurstFunc<#=GENERIC_DEF#>(unityFunctionPointer.Value);
+        }
+
+        public static implicit operator FunctionPointer<Func<#=GENERIC_DEF#>>(BurstFunc<#=GENERIC_DEF#> burstFunc)
+        {
+            return new FunctionPointer<Func<#=GENERIC_DEF#>>(burstFunc._ptr);
         }
     }
 <#
