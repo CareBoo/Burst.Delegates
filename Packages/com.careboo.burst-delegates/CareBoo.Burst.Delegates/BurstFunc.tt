@@ -10,6 +10,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using Unity.Collections.LowLevel.Unsafe;
 using Unity.Burst;
 using System;
 
@@ -47,17 +48,22 @@ for (var i = 0; i < GENERIC_PARAMS.Length; i++)
     public unsafe struct BurstFunc<#=GENERIC_DEF#> //: IFunc<#=GENERIC_DEF#>
         <#=GENERIC_CONSTRAINTS#>
     {
-        //delegate*<#=GENERIC_DEF#> _ptr;
+#if !UNITY_DOTSPLAYER
+        [NativeDisableUnsafePtrRestriction]
+#endif
+        readonly IntPtr _ptr;
 
-        //BurstFunc(delegate*<#=GENERIC_DEF#> ptr) => _ptr = ptr;
+        public BurstFunc(delegate*<#=GENERIC_DEF#> ptr) => _ptr = (IntPtr)ptr;
 
-        //public TResult Invoke(<#=GENERIC_ARGS_TYPED#>) => _ptr(<#=GENERIC_ARGS#>);
+        BurstFunc(IntPtr ptr) => _ptr = ptr;
 
-        //public static BurstFunc<#=GENERIC_DEF#> Compile(Func<#=GENERIC_DEF#> func)
-        //{
-        //    var ptr = BurstCompiler.CompileFunctionPointer(func).Value;
-        //    return new BurstFunc<#=GENERIC_DEF#>((delegate*<#=GENERIC_DEF#>)ptr);
-        //}
+        public TResult Invoke(<#=GENERIC_ARGS_TYPED#>) => ((delegate*<#=GENERIC_DEF#>)_ptr)(<#=GENERIC_ARGS#>);
+
+        public static BurstFunc<#=GENERIC_DEF#> Compile(Func<#=GENERIC_DEF#> func)
+        {
+            var ptr = BurstCompiler.CompileFunctionPointer(func).Value;
+            return new BurstFunc<#=GENERIC_DEF#>(ptr);
+        }
     }
 <#
 }

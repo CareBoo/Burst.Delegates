@@ -10,6 +10,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using Unity.Collections.LowLevel.Unsafe;
 using Unity.Burst;
 using System;
 
@@ -19,34 +20,44 @@ namespace CareBoo.Burst.Delegates
     public unsafe struct BurstFunc<TResult> //: IFunc<TResult>
         where TResult : struct
     {
-        //delegate*<TResult> _ptr;
+#if !UNITY_DOTSPLAYER
+        [NativeDisableUnsafePtrRestriction]
+#endif
+        readonly IntPtr _ptr;
 
-        //BurstFunc(delegate*<TResult> ptr) => _ptr = ptr;
+        public BurstFunc(delegate*<TResult> ptr) => _ptr = (IntPtr)ptr;
 
-        //public TResult Invoke() => _ptr();
+        BurstFunc(IntPtr ptr) => _ptr = ptr;
 
-        //public static BurstFunc<TResult> Compile(Func<TResult> func)
-        //{
-        //    var ptr = BurstCompiler.CompileFunctionPointer(func).Value;
-        //    return new BurstFunc<TResult>((delegate*<TResult>)ptr);
-        //}
+        public TResult Invoke() => ((delegate*<TResult>)_ptr)();
+
+        public static BurstFunc<TResult> Compile(Func<TResult> func)
+        {
+            var ptr = BurstCompiler.CompileFunctionPointer(func).Value;
+            return new BurstFunc<TResult>(ptr);
+        }
     }
 
     public unsafe struct BurstFunc<T, TResult> //: IFunc<T, TResult>
         where T : struct
         where TResult : struct
     {
-        //delegate*<T, TResult> _ptr;
+#if !UNITY_DOTSPLAYER
+        [NativeDisableUnsafePtrRestriction]
+#endif
+        readonly IntPtr _ptr;
 
-        //BurstFunc(delegate*<T, TResult> ptr) => _ptr = ptr;
+        public BurstFunc(delegate*<T, TResult> ptr) => _ptr = (IntPtr)ptr;
 
-        //public TResult Invoke(T arg0) => _ptr(arg0);
+        BurstFunc(IntPtr ptr) => _ptr = ptr;
 
-        //public static BurstFunc<T, TResult> Compile(Func<T, TResult> func)
-        //{
-        //    var ptr = BurstCompiler.CompileFunctionPointer(func).Value;
-        //    return new BurstFunc<T, TResult>((delegate*<T, TResult>)ptr);
-        //}
+        public TResult Invoke(T arg0) => ((delegate*<T, TResult>)_ptr)(arg0);
+
+        public static BurstFunc<T, TResult> Compile(Func<T, TResult> func)
+        {
+            var ptr = BurstCompiler.CompileFunctionPointer(func).Value;
+            return new BurstFunc<T, TResult>(ptr);
+        }
     }
 
     public unsafe struct BurstFunc<T, U, TResult> //: IFunc<T, U, TResult>
@@ -54,17 +65,22 @@ namespace CareBoo.Burst.Delegates
         where U : struct
         where TResult : struct
     {
-        //delegate*<T, U, TResult> _ptr;
+#if !UNITY_DOTSPLAYER
+        [NativeDisableUnsafePtrRestriction]
+#endif
+        readonly IntPtr _ptr;
 
-        //BurstFunc(delegate*<T, U, TResult> ptr) => _ptr = ptr;
+        public BurstFunc(delegate*<T, U, TResult> ptr) => _ptr = (IntPtr)ptr;
 
-        //public TResult Invoke(T arg0, U arg1) => _ptr(arg0, arg1);
+        BurstFunc(IntPtr ptr) => _ptr = ptr;
 
-        //public static BurstFunc<T, U, TResult> Compile(Func<T, U, TResult> func)
-        //{
-        //    var ptr = BurstCompiler.CompileFunctionPointer(func).Value;
-        //    return new BurstFunc<T, U, TResult>((delegate*<T, U, TResult>)ptr);
-        //}
+        public TResult Invoke(T arg0, U arg1) => ((delegate*<T, U, TResult>)_ptr)(arg0, arg1);
+
+        public static BurstFunc<T, U, TResult> Compile(Func<T, U, TResult> func)
+        {
+            var ptr = BurstCompiler.CompileFunctionPointer(func).Value;
+            return new BurstFunc<T, U, TResult>(ptr);
+        }
     }
 
     public unsafe struct BurstFunc<T, U, V, TResult> //: IFunc<T, U, V, TResult>
@@ -73,17 +89,22 @@ namespace CareBoo.Burst.Delegates
         where V : struct
         where TResult : struct
     {
-        //delegate*<T, U, V, TResult> _ptr;
+#if !UNITY_DOTSPLAYER
+        [NativeDisableUnsafePtrRestriction]
+#endif
+        readonly IntPtr _ptr;
 
-        //BurstFunc(delegate*<T, U, V, TResult> ptr) => _ptr = ptr;
+        public BurstFunc(delegate*<T, U, V, TResult> ptr) => _ptr = (IntPtr)ptr;
 
-        //public TResult Invoke(T arg0, U arg1, V arg2) => _ptr(arg0, arg1, arg2);
+        BurstFunc(IntPtr ptr) => _ptr = ptr;
 
-        //public static BurstFunc<T, U, V, TResult> Compile(Func<T, U, V, TResult> func)
-        //{
-        //    var ptr = BurstCompiler.CompileFunctionPointer(func).Value;
-        //    return new BurstFunc<T, U, V, TResult>((delegate*<T, U, V, TResult>)ptr);
-        //}
+        public TResult Invoke(T arg0, U arg1, V arg2) => ((delegate*<T, U, V, TResult>)_ptr)(arg0, arg1, arg2);
+
+        public static BurstFunc<T, U, V, TResult> Compile(Func<T, U, V, TResult> func)
+        {
+            var ptr = BurstCompiler.CompileFunctionPointer(func).Value;
+            return new BurstFunc<T, U, V, TResult>(ptr);
+        }
     }
 
     public unsafe struct BurstFunc<T, U, V, W, TResult> //: IFunc<T, U, V, W, TResult>
@@ -93,17 +114,22 @@ namespace CareBoo.Burst.Delegates
         where W : struct
         where TResult : struct
     {
-        //delegate*<T, U, V, W, TResult> _ptr;
+#if !UNITY_DOTSPLAYER
+        [NativeDisableUnsafePtrRestriction]
+#endif
+        readonly IntPtr _ptr;
 
-        //BurstFunc(delegate*<T, U, V, W, TResult> ptr) => _ptr = ptr;
+        public BurstFunc(delegate*<T, U, V, W, TResult> ptr) => _ptr = (IntPtr)ptr;
 
-        //public TResult Invoke(T arg0, U arg1, V arg2, W arg3) => _ptr(arg0, arg1, arg2, arg3);
+        BurstFunc(IntPtr ptr) => _ptr = ptr;
 
-        //public static BurstFunc<T, U, V, W, TResult> Compile(Func<T, U, V, W, TResult> func)
-        //{
-        //    var ptr = BurstCompiler.CompileFunctionPointer(func).Value;
-        //    return new BurstFunc<T, U, V, W, TResult>((delegate*<T, U, V, W, TResult>)ptr);
-        //}
+        public TResult Invoke(T arg0, U arg1, V arg2, W arg3) => ((delegate*<T, U, V, W, TResult>)_ptr)(arg0, arg1, arg2, arg3);
+
+        public static BurstFunc<T, U, V, W, TResult> Compile(Func<T, U, V, W, TResult> func)
+        {
+            var ptr = BurstCompiler.CompileFunctionPointer(func).Value;
+            return new BurstFunc<T, U, V, W, TResult>(ptr);
+        }
     }
 
     public unsafe struct BurstFunc<T, U, V, W, X, TResult> //: IFunc<T, U, V, W, X, TResult>
@@ -114,17 +140,22 @@ namespace CareBoo.Burst.Delegates
         where X : struct
         where TResult : struct
     {
-        //delegate*<T, U, V, W, X, TResult> _ptr;
+#if !UNITY_DOTSPLAYER
+        [NativeDisableUnsafePtrRestriction]
+#endif
+        readonly IntPtr _ptr;
 
-        //BurstFunc(delegate*<T, U, V, W, X, TResult> ptr) => _ptr = ptr;
+        public BurstFunc(delegate*<T, U, V, W, X, TResult> ptr) => _ptr = (IntPtr)ptr;
 
-        //public TResult Invoke(T arg0, U arg1, V arg2, W arg3, X arg4) => _ptr(arg0, arg1, arg2, arg3, arg4);
+        BurstFunc(IntPtr ptr) => _ptr = ptr;
 
-        //public static BurstFunc<T, U, V, W, X, TResult> Compile(Func<T, U, V, W, X, TResult> func)
-        //{
-        //    var ptr = BurstCompiler.CompileFunctionPointer(func).Value;
-        //    return new BurstFunc<T, U, V, W, X, TResult>((delegate*<T, U, V, W, X, TResult>)ptr);
-        //}
+        public TResult Invoke(T arg0, U arg1, V arg2, W arg3, X arg4) => ((delegate*<T, U, V, W, X, TResult>)_ptr)(arg0, arg1, arg2, arg3, arg4);
+
+        public static BurstFunc<T, U, V, W, X, TResult> Compile(Func<T, U, V, W, X, TResult> func)
+        {
+            var ptr = BurstCompiler.CompileFunctionPointer(func).Value;
+            return new BurstFunc<T, U, V, W, X, TResult>(ptr);
+        }
     }
 
     public unsafe struct BurstFunc<T, U, V, W, X, Y, TResult> //: IFunc<T, U, V, W, X, Y, TResult>
@@ -136,17 +167,22 @@ namespace CareBoo.Burst.Delegates
         where Y : struct
         where TResult : struct
     {
-        //delegate*<T, U, V, W, X, Y, TResult> _ptr;
+#if !UNITY_DOTSPLAYER
+        [NativeDisableUnsafePtrRestriction]
+#endif
+        readonly IntPtr _ptr;
 
-        //BurstFunc(delegate*<T, U, V, W, X, Y, TResult> ptr) => _ptr = ptr;
+        public BurstFunc(delegate*<T, U, V, W, X, Y, TResult> ptr) => _ptr = (IntPtr)ptr;
 
-        //public TResult Invoke(T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5) => _ptr(arg0, arg1, arg2, arg3, arg4, arg5);
+        BurstFunc(IntPtr ptr) => _ptr = ptr;
 
-        //public static BurstFunc<T, U, V, W, X, Y, TResult> Compile(Func<T, U, V, W, X, Y, TResult> func)
-        //{
-        //    var ptr = BurstCompiler.CompileFunctionPointer(func).Value;
-        //    return new BurstFunc<T, U, V, W, X, Y, TResult>((delegate*<T, U, V, W, X, Y, TResult>)ptr);
-        //}
+        public TResult Invoke(T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5) => ((delegate*<T, U, V, W, X, Y, TResult>)_ptr)(arg0, arg1, arg2, arg3, arg4, arg5);
+
+        public static BurstFunc<T, U, V, W, X, Y, TResult> Compile(Func<T, U, V, W, X, Y, TResult> func)
+        {
+            var ptr = BurstCompiler.CompileFunctionPointer(func).Value;
+            return new BurstFunc<T, U, V, W, X, Y, TResult>(ptr);
+        }
     }
 
     public unsafe struct BurstFunc<T, U, V, W, X, Y, Z, TResult> //: IFunc<T, U, V, W, X, Y, Z, TResult>
@@ -159,17 +195,22 @@ namespace CareBoo.Burst.Delegates
         where Z : struct
         where TResult : struct
     {
-        //delegate*<T, U, V, W, X, Y, Z, TResult> _ptr;
+#if !UNITY_DOTSPLAYER
+        [NativeDisableUnsafePtrRestriction]
+#endif
+        readonly IntPtr _ptr;
 
-        //BurstFunc(delegate*<T, U, V, W, X, Y, Z, TResult> ptr) => _ptr = ptr;
+        public BurstFunc(delegate*<T, U, V, W, X, Y, Z, TResult> ptr) => _ptr = (IntPtr)ptr;
 
-        //public TResult Invoke(T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5, Z arg6) => _ptr(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
+        BurstFunc(IntPtr ptr) => _ptr = ptr;
 
-        //public static BurstFunc<T, U, V, W, X, Y, Z, TResult> Compile(Func<T, U, V, W, X, Y, Z, TResult> func)
-        //{
-        //    var ptr = BurstCompiler.CompileFunctionPointer(func).Value;
-        //    return new BurstFunc<T, U, V, W, X, Y, Z, TResult>((delegate*<T, U, V, W, X, Y, Z, TResult>)ptr);
-        //}
+        public TResult Invoke(T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5, Z arg6) => ((delegate*<T, U, V, W, X, Y, Z, TResult>)_ptr)(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
+
+        public static BurstFunc<T, U, V, W, X, Y, Z, TResult> Compile(Func<T, U, V, W, X, Y, Z, TResult> func)
+        {
+            var ptr = BurstCompiler.CompileFunctionPointer(func).Value;
+            return new BurstFunc<T, U, V, W, X, Y, Z, TResult>(ptr);
+        }
     }
 
 }
