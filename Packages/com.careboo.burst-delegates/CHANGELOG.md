@@ -3,6 +3,14 @@ All notable changes to this package will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+# [2.0.0-pre.3](https://github.com/CareBoo/Burst.Delegates/compare/v2.0.0-pre.2...v2.0.0-pre.3) (2021-04-03)
+
+
+### Features
+
+* :sparkles: Add implicit conversion from BurstDelegate to FunctionPointer ([98286a3](https://github.com/CareBoo/Burst.Delegates/commit/98286a3b8884adabe0e096f9334a12723ba8ec3b))
+* :sparkles: Add implicit operator for Burst Delegates and C# 9 Function Pointers ([53951a9](https://github.com/CareBoo/Burst.Delegates/commit/53951a9821cd18ca12d79dcb2571b61c1d886eb5))
+
 # [2.0.0-pre.2](https://github.com/CareBoo/Burst.Delegates/compare/v2.0.0-pre.1...v2.0.0-pre.2) (2021-04-03)
 
 
