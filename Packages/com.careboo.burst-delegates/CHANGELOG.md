@@ -3,6 +3,18 @@ All notable changes to this package will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+# [2.0.0-pre.2](https://github.com/CareBoo/Burst.Delegates/compare/v2.0.0-pre.1...v2.0.0-pre.2) (2021-04-03)
+
+
+### Bug Fixes
+
+* :bug: Fix minimal unity version ([ea8b0f7](https://github.com/CareBoo/Burst.Delegates/commit/ea8b0f7fd8ae7039c761be895f47bff0ec66e242))
+
+
+### BREAKING CHANGES
+
+* Minimum unity version has changed
+
 # [2.0.0-pre.1](https://github.com/CareBoo/Burst.Delegates/compare/v1.2.0...v2.0.0-pre.1) (2021-04-03)
 
 
