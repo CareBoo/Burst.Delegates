@@ -62,6 +62,16 @@ for (var i = 0; i < GENERIC_PARAMS.Length; i++)
             var ptr = BurstCompiler.CompileFunctionPointer(action).Value;
             return new BurstAction<#=GENERIC_DEF#>(ptr);
         }
+
+        public static implicit operator BurstAction<#=GENERIC_DEF#>(delegate*<#=GENERIC_DEF_VOID#> ptr)
+        {
+            return new BurstAction<#=GENERIC_DEF#>(ptr);
+        }
+
+        public static implicit operator delegate*<#=GENERIC_DEF_VOID#>(BurstAction<#=GENERIC_DEF#> burstAction)
+        {
+            return (delegate*<#=GENERIC_DEF_VOID#>)burstAction._ptr;
+        }
     }
 <#
 }

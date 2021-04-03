@@ -34,27 +34,34 @@ internal class BurstDelegateTests
     public static unsafe readonly BurstFunc<int, int> Add4Func = new BurstFunc<int, int>(&Add4);
 
     [Test]
-    public void TestCanInvokeInsideOfBurstedCode()
+    public void TestCompiledPointerCanInvokeInsideOfBurstedCode()
     {
-        using (var input = new NativeArray<int>(new int[1], Allocator.Persistent))
-        using (var output = new NativeArray<int>(new int[1], Allocator.Persistent))
-        {
-            var expected = Add4(input[0]);
-            new CallFuncJob { Func = Add4Func, Input = input, Output = output }.Run();
-            var actual = output[0];
-            Assert.AreEqual(expected, actual);
-        }
+        using var input = new NativeArray<int>(new int[1], Allocator.Persistent);
+        using var output = new NativeArray<int>(new int[1], Allocator.Persistent);
+        var expected = Add4(input[0]);
+        new CallFuncJob { Func = Add4Func, Input = input, Output = output }.Run();
+        var actual = output[0];
+        Assert.AreEqual(expected, actual);
+    }
+
+    [Test]
+    public unsafe void TestDirectPointerCanInvokeInsideOfBurstedCode()
+    {
+        using var input = new NativeArray<int>(new int[1], Allocator.Persistent);
+        using var output = new NativeArray<int>(new int[1], Allocator.Persistent);
+        var expected = Add4(input[0]);
+        new CallFuncJob { Func = (delegate*<int, int>)&Add4, Input = input, Output = output }.Run();
+        var actual = output[0];
+        Assert.AreEqual(expected, actual);
     }
 
     [Test]
     public void TestCanInvokeOutsideOfBurstedCode()
     {
-        using (var input = new NativeArray<int>(new int[1], Allocator.Persistent))
-        using (var output = new NativeArray<int>(new int[1], Allocator.Persistent))
-        {
-            var expected = Add4(input[0]);
-            var actual = Add4Func.Invoke(input[0]);
-            Assert.AreEqual(expected, actual);
-        }
+        using var input = new NativeArray<int>(new int[1], Allocator.Persistent);
+        using var output = new NativeArray<int>(new int[1], Allocator.Persistent);
+        var expected = Add4(input[0]);
+        var actual = Add4Func.Invoke(input[0]);
+        Assert.AreEqual(expected, actual);
     }
 }
