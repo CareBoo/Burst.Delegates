@@ -14,9 +14,9 @@
 namespace CareBoo.Burst.Delegates
 {
 
-    public struct ValueAction
+    public readonly struct ValueAction
     {
-        public struct Struct<TLambda>
+        public readonly struct Impl<TLambda>
             where TLambda : struct, IAction
         {
             internal readonly TLambda lambda;
@@ -26,24 +26,24 @@ namespace CareBoo.Burst.Delegates
                 lambda.Invoke();
             }
 
-            internal Struct(TLambda lambda)
+            internal Impl(TLambda lambda)
             {
                 this.lambda = lambda;
             }
         }
 
-        public static Struct<TLambda> New<TLambda>(TLambda lambda = default)
+        public static Impl<TLambda> New<TLambda>(TLambda lambda = default)
             where TLambda : struct, IAction
         {
-            return new Struct<TLambda>(lambda);
+            return new Impl<TLambda>(lambda);
         }
     }
 
 
-    public struct ValueAction<T>
+    public readonly struct ValueAction<T>
         where T : struct
     {
-        public struct Struct<TLambda>
+        public readonly struct Impl<TLambda>
             where TLambda : struct, IAction<T>
         {
             internal readonly TLambda lambda;
@@ -53,25 +53,25 @@ namespace CareBoo.Burst.Delegates
                 lambda.Invoke(arg0);
             }
 
-            internal Struct(TLambda lambda)
+            internal Impl(TLambda lambda)
             {
                 this.lambda = lambda;
             }
         }
 
-        public static Struct<TLambda> New<TLambda>(TLambda lambda = default)
+        public static Impl<TLambda> New<TLambda>(TLambda lambda = default)
             where TLambda : struct, IAction<T>
         {
-            return new Struct<TLambda>(lambda);
+            return new Impl<TLambda>(lambda);
         }
     }
 
 
-    public struct ValueAction<T, U>
+    public readonly struct ValueAction<T, U>
         where T : struct
         where U : struct
     {
-        public struct Struct<TLambda>
+        public readonly struct Impl<TLambda>
             where TLambda : struct, IAction<T, U>
         {
             internal readonly TLambda lambda;
@@ -81,26 +81,26 @@ namespace CareBoo.Burst.Delegates
                 lambda.Invoke(arg0, arg1);
             }
 
-            internal Struct(TLambda lambda)
+            internal Impl(TLambda lambda)
             {
                 this.lambda = lambda;
             }
         }
 
-        public static Struct<TLambda> New<TLambda>(TLambda lambda = default)
+        public static Impl<TLambda> New<TLambda>(TLambda lambda = default)
             where TLambda : struct, IAction<T, U>
         {
-            return new Struct<TLambda>(lambda);
+            return new Impl<TLambda>(lambda);
         }
     }
 
 
-    public struct ValueAction<T, U, V>
+    public readonly struct ValueAction<T, U, V>
         where T : struct
         where U : struct
         where V : struct
     {
-        public struct Struct<TLambda>
+        public readonly struct Impl<TLambda>
             where TLambda : struct, IAction<T, U, V>
         {
             internal readonly TLambda lambda;
@@ -110,27 +110,27 @@ namespace CareBoo.Burst.Delegates
                 lambda.Invoke(arg0, arg1, arg2);
             }
 
-            internal Struct(TLambda lambda)
+            internal Impl(TLambda lambda)
             {
                 this.lambda = lambda;
             }
         }
 
-        public static Struct<TLambda> New<TLambda>(TLambda lambda = default)
+        public static Impl<TLambda> New<TLambda>(TLambda lambda = default)
             where TLambda : struct, IAction<T, U, V>
         {
-            return new Struct<TLambda>(lambda);
+            return new Impl<TLambda>(lambda);
         }
     }
 
 
-    public struct ValueAction<T, U, V, W>
+    public readonly struct ValueAction<T, U, V, W>
         where T : struct
         where U : struct
         where V : struct
         where W : struct
     {
-        public struct Struct<TLambda>
+        public readonly struct Impl<TLambda>
             where TLambda : struct, IAction<T, U, V, W>
         {
             internal readonly TLambda lambda;
@@ -140,28 +140,28 @@ namespace CareBoo.Burst.Delegates
                 lambda.Invoke(arg0, arg1, arg2, arg3);
             }
 
-            internal Struct(TLambda lambda)
+            internal Impl(TLambda lambda)
             {
                 this.lambda = lambda;
             }
         }
 
-        public static Struct<TLambda> New<TLambda>(TLambda lambda = default)
+        public static Impl<TLambda> New<TLambda>(TLambda lambda = default)
             where TLambda : struct, IAction<T, U, V, W>
         {
-            return new Struct<TLambda>(lambda);
+            return new Impl<TLambda>(lambda);
         }
     }
 
 
-    public struct ValueAction<T, U, V, W, X>
+    public readonly struct ValueAction<T, U, V, W, X>
         where T : struct
         where U : struct
         where V : struct
         where W : struct
         where X : struct
     {
-        public struct Struct<TLambda>
+        public readonly struct Impl<TLambda>
             where TLambda : struct, IAction<T, U, V, W, X>
         {
             internal readonly TLambda lambda;
@@ -171,21 +171,21 @@ namespace CareBoo.Burst.Delegates
                 lambda.Invoke(arg0, arg1, arg2, arg3, arg4);
             }
 
-            internal Struct(TLambda lambda)
+            internal Impl(TLambda lambda)
             {
                 this.lambda = lambda;
             }
         }
 
-        public static Struct<TLambda> New<TLambda>(TLambda lambda = default)
+        public static Impl<TLambda> New<TLambda>(TLambda lambda = default)
             where TLambda : struct, IAction<T, U, V, W, X>
         {
-            return new Struct<TLambda>(lambda);
+            return new Impl<TLambda>(lambda);
         }
     }
 
 
-    public struct ValueAction<T, U, V, W, X, Y>
+    public readonly struct ValueAction<T, U, V, W, X, Y>
         where T : struct
         where U : struct
         where V : struct
@@ -193,7 +193,7 @@ namespace CareBoo.Burst.Delegates
         where X : struct
         where Y : struct
     {
-        public struct Struct<TLambda>
+        public readonly struct Impl<TLambda>
             where TLambda : struct, IAction<T, U, V, W, X, Y>
         {
             internal readonly TLambda lambda;
@@ -203,21 +203,21 @@ namespace CareBoo.Burst.Delegates
                 lambda.Invoke(arg0, arg1, arg2, arg3, arg4, arg5);
             }
 
-            internal Struct(TLambda lambda)
+            internal Impl(TLambda lambda)
             {
                 this.lambda = lambda;
             }
         }
 
-        public static Struct<TLambda> New<TLambda>(TLambda lambda = default)
+        public static Impl<TLambda> New<TLambda>(TLambda lambda = default)
             where TLambda : struct, IAction<T, U, V, W, X, Y>
         {
-            return new Struct<TLambda>(lambda);
+            return new Impl<TLambda>(lambda);
         }
     }
 
 
-    public struct ValueAction<T, U, V, W, X, Y, Z>
+    public readonly struct ValueAction<T, U, V, W, X, Y, Z>
         where T : struct
         where U : struct
         where V : struct
@@ -226,7 +226,7 @@ namespace CareBoo.Burst.Delegates
         where Y : struct
         where Z : struct
     {
-        public struct Struct<TLambda>
+        public readonly struct Impl<TLambda>
             where TLambda : struct, IAction<T, U, V, W, X, Y, Z>
         {
             internal readonly TLambda lambda;
@@ -236,16 +236,16 @@ namespace CareBoo.Burst.Delegates
                 lambda.Invoke(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
             }
 
-            internal Struct(TLambda lambda)
+            internal Impl(TLambda lambda)
             {
                 this.lambda = lambda;
             }
         }
 
-        public static Struct<TLambda> New<TLambda>(TLambda lambda = default)
+        public static Impl<TLambda> New<TLambda>(TLambda lambda = default)
             where TLambda : struct, IAction<T, U, V, W, X, Y, Z>
         {
-            return new Struct<TLambda>(lambda);
+            return new Impl<TLambda>(lambda);
         }
     }
 

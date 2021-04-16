@@ -17,7 +17,7 @@ using System;
 namespace CareBoo.Burst.Delegates
 {
 
-    public unsafe struct BurstAction //: IAction
+    public unsafe readonly struct BurstAction : IAction
         
     {
 #if !UNITY_DOTSPLAYER
@@ -25,25 +25,34 @@ namespace CareBoo.Burst.Delegates
 #endif
         readonly IntPtr _ptr;
 
-        public BurstAction(delegate*<void> ptr) => _ptr = (IntPtr)ptr;
-
         BurstAction(IntPtr ptr) => _ptr = ptr;
 
-        public void Invoke() => ((delegate*<void>)_ptr)();
+        public void Invoke()
+        {
+            bool isBurst = false;
+            Unity.Burst.CompilerServices.Hint.Assume(isBurst);
+            if (!isBurst)
+            {
+                Invoke_Dotnet();
+                return;
+            }
+            Invoke_Burst();
+        }
+
+        void Invoke_Burst()
+        {
+            new FunctionPointer<Action>(_ptr).Invoke();
+        }
+
+        [BurstDiscard]
+        void Invoke_Dotnet()
+        {
+            ((delegate*<void>)_ptr)();
+        }
 
         public static BurstAction Compile(Action action)
         {
             return BurstCompiler.CompileFunctionPointer(action);
-        }
-
-        public static implicit operator BurstAction(delegate*<void> ptr)
-        {
-            return new BurstAction(ptr);
-        }
-
-        public static implicit operator delegate*<void>(BurstAction burstAction)
-        {
-            return (delegate*<void>)burstAction._ptr;
         }
 
         public static implicit operator BurstAction(FunctionPointer<Action> unityFunctionPointer)
@@ -57,7 +66,7 @@ namespace CareBoo.Burst.Delegates
         }
     }
 
-    public unsafe struct BurstAction<T> //: IAction<T>
+    public unsafe readonly struct BurstAction<T> : IAction<T>
         
         where T : struct
     {
@@ -66,25 +75,34 @@ namespace CareBoo.Burst.Delegates
 #endif
         readonly IntPtr _ptr;
 
-        public BurstAction(delegate*<T, void> ptr) => _ptr = (IntPtr)ptr;
-
         BurstAction(IntPtr ptr) => _ptr = ptr;
 
-        public void Invoke(T arg0) => ((delegate*<T, void>)_ptr)(arg0);
+        public void Invoke(T arg0)
+        {
+            bool isBurst = false;
+            Unity.Burst.CompilerServices.Hint.Assume(isBurst);
+            if (!isBurst)
+            {
+                Invoke_Dotnet(arg0);
+                return;
+            }
+            Invoke_Burst(arg0);
+        }
+
+        void Invoke_Burst(T arg0)
+        {
+            new FunctionPointer<Action<T>>(_ptr).Invoke(arg0);
+        }
+
+        [BurstDiscard]
+        void Invoke_Dotnet(T arg0)
+        {
+            ((delegate*<T, void>)_ptr)(arg0);
+        }
 
         public static BurstAction<T> Compile(Action<T> action)
         {
             return BurstCompiler.CompileFunctionPointer(action);
-        }
-
-        public static implicit operator BurstAction<T>(delegate*<T, void> ptr)
-        {
-            return new BurstAction<T>(ptr);
-        }
-
-        public static implicit operator delegate*<T, void>(BurstAction<T> burstAction)
-        {
-            return (delegate*<T, void>)burstAction._ptr;
         }
 
         public static implicit operator BurstAction<T>(FunctionPointer<Action<T>> unityFunctionPointer)
@@ -98,7 +116,7 @@ namespace CareBoo.Burst.Delegates
         }
     }
 
-    public unsafe struct BurstAction<T, U> //: IAction<T, U>
+    public unsafe readonly struct BurstAction<T, U> : IAction<T, U>
         
         where T : struct
         where U : struct
@@ -108,25 +126,34 @@ namespace CareBoo.Burst.Delegates
 #endif
         readonly IntPtr _ptr;
 
-        public BurstAction(delegate*<T, U, void> ptr) => _ptr = (IntPtr)ptr;
-
         BurstAction(IntPtr ptr) => _ptr = ptr;
 
-        public void Invoke(T arg0, U arg1) => ((delegate*<T, U, void>)_ptr)(arg0, arg1);
+        public void Invoke(T arg0, U arg1)
+        {
+            bool isBurst = false;
+            Unity.Burst.CompilerServices.Hint.Assume(isBurst);
+            if (!isBurst)
+            {
+                Invoke_Dotnet(arg0, arg1);
+                return;
+            }
+            Invoke_Burst(arg0, arg1);
+        }
+
+        void Invoke_Burst(T arg0, U arg1)
+        {
+            new FunctionPointer<Action<T, U>>(_ptr).Invoke(arg0, arg1);
+        }
+
+        [BurstDiscard]
+        void Invoke_Dotnet(T arg0, U arg1)
+        {
+            ((delegate*<T, U, void>)_ptr)(arg0, arg1);
+        }
 
         public static BurstAction<T, U> Compile(Action<T, U> action)
         {
             return BurstCompiler.CompileFunctionPointer(action);
-        }
-
-        public static implicit operator BurstAction<T, U>(delegate*<T, U, void> ptr)
-        {
-            return new BurstAction<T, U>(ptr);
-        }
-
-        public static implicit operator delegate*<T, U, void>(BurstAction<T, U> burstAction)
-        {
-            return (delegate*<T, U, void>)burstAction._ptr;
         }
 
         public static implicit operator BurstAction<T, U>(FunctionPointer<Action<T, U>> unityFunctionPointer)
@@ -140,7 +167,7 @@ namespace CareBoo.Burst.Delegates
         }
     }
 
-    public unsafe struct BurstAction<T, U, V> //: IAction<T, U, V>
+    public unsafe readonly struct BurstAction<T, U, V> : IAction<T, U, V>
         
         where T : struct
         where U : struct
@@ -151,25 +178,34 @@ namespace CareBoo.Burst.Delegates
 #endif
         readonly IntPtr _ptr;
 
-        public BurstAction(delegate*<T, U, V, void> ptr) => _ptr = (IntPtr)ptr;
-
         BurstAction(IntPtr ptr) => _ptr = ptr;
 
-        public void Invoke(T arg0, U arg1, V arg2) => ((delegate*<T, U, V, void>)_ptr)(arg0, arg1, arg2);
+        public void Invoke(T arg0, U arg1, V arg2)
+        {
+            bool isBurst = false;
+            Unity.Burst.CompilerServices.Hint.Assume(isBurst);
+            if (!isBurst)
+            {
+                Invoke_Dotnet(arg0, arg1, arg2);
+                return;
+            }
+            Invoke_Burst(arg0, arg1, arg2);
+        }
+
+        void Invoke_Burst(T arg0, U arg1, V arg2)
+        {
+            new FunctionPointer<Action<T, U, V>>(_ptr).Invoke(arg0, arg1, arg2);
+        }
+
+        [BurstDiscard]
+        void Invoke_Dotnet(T arg0, U arg1, V arg2)
+        {
+            ((delegate*<T, U, V, void>)_ptr)(arg0, arg1, arg2);
+        }
 
         public static BurstAction<T, U, V> Compile(Action<T, U, V> action)
         {
             return BurstCompiler.CompileFunctionPointer(action);
-        }
-
-        public static implicit operator BurstAction<T, U, V>(delegate*<T, U, V, void> ptr)
-        {
-            return new BurstAction<T, U, V>(ptr);
-        }
-
-        public static implicit operator delegate*<T, U, V, void>(BurstAction<T, U, V> burstAction)
-        {
-            return (delegate*<T, U, V, void>)burstAction._ptr;
         }
 
         public static implicit operator BurstAction<T, U, V>(FunctionPointer<Action<T, U, V>> unityFunctionPointer)
@@ -183,7 +219,7 @@ namespace CareBoo.Burst.Delegates
         }
     }
 
-    public unsafe struct BurstAction<T, U, V, W> //: IAction<T, U, V, W>
+    public unsafe readonly struct BurstAction<T, U, V, W> : IAction<T, U, V, W>
         
         where T : struct
         where U : struct
@@ -195,25 +231,34 @@ namespace CareBoo.Burst.Delegates
 #endif
         readonly IntPtr _ptr;
 
-        public BurstAction(delegate*<T, U, V, W, void> ptr) => _ptr = (IntPtr)ptr;
-
         BurstAction(IntPtr ptr) => _ptr = ptr;
 
-        public void Invoke(T arg0, U arg1, V arg2, W arg3) => ((delegate*<T, U, V, W, void>)_ptr)(arg0, arg1, arg2, arg3);
+        public void Invoke(T arg0, U arg1, V arg2, W arg3)
+        {
+            bool isBurst = false;
+            Unity.Burst.CompilerServices.Hint.Assume(isBurst);
+            if (!isBurst)
+            {
+                Invoke_Dotnet(arg0, arg1, arg2, arg3);
+                return;
+            }
+            Invoke_Burst(arg0, arg1, arg2, arg3);
+        }
+
+        void Invoke_Burst(T arg0, U arg1, V arg2, W arg3)
+        {
+            new FunctionPointer<Action<T, U, V, W>>(_ptr).Invoke(arg0, arg1, arg2, arg3);
+        }
+
+        [BurstDiscard]
+        void Invoke_Dotnet(T arg0, U arg1, V arg2, W arg3)
+        {
+            ((delegate*<T, U, V, W, void>)_ptr)(arg0, arg1, arg2, arg3);
+        }
 
         public static BurstAction<T, U, V, W> Compile(Action<T, U, V, W> action)
         {
             return BurstCompiler.CompileFunctionPointer(action);
-        }
-
-        public static implicit operator BurstAction<T, U, V, W>(delegate*<T, U, V, W, void> ptr)
-        {
-            return new BurstAction<T, U, V, W>(ptr);
-        }
-
-        public static implicit operator delegate*<T, U, V, W, void>(BurstAction<T, U, V, W> burstAction)
-        {
-            return (delegate*<T, U, V, W, void>)burstAction._ptr;
         }
 
         public static implicit operator BurstAction<T, U, V, W>(FunctionPointer<Action<T, U, V, W>> unityFunctionPointer)
@@ -227,7 +272,7 @@ namespace CareBoo.Burst.Delegates
         }
     }
 
-    public unsafe struct BurstAction<T, U, V, W, X> //: IAction<T, U, V, W, X>
+    public unsafe readonly struct BurstAction<T, U, V, W, X> : IAction<T, U, V, W, X>
         
         where T : struct
         where U : struct
@@ -240,25 +285,34 @@ namespace CareBoo.Burst.Delegates
 #endif
         readonly IntPtr _ptr;
 
-        public BurstAction(delegate*<T, U, V, W, X, void> ptr) => _ptr = (IntPtr)ptr;
-
         BurstAction(IntPtr ptr) => _ptr = ptr;
 
-        public void Invoke(T arg0, U arg1, V arg2, W arg3, X arg4) => ((delegate*<T, U, V, W, X, void>)_ptr)(arg0, arg1, arg2, arg3, arg4);
+        public void Invoke(T arg0, U arg1, V arg2, W arg3, X arg4)
+        {
+            bool isBurst = false;
+            Unity.Burst.CompilerServices.Hint.Assume(isBurst);
+            if (!isBurst)
+            {
+                Invoke_Dotnet(arg0, arg1, arg2, arg3, arg4);
+                return;
+            }
+            Invoke_Burst(arg0, arg1, arg2, arg3, arg4);
+        }
+
+        void Invoke_Burst(T arg0, U arg1, V arg2, W arg3, X arg4)
+        {
+            new FunctionPointer<Action<T, U, V, W, X>>(_ptr).Invoke(arg0, arg1, arg2, arg3, arg4);
+        }
+
+        [BurstDiscard]
+        void Invoke_Dotnet(T arg0, U arg1, V arg2, W arg3, X arg4)
+        {
+            ((delegate*<T, U, V, W, X, void>)_ptr)(arg0, arg1, arg2, arg3, arg4);
+        }
 
         public static BurstAction<T, U, V, W, X> Compile(Action<T, U, V, W, X> action)
         {
             return BurstCompiler.CompileFunctionPointer(action);
-        }
-
-        public static implicit operator BurstAction<T, U, V, W, X>(delegate*<T, U, V, W, X, void> ptr)
-        {
-            return new BurstAction<T, U, V, W, X>(ptr);
-        }
-
-        public static implicit operator delegate*<T, U, V, W, X, void>(BurstAction<T, U, V, W, X> burstAction)
-        {
-            return (delegate*<T, U, V, W, X, void>)burstAction._ptr;
         }
 
         public static implicit operator BurstAction<T, U, V, W, X>(FunctionPointer<Action<T, U, V, W, X>> unityFunctionPointer)
@@ -272,7 +326,7 @@ namespace CareBoo.Burst.Delegates
         }
     }
 
-    public unsafe struct BurstAction<T, U, V, W, X, Y> //: IAction<T, U, V, W, X, Y>
+    public unsafe readonly struct BurstAction<T, U, V, W, X, Y> : IAction<T, U, V, W, X, Y>
         
         where T : struct
         where U : struct
@@ -286,25 +340,34 @@ namespace CareBoo.Burst.Delegates
 #endif
         readonly IntPtr _ptr;
 
-        public BurstAction(delegate*<T, U, V, W, X, Y, void> ptr) => _ptr = (IntPtr)ptr;
-
         BurstAction(IntPtr ptr) => _ptr = ptr;
 
-        public void Invoke(T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5) => ((delegate*<T, U, V, W, X, Y, void>)_ptr)(arg0, arg1, arg2, arg3, arg4, arg5);
+        public void Invoke(T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5)
+        {
+            bool isBurst = false;
+            Unity.Burst.CompilerServices.Hint.Assume(isBurst);
+            if (!isBurst)
+            {
+                Invoke_Dotnet(arg0, arg1, arg2, arg3, arg4, arg5);
+                return;
+            }
+            Invoke_Burst(arg0, arg1, arg2, arg3, arg4, arg5);
+        }
+
+        void Invoke_Burst(T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5)
+        {
+            new FunctionPointer<Action<T, U, V, W, X, Y>>(_ptr).Invoke(arg0, arg1, arg2, arg3, arg4, arg5);
+        }
+
+        [BurstDiscard]
+        void Invoke_Dotnet(T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5)
+        {
+            ((delegate*<T, U, V, W, X, Y, void>)_ptr)(arg0, arg1, arg2, arg3, arg4, arg5);
+        }
 
         public static BurstAction<T, U, V, W, X, Y> Compile(Action<T, U, V, W, X, Y> action)
         {
             return BurstCompiler.CompileFunctionPointer(action);
-        }
-
-        public static implicit operator BurstAction<T, U, V, W, X, Y>(delegate*<T, U, V, W, X, Y, void> ptr)
-        {
-            return new BurstAction<T, U, V, W, X, Y>(ptr);
-        }
-
-        public static implicit operator delegate*<T, U, V, W, X, Y, void>(BurstAction<T, U, V, W, X, Y> burstAction)
-        {
-            return (delegate*<T, U, V, W, X, Y, void>)burstAction._ptr;
         }
 
         public static implicit operator BurstAction<T, U, V, W, X, Y>(FunctionPointer<Action<T, U, V, W, X, Y>> unityFunctionPointer)
@@ -318,7 +381,7 @@ namespace CareBoo.Burst.Delegates
         }
     }
 
-    public unsafe struct BurstAction<T, U, V, W, X, Y, Z> //: IAction<T, U, V, W, X, Y, Z>
+    public unsafe readonly struct BurstAction<T, U, V, W, X, Y, Z> : IAction<T, U, V, W, X, Y, Z>
         
         where T : struct
         where U : struct
@@ -333,25 +396,34 @@ namespace CareBoo.Burst.Delegates
 #endif
         readonly IntPtr _ptr;
 
-        public BurstAction(delegate*<T, U, V, W, X, Y, Z, void> ptr) => _ptr = (IntPtr)ptr;
-
         BurstAction(IntPtr ptr) => _ptr = ptr;
 
-        public void Invoke(T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5, Z arg6) => ((delegate*<T, U, V, W, X, Y, Z, void>)_ptr)(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
+        public void Invoke(T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5, Z arg6)
+        {
+            bool isBurst = false;
+            Unity.Burst.CompilerServices.Hint.Assume(isBurst);
+            if (!isBurst)
+            {
+                Invoke_Dotnet(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
+                return;
+            }
+            Invoke_Burst(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
+        }
+
+        void Invoke_Burst(T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5, Z arg6)
+        {
+            new FunctionPointer<Action<T, U, V, W, X, Y, Z>>(_ptr).Invoke(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
+        }
+
+        [BurstDiscard]
+        void Invoke_Dotnet(T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5, Z arg6)
+        {
+            ((delegate*<T, U, V, W, X, Y, Z, void>)_ptr)(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
+        }
 
         public static BurstAction<T, U, V, W, X, Y, Z> Compile(Action<T, U, V, W, X, Y, Z> action)
         {
             return BurstCompiler.CompileFunctionPointer(action);
-        }
-
-        public static implicit operator BurstAction<T, U, V, W, X, Y, Z>(delegate*<T, U, V, W, X, Y, Z, void> ptr)
-        {
-            return new BurstAction<T, U, V, W, X, Y, Z>(ptr);
-        }
-
-        public static implicit operator delegate*<T, U, V, W, X, Y, Z, void>(BurstAction<T, U, V, W, X, Y, Z> burstAction)
-        {
-            return (delegate*<T, U, V, W, X, Y, Z, void>)burstAction._ptr;
         }
 
         public static implicit operator BurstAction<T, U, V, W, X, Y, Z>(FunctionPointer<Action<T, U, V, W, X, Y, Z>> unityFunctionPointer)
