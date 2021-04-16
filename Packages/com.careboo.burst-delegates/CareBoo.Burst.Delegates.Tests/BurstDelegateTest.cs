@@ -1,30 +1,23 @@
-﻿using System;
-using System.Text.RegularExpressions;
-using CareBoo.Burst.Delegates;
+﻿using CareBoo.Burst.Delegates;
 using NUnit.Framework;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
-using UnityEngine.TestTools;
 
 [BurstCompile]
 internal class BurstDelegateTests
 {
     [BurstCompile]
-    public struct CallFuncJob : IJob
+    public struct CallFuncJob<TImpl> : IJob
+        where TImpl : struct, IFunc<int, int>
     {
-        [ReadOnly]
-        public BurstFunc<int, int> Func;
-
-        [ReadOnly]
-        public NativeArray<int> Input;
-
-        [WriteOnly]
-        public NativeArray<int> Output;
+        public ValueFunc<int, int>.Impl<TImpl> Func;
+        public NativeArray<int> In;
+        public NativeArray<int> Out;
 
         public void Execute()
         {
-            Output[0] = Func.Invoke(Input[0]);
+            Out[0] = Func.Invoke(In[0]);
         }
     }
 
@@ -39,18 +32,7 @@ internal class BurstDelegateTests
         using var input = new NativeArray<int>(new int[1], Allocator.Persistent);
         using var output = new NativeArray<int>(new int[1], Allocator.Persistent);
         var expected = Add4(input[0]);
-        new CallFuncJob { Func = Add4Func, Input = input, Output = output }.Run();
-        var actual = output[0];
-        Assert.AreEqual(expected, actual);
-    }
-
-    [Test]
-    public unsafe void TestDirectPointerCanInvokeInsideOfBurstedCode()
-    {
-        using var input = new NativeArray<int>(new int[1], Allocator.Persistent);
-        using var output = new NativeArray<int>(new int[1], Allocator.Persistent);
-        var expected = Add4(input[0]);
-        new CallFuncJob { Func = (delegate*<int, int>)&Add4, Input = input, Output = output }.Run();
+        new CallFuncJob<BurstFunc<int, int>> { Func = ValueFunc<int, int>.New(Add4Func), In = input, Out = output }.Run();
         var actual = output[0];
         Assert.AreEqual(expected, actual);
     }

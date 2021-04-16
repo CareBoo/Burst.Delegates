@@ -42,10 +42,10 @@ for (var i = 0; i < GENERIC_PARAMS.Length; i++)
     var GENERIC_ARGS = string.Join(", ", GENERIC_PARAMS.Skip(1).Take(i).Select((t, n) => $"arg{n}"));
 
 #>
-    public struct ValueFunc<#=GENERIC_DEF#>
+    public readonly struct ValueFunc<#=GENERIC_DEF#>
         <#=GENERIC_CONSTRAINTS#>
     {
-        public struct Struct<TLambda>
+        public readonly struct Impl<TLambda>
             where TLambda : struct, IFunc<#=GENERIC_DEF#>
         {
             internal readonly TLambda lambda;
@@ -55,16 +55,16 @@ for (var i = 0; i < GENERIC_PARAMS.Length; i++)
                 return lambda.Invoke(<#=GENERIC_ARGS#>);
             }
 
-            internal Struct(TLambda lambda)
+            internal Impl(TLambda lambda)
             {
                 this.lambda = lambda;
             }
         }
 
-        public static Struct<TLambda> New<TLambda>(TLambda lambda = default)
+        public static Impl<TLambda> New<TLambda>(TLambda lambda = default)
             where TLambda : struct, IFunc<#=GENERIC_DEF#>
         {
-            return new Struct<TLambda>(lambda);
+            return new Impl<TLambda>(lambda);
         }
     }
 

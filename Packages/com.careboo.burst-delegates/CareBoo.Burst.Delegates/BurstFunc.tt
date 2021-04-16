@@ -45,33 +45,59 @@ for (var i = 0; i < GENERIC_PARAMS.Length; i++)
     var GENERIC_ARGS = string.Join(", ", GENERIC_PARAMS.Skip(1).Take(i).Select((t, n) => $"arg{n}"));
 
 #>
-    public unsafe struct BurstFunc<#=GENERIC_DEF#> //: IFunc<#=GENERIC_DEF#>
+    public unsafe readonly struct BurstFunc<#=GENERIC_DEF#> : IFunc<#=GENERIC_DEF#>
         <#=GENERIC_CONSTRAINTS#>
     {
+        unsafe ref struct Invoker
+        {
+#if !UNITY_DOTSPLAYER
+            [NativeDisableUnsafePtrRestriction]
+#endif
+            readonly IntPtr _ptr;
+            TResult _value;
+            bool _isBurst;
+
+            public Invoker(IntPtr ptr)
+            {
+                _ptr = ptr;
+                _value = default;
+                _isBurst = default;
+            }
+
+            public TResult Invoke(<#=GENERIC_ARGS_TYPED#>)
+            {
+                _isBurst = true;
+                Invoke_Dotnet(<#=GENERIC_ARGS#>);
+                if (_isBurst)
+                    Invoke_Burst(<#=GENERIC_ARGS#>);
+                return _value;
+            }
+
+            void Invoke_Burst(<#=GENERIC_ARGS_TYPED#>)
+            {
+                _value = new FunctionPointer<Func<#=GENERIC_DEF#>>(_ptr).Invoke(<#=GENERIC_ARGS#>);
+            }
+
+            [BurstDiscard]
+            void Invoke_Dotnet(<#=GENERIC_ARGS_TYPED#>)
+            {
+                _isBurst = false;
+                _value = ((delegate*<#=GENERIC_DEF#>)_ptr)(<#=GENERIC_ARGS#>);
+            }
+        }
+
 #if !UNITY_DOTSPLAYER
         [NativeDisableUnsafePtrRestriction]
 #endif
         readonly IntPtr _ptr;
 
-        public BurstFunc(delegate*<#=GENERIC_DEF#> ptr) => _ptr = (IntPtr)ptr;
-
         BurstFunc(IntPtr ptr) => _ptr = ptr;
 
-        public TResult Invoke(<#=GENERIC_ARGS_TYPED#>) => ((delegate*<#=GENERIC_DEF#>)_ptr)(<#=GENERIC_ARGS#>);
+        public TResult Invoke(<#=GENERIC_ARGS_TYPED#>) => new Invoker(_ptr).Invoke(<#=GENERIC_ARGS#>);
 
         public static BurstFunc<#=GENERIC_DEF#> Compile(Func<#=GENERIC_DEF#> func)
         {
             return BurstCompiler.CompileFunctionPointer(func);
-        }
-
-        public static implicit operator BurstFunc<#=GENERIC_DEF#>(delegate*<#=GENERIC_DEF#> ptr)
-        {
-            return new BurstFunc<#=GENERIC_DEF#>(ptr);
-        }
-
-        public static implicit operator delegate*<#=GENERIC_DEF#>(BurstFunc<#=GENERIC_DEF#> burstFunc)
-        {
-            return (delegate*<#=GENERIC_DEF#>)burstFunc._ptr;
         }
 
         public static implicit operator BurstFunc<#=GENERIC_DEF#>(FunctionPointer<Func<#=GENERIC_DEF#>> unityFunctionPointer)

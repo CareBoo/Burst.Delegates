@@ -14,10 +14,10 @@
 namespace CareBoo.Burst.Delegates
 {
 
-    public struct ValueFunc<TResult>
+    public readonly struct ValueFunc<TResult>
         where TResult : struct
     {
-        public struct Struct<TLambda>
+        public readonly struct Impl<TLambda>
             where TLambda : struct, IFunc<TResult>
         {
             internal readonly TLambda lambda;
@@ -27,25 +27,25 @@ namespace CareBoo.Burst.Delegates
                 return lambda.Invoke();
             }
 
-            internal Struct(TLambda lambda)
+            internal Impl(TLambda lambda)
             {
                 this.lambda = lambda;
             }
         }
 
-        public static Struct<TLambda> New<TLambda>(TLambda lambda = default)
+        public static Impl<TLambda> New<TLambda>(TLambda lambda = default)
             where TLambda : struct, IFunc<TResult>
         {
-            return new Struct<TLambda>(lambda);
+            return new Impl<TLambda>(lambda);
         }
     }
 
 
-    public struct ValueFunc<T, TResult>
+    public readonly struct ValueFunc<T, TResult>
         where T : struct
         where TResult : struct
     {
-        public struct Struct<TLambda>
+        public readonly struct Impl<TLambda>
             where TLambda : struct, IFunc<T, TResult>
         {
             internal readonly TLambda lambda;
@@ -55,26 +55,26 @@ namespace CareBoo.Burst.Delegates
                 return lambda.Invoke(arg0);
             }
 
-            internal Struct(TLambda lambda)
+            internal Impl(TLambda lambda)
             {
                 this.lambda = lambda;
             }
         }
 
-        public static Struct<TLambda> New<TLambda>(TLambda lambda = default)
+        public static Impl<TLambda> New<TLambda>(TLambda lambda = default)
             where TLambda : struct, IFunc<T, TResult>
         {
-            return new Struct<TLambda>(lambda);
+            return new Impl<TLambda>(lambda);
         }
     }
 
 
-    public struct ValueFunc<T, U, TResult>
+    public readonly struct ValueFunc<T, U, TResult>
         where T : struct
         where U : struct
         where TResult : struct
     {
-        public struct Struct<TLambda>
+        public readonly struct Impl<TLambda>
             where TLambda : struct, IFunc<T, U, TResult>
         {
             internal readonly TLambda lambda;
@@ -84,27 +84,27 @@ namespace CareBoo.Burst.Delegates
                 return lambda.Invoke(arg0, arg1);
             }
 
-            internal Struct(TLambda lambda)
+            internal Impl(TLambda lambda)
             {
                 this.lambda = lambda;
             }
         }
 
-        public static Struct<TLambda> New<TLambda>(TLambda lambda = default)
+        public static Impl<TLambda> New<TLambda>(TLambda lambda = default)
             where TLambda : struct, IFunc<T, U, TResult>
         {
-            return new Struct<TLambda>(lambda);
+            return new Impl<TLambda>(lambda);
         }
     }
 
 
-    public struct ValueFunc<T, U, V, TResult>
+    public readonly struct ValueFunc<T, U, V, TResult>
         where T : struct
         where U : struct
         where V : struct
         where TResult : struct
     {
-        public struct Struct<TLambda>
+        public readonly struct Impl<TLambda>
             where TLambda : struct, IFunc<T, U, V, TResult>
         {
             internal readonly TLambda lambda;
@@ -114,28 +114,28 @@ namespace CareBoo.Burst.Delegates
                 return lambda.Invoke(arg0, arg1, arg2);
             }
 
-            internal Struct(TLambda lambda)
+            internal Impl(TLambda lambda)
             {
                 this.lambda = lambda;
             }
         }
 
-        public static Struct<TLambda> New<TLambda>(TLambda lambda = default)
+        public static Impl<TLambda> New<TLambda>(TLambda lambda = default)
             where TLambda : struct, IFunc<T, U, V, TResult>
         {
-            return new Struct<TLambda>(lambda);
+            return new Impl<TLambda>(lambda);
         }
     }
 
 
-    public struct ValueFunc<T, U, V, W, TResult>
+    public readonly struct ValueFunc<T, U, V, W, TResult>
         where T : struct
         where U : struct
         where V : struct
         where W : struct
         where TResult : struct
     {
-        public struct Struct<TLambda>
+        public readonly struct Impl<TLambda>
             where TLambda : struct, IFunc<T, U, V, W, TResult>
         {
             internal readonly TLambda lambda;
@@ -145,21 +145,21 @@ namespace CareBoo.Burst.Delegates
                 return lambda.Invoke(arg0, arg1, arg2, arg3);
             }
 
-            internal Struct(TLambda lambda)
+            internal Impl(TLambda lambda)
             {
                 this.lambda = lambda;
             }
         }
 
-        public static Struct<TLambda> New<TLambda>(TLambda lambda = default)
+        public static Impl<TLambda> New<TLambda>(TLambda lambda = default)
             where TLambda : struct, IFunc<T, U, V, W, TResult>
         {
-            return new Struct<TLambda>(lambda);
+            return new Impl<TLambda>(lambda);
         }
     }
 
 
-    public struct ValueFunc<T, U, V, W, X, TResult>
+    public readonly struct ValueFunc<T, U, V, W, X, TResult>
         where T : struct
         where U : struct
         where V : struct
@@ -167,7 +167,7 @@ namespace CareBoo.Burst.Delegates
         where X : struct
         where TResult : struct
     {
-        public struct Struct<TLambda>
+        public readonly struct Impl<TLambda>
             where TLambda : struct, IFunc<T, U, V, W, X, TResult>
         {
             internal readonly TLambda lambda;
@@ -177,21 +177,21 @@ namespace CareBoo.Burst.Delegates
                 return lambda.Invoke(arg0, arg1, arg2, arg3, arg4);
             }
 
-            internal Struct(TLambda lambda)
+            internal Impl(TLambda lambda)
             {
                 this.lambda = lambda;
             }
         }
 
-        public static Struct<TLambda> New<TLambda>(TLambda lambda = default)
+        public static Impl<TLambda> New<TLambda>(TLambda lambda = default)
             where TLambda : struct, IFunc<T, U, V, W, X, TResult>
         {
-            return new Struct<TLambda>(lambda);
+            return new Impl<TLambda>(lambda);
         }
     }
 
 
-    public struct ValueFunc<T, U, V, W, X, Y, TResult>
+    public readonly struct ValueFunc<T, U, V, W, X, Y, TResult>
         where T : struct
         where U : struct
         where V : struct
@@ -200,7 +200,7 @@ namespace CareBoo.Burst.Delegates
         where Y : struct
         where TResult : struct
     {
-        public struct Struct<TLambda>
+        public readonly struct Impl<TLambda>
             where TLambda : struct, IFunc<T, U, V, W, X, Y, TResult>
         {
             internal readonly TLambda lambda;
@@ -210,21 +210,21 @@ namespace CareBoo.Burst.Delegates
                 return lambda.Invoke(arg0, arg1, arg2, arg3, arg4, arg5);
             }
 
-            internal Struct(TLambda lambda)
+            internal Impl(TLambda lambda)
             {
                 this.lambda = lambda;
             }
         }
 
-        public static Struct<TLambda> New<TLambda>(TLambda lambda = default)
+        public static Impl<TLambda> New<TLambda>(TLambda lambda = default)
             where TLambda : struct, IFunc<T, U, V, W, X, Y, TResult>
         {
-            return new Struct<TLambda>(lambda);
+            return new Impl<TLambda>(lambda);
         }
     }
 
 
-    public struct ValueFunc<T, U, V, W, X, Y, Z, TResult>
+    public readonly struct ValueFunc<T, U, V, W, X, Y, Z, TResult>
         where T : struct
         where U : struct
         where V : struct
@@ -234,7 +234,7 @@ namespace CareBoo.Burst.Delegates
         where Z : struct
         where TResult : struct
     {
-        public struct Struct<TLambda>
+        public readonly struct Impl<TLambda>
             where TLambda : struct, IFunc<T, U, V, W, X, Y, Z, TResult>
         {
             internal readonly TLambda lambda;
@@ -244,16 +244,16 @@ namespace CareBoo.Burst.Delegates
                 return lambda.Invoke(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
             }
 
-            internal Struct(TLambda lambda)
+            internal Impl(TLambda lambda)
             {
                 this.lambda = lambda;
             }
         }
 
-        public static Struct<TLambda> New<TLambda>(TLambda lambda = default)
+        public static Impl<TLambda> New<TLambda>(TLambda lambda = default)
             where TLambda : struct, IFunc<T, U, V, W, X, Y, Z, TResult>
         {
-            return new Struct<TLambda>(lambda);
+            return new Impl<TLambda>(lambda);
         }
     }
 

@@ -43,7 +43,7 @@ for (var i = 0; i < GENERIC_PARAMS.Length; i++)
     var GENERIC_ARGS = string.Join(", ", GENERIC_PARAMS.Skip(1).Take(i).Select((t, n) => $"arg{n}"));
 
 #>
-    public unsafe struct BurstAction<#=GENERIC_DEF#> //: IAction<#=GENERIC_DEF#>
+    public unsafe readonly struct BurstAction<#=GENERIC_DEF#> : IAction<#=GENERIC_DEF#>
         <#=GENERIC_CONSTRAINTS#>
     {
 #if !UNITY_DOTSPLAYER
@@ -51,25 +51,34 @@ for (var i = 0; i < GENERIC_PARAMS.Length; i++)
 #endif
         readonly IntPtr _ptr;
 
-        public BurstAction(delegate*<#=GENERIC_DEF_VOID#> ptr) => _ptr = (IntPtr)ptr;
-
         BurstAction(IntPtr ptr) => _ptr = ptr;
 
-        public void Invoke(<#=GENERIC_ARGS_TYPED#>) => ((delegate*<#=GENERIC_DEF_VOID#>)_ptr)(<#=GENERIC_ARGS#>);
+        public void Invoke(<#=GENERIC_ARGS_TYPED#>)
+        {
+            bool isBurst = false;
+            Unity.Burst.CompilerServices.Hint.Assume(isBurst);
+            if (!isBurst)
+            {
+                Invoke_Dotnet(<#=GENERIC_ARGS#>);
+                return;
+            }
+            Invoke_Burst(<#=GENERIC_ARGS#>);
+        }
+
+        void Invoke_Burst(<#=GENERIC_ARGS_TYPED#>)
+        {
+            new FunctionPointer<Action<#=GENERIC_DEF#>>(_ptr).Invoke(<#=GENERIC_ARGS#>);
+        }
+
+        [BurstDiscard]
+        void Invoke_Dotnet(<#=GENERIC_ARGS_TYPED#>)
+        {
+            ((delegate*<#=GENERIC_DEF_VOID#>)_ptr)(<#=GENERIC_ARGS#>);
+        }
 
         public static BurstAction<#=GENERIC_DEF#> Compile(Action<#=GENERIC_DEF#> action)
         {
             return BurstCompiler.CompileFunctionPointer(action);
-        }
-
-        public static implicit operator BurstAction<#=GENERIC_DEF#>(delegate*<#=GENERIC_DEF_VOID#> ptr)
-        {
-            return new BurstAction<#=GENERIC_DEF#>(ptr);
-        }
-
-        public static implicit operator delegate*<#=GENERIC_DEF_VOID#>(BurstAction<#=GENERIC_DEF#> burstAction)
-        {
-            return (delegate*<#=GENERIC_DEF_VOID#>)burstAction._ptr;
         }
 
         public static implicit operator BurstAction<#=GENERIC_DEF#>(FunctionPointer<Action<#=GENERIC_DEF#>> unityFunctionPointer)
