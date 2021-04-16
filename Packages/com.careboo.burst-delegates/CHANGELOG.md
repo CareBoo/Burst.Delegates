@@ -3,6 +3,13 @@ All notable changes to this package will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+# [2.0.0-pre.5](https://github.com/CareBoo/Burst.Delegates/compare/v2.0.0-pre.4...v2.0.0-pre.5) (2021-04-16)
+
+
+### Performance Improvements
+
+* :zap: Improve function pointer performance ([f621698](https://github.com/CareBoo/Burst.Delegates/commit/f6216982585de3032c59bd55ceb9205da1eb905e))
+
 # [2.0.0-pre.4](https://github.com/CareBoo/Burst.Delegates/compare/v2.0.0-pre.3...v2.0.0-pre.4) (2021-04-03)
 
 
