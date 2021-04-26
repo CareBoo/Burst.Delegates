@@ -3,6 +3,18 @@ All notable changes to this package will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+# [2.0.0-pre.6](https://github.com/CareBoo/Burst.Delegates/compare/v2.0.0-pre.5...v2.0.0-pre.6) (2021-04-26)
+
+
+### Features
+
+* :sparkles: Add partial application to Value Delegates ([6d16ffe](https://github.com/CareBoo/Burst.Delegates/commit/6d16ffef727733127a23ae797b142a3b7c8ea079))
+
+
+### BREAKING CHANGES
+
+* Move compile from Burst delegates to Value delegates
+
 # [2.0.0-pre.5](https://github.com/CareBoo/Burst.Delegates/compare/v2.0.0-pre.4...v2.0.0-pre.5) (2021-04-16)
 
 
