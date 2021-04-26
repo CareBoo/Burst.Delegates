@@ -1,7 +1,7 @@
 {
   "name": "com.careboo.burst-delegates",
   "displayName": "Burst.Delegates",
-  "version": "2.0.0-pre.5",
+  "version": "2.0.0-pre.6",
   "unity": "2021.2",
   "description": "Burst supported delegates for functional-style jobs.\n\nIncludes:\n- Action and Func interface for defining APIs\n- ValueAction and ValueFunc for implementing IAction and IFunc interfaces with structs\n- BurstAction and BurstFunc which is a generic-supported wrapper around FunctionPointer",
   "dependencies": {
