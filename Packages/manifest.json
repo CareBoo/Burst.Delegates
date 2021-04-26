@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "com.unity.burst": "1.5.1",
+    "com.unity.burst": "1.6.0-pre.2",
     "com.unity.ide.vscode": "1.2.3",
     "com.unity.package-validation-suite": "0.20.0-preview",
     "com.unity.settings-manager": "1.0.3",
