@@ -6,12 +6,8 @@
 //     the code is regenerated.
 // </auto-generated>
 //------------------------------------------------------------------------------
-<#@ assembly name="System.Core" #>
-<#@ import namespace="System.Linq" #>
-<#@ output extension=".gen.cs" #>
-
-using Unity.Burst;
-using System.Runtime.InteropServices;
+<#@ assembly name="System.Core" #><#@ import namespace="System.Linq" #><#@ output extension=".gen.cs" #>
+using System.Runtime.CompilerServices;
 
 namespace CareBoo.Burst.Delegates
 {
@@ -50,21 +46,23 @@ for (var i = 0; i < GENERIC_PARAMS.Length; i++)
     var GENERIC_ARGS = string.Join(", ", GENERIC_PARAMS.Skip(1).Take(i).Select((t, n) => $"arg{n}"));
 
 #>
-    public readonly struct ValueAction<#=GENERIC_DEF#><#=GENERIC_CONSTRAINTS#>
+    public struct ValueAction<#=GENERIC_DEF#><#=GENERIC_CONSTRAINTS#>
     {
-        public readonly struct Impl<TLambda>
+        public readonly ref struct Impl<TLambda>
             where TLambda : struct, IAction<#=GENERIC_DEF#>
         {
-            internal readonly TLambda lambda;
+            public readonly TLambda Lambda;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public void Invoke(<#=GENERIC_ARGS_TYPED#>)
             {
-                lambda.Invoke(<#=GENERIC_ARGS#>);
+                Lambda.Invoke(<#=GENERIC_ARGS#>);
             }
 
-            internal Impl(TLambda lambda)
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal Impl(TLambda Lambda)
             {
-                this.lambda = lambda;
+                this.Lambda = Lambda;
             }
 <#
     for (var j = 1; j <= i; j++)
@@ -72,13 +70,14 @@ for (var i = 0; i < GENERIC_PARAMS.Length; i++)
         var closureGenericParams = GENERIC_PARAMS.Skip(1).Take(j);
         var appliedActionGenericParams = GENERIC_PARAMS.Skip(1).Take(i).Skip(j);
 #>
-            public ValueAction<#=GetGenericDefinition(appliedActionGenericParams)#>.Impl<Closure<#=GetGenericDefinition(closureGenericParams)#>.AppliedToAction<#=GetGenericDefinition(appliedActionGenericParams.Append("TLambda"))#>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueAction<#=GetGenericDefinition(appliedActionGenericParams)#>.Impl<Closure<#=GetGenericDefinition(closureGenericParams)#>.AppliedToAction<#=GetGenericDefinition(appliedActionGenericParams.Append("TLambda"))#>> PartialInvoke(
                 <#=string.Join(",\n                ", closureGenericParams.Select((t, n) => $"{t} arg{n}"))#>
                 )
             {
                 var closure = new Closure<<#=string.Join(", ", closureGenericParams)#>>.AppliedToAction<<#=string.Join(", ", appliedActionGenericParams.Append("TLambda"))#>>(
                     <#=string.Join(",\n                    ", closureGenericParams.Select((t, n) => $"arg{n}"))#>,
-                    this
+                    in this
                 );
                 return ValueAction<#=GetGenericDefinition(appliedActionGenericParams)#>.New(closure);
             }
@@ -87,20 +86,11 @@ for (var i = 0; i < GENERIC_PARAMS.Length; i++)
 #>
         }
 
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate void Delegate(<#=GENERIC_ARGS_TYPED#>);
-
-        public static Impl<TLambda> New<TLambda>(TLambda lambda = default)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Impl<TLambda> New<TLambda>(TLambda Lambda = default)
             where TLambda : struct, IAction<#=GENERIC_DEF#>
         {
-            return new Impl<TLambda>(lambda);
-        }
-
-        public static Impl<BurstAction<#=GENERIC_DEF#>> Compile(Delegate action)
-        {
-            var ptr = BurstCompiler.CompileFunctionPointer(action);
-            var burstAction = new BurstAction<#=GENERIC_DEF#>(ptr.Value);
-            return New(burstAction);
+            return new Impl<TLambda>(Lambda);
         }
     }
 

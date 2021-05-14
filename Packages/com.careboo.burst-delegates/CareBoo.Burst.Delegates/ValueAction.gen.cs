@@ -7,132 +7,119 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-
-
-
-using Unity.Burst;
-using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
 
 namespace CareBoo.Burst.Delegates
 {
 
-    public readonly struct ValueAction
+    public struct ValueAction
     {
-        public readonly struct Impl<TLambda>
+        public readonly ref struct Impl<TLambda>
             where TLambda : struct, IAction
         {
-            internal readonly TLambda lambda;
+            public readonly TLambda Lambda;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public void Invoke()
             {
-                lambda.Invoke();
+                Lambda.Invoke();
             }
 
-            internal Impl(TLambda lambda)
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal Impl(TLambda Lambda)
             {
-                this.lambda = lambda;
+                this.Lambda = Lambda;
             }
 
         }
 
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate void Delegate();
-
-        public static Impl<TLambda> New<TLambda>(TLambda lambda = default)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Impl<TLambda> New<TLambda>(TLambda Lambda = default)
             where TLambda : struct, IAction
         {
-            return new Impl<TLambda>(lambda);
-        }
-
-        public static Impl<BurstAction> Compile(Delegate action)
-        {
-            var ptr = BurstCompiler.CompileFunctionPointer(action);
-            var burstAction = new BurstAction(ptr.Value);
-            return New(burstAction);
+            return new Impl<TLambda>(Lambda);
         }
     }
 
 
-    public readonly struct ValueAction<T>
+    public struct ValueAction<T>
         where T : struct
     {
-        public readonly struct Impl<TLambda>
+        public readonly ref struct Impl<TLambda>
             where TLambda : struct, IAction<T>
         {
-            internal readonly TLambda lambda;
+            public readonly TLambda Lambda;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public void Invoke(T arg0)
             {
-                lambda.Invoke(arg0);
+                Lambda.Invoke(arg0);
             }
 
-            internal Impl(TLambda lambda)
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal Impl(TLambda Lambda)
             {
-                this.lambda = lambda;
+                this.Lambda = Lambda;
             }
 
-            public ValueAction.Impl<Closure<T>.AppliedToAction<TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueAction.Impl<Closure<T>.AppliedToAction<TLambda>> PartialInvoke(
                 T arg0
                 )
             {
                 var closure = new Closure<T>.AppliedToAction<TLambda>(
                     arg0,
-                    this
+                    in this
                 );
                 return ValueAction.New(closure);
             }
 
         }
 
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate void Delegate(T arg0);
-
-        public static Impl<TLambda> New<TLambda>(TLambda lambda = default)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Impl<TLambda> New<TLambda>(TLambda Lambda = default)
             where TLambda : struct, IAction<T>
         {
-            return new Impl<TLambda>(lambda);
-        }
-
-        public static Impl<BurstAction<T>> Compile(Delegate action)
-        {
-            var ptr = BurstCompiler.CompileFunctionPointer(action);
-            var burstAction = new BurstAction<T>(ptr.Value);
-            return New(burstAction);
+            return new Impl<TLambda>(Lambda);
         }
     }
 
 
-    public readonly struct ValueAction<T, U>
+    public struct ValueAction<T, U>
         where T : struct
         where U : struct
     {
-        public readonly struct Impl<TLambda>
+        public readonly ref struct Impl<TLambda>
             where TLambda : struct, IAction<T, U>
         {
-            internal readonly TLambda lambda;
+            public readonly TLambda Lambda;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public void Invoke(T arg0, U arg1)
             {
-                lambda.Invoke(arg0, arg1);
+                Lambda.Invoke(arg0, arg1);
             }
 
-            internal Impl(TLambda lambda)
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal Impl(TLambda Lambda)
             {
-                this.lambda = lambda;
+                this.Lambda = Lambda;
             }
 
-            public ValueAction<U>.Impl<Closure<T>.AppliedToAction<U, TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueAction<U>.Impl<Closure<T>.AppliedToAction<U, TLambda>> PartialInvoke(
                 T arg0
                 )
             {
                 var closure = new Closure<T>.AppliedToAction<U, TLambda>(
                     arg0,
-                    this
+                    in this
                 );
                 return ValueAction<U>.New(closure);
             }
 
-            public ValueAction.Impl<Closure<T, U>.AppliedToAction<TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueAction.Impl<Closure<T, U>.AppliedToAction<TLambda>> PartialInvoke(
                 T arg0,
                 U arg1
                 )
@@ -140,63 +127,58 @@ namespace CareBoo.Burst.Delegates
                 var closure = new Closure<T, U>.AppliedToAction<TLambda>(
                     arg0,
                     arg1,
-                    this
+                    in this
                 );
                 return ValueAction.New(closure);
             }
 
         }
 
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate void Delegate(T arg0, U arg1);
-
-        public static Impl<TLambda> New<TLambda>(TLambda lambda = default)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Impl<TLambda> New<TLambda>(TLambda Lambda = default)
             where TLambda : struct, IAction<T, U>
         {
-            return new Impl<TLambda>(lambda);
-        }
-
-        public static Impl<BurstAction<T, U>> Compile(Delegate action)
-        {
-            var ptr = BurstCompiler.CompileFunctionPointer(action);
-            var burstAction = new BurstAction<T, U>(ptr.Value);
-            return New(burstAction);
+            return new Impl<TLambda>(Lambda);
         }
     }
 
 
-    public readonly struct ValueAction<T, U, V>
+    public struct ValueAction<T, U, V>
         where T : struct
         where U : struct
         where V : struct
     {
-        public readonly struct Impl<TLambda>
+        public readonly ref struct Impl<TLambda>
             where TLambda : struct, IAction<T, U, V>
         {
-            internal readonly TLambda lambda;
+            public readonly TLambda Lambda;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public void Invoke(T arg0, U arg1, V arg2)
             {
-                lambda.Invoke(arg0, arg1, arg2);
+                Lambda.Invoke(arg0, arg1, arg2);
             }
 
-            internal Impl(TLambda lambda)
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal Impl(TLambda Lambda)
             {
-                this.lambda = lambda;
+                this.Lambda = Lambda;
             }
 
-            public ValueAction<U, V>.Impl<Closure<T>.AppliedToAction<U, V, TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueAction<U, V>.Impl<Closure<T>.AppliedToAction<U, V, TLambda>> PartialInvoke(
                 T arg0
                 )
             {
                 var closure = new Closure<T>.AppliedToAction<U, V, TLambda>(
                     arg0,
-                    this
+                    in this
                 );
                 return ValueAction<U, V>.New(closure);
             }
 
-            public ValueAction<V>.Impl<Closure<T, U>.AppliedToAction<V, TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueAction<V>.Impl<Closure<T, U>.AppliedToAction<V, TLambda>> PartialInvoke(
                 T arg0,
                 U arg1
                 )
@@ -204,12 +186,13 @@ namespace CareBoo.Burst.Delegates
                 var closure = new Closure<T, U>.AppliedToAction<V, TLambda>(
                     arg0,
                     arg1,
-                    this
+                    in this
                 );
                 return ValueAction<V>.New(closure);
             }
 
-            public ValueAction.Impl<Closure<T, U, V>.AppliedToAction<TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueAction.Impl<Closure<T, U, V>.AppliedToAction<TLambda>> PartialInvoke(
                 T arg0,
                 U arg1,
                 V arg2
@@ -219,64 +202,59 @@ namespace CareBoo.Burst.Delegates
                     arg0,
                     arg1,
                     arg2,
-                    this
+                    in this
                 );
                 return ValueAction.New(closure);
             }
 
         }
 
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate void Delegate(T arg0, U arg1, V arg2);
-
-        public static Impl<TLambda> New<TLambda>(TLambda lambda = default)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Impl<TLambda> New<TLambda>(TLambda Lambda = default)
             where TLambda : struct, IAction<T, U, V>
         {
-            return new Impl<TLambda>(lambda);
-        }
-
-        public static Impl<BurstAction<T, U, V>> Compile(Delegate action)
-        {
-            var ptr = BurstCompiler.CompileFunctionPointer(action);
-            var burstAction = new BurstAction<T, U, V>(ptr.Value);
-            return New(burstAction);
+            return new Impl<TLambda>(Lambda);
         }
     }
 
 
-    public readonly struct ValueAction<T, U, V, W>
+    public struct ValueAction<T, U, V, W>
         where T : struct
         where U : struct
         where V : struct
         where W : struct
     {
-        public readonly struct Impl<TLambda>
+        public readonly ref struct Impl<TLambda>
             where TLambda : struct, IAction<T, U, V, W>
         {
-            internal readonly TLambda lambda;
+            public readonly TLambda Lambda;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public void Invoke(T arg0, U arg1, V arg2, W arg3)
             {
-                lambda.Invoke(arg0, arg1, arg2, arg3);
+                Lambda.Invoke(arg0, arg1, arg2, arg3);
             }
 
-            internal Impl(TLambda lambda)
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal Impl(TLambda Lambda)
             {
-                this.lambda = lambda;
+                this.Lambda = Lambda;
             }
 
-            public ValueAction<U, V, W>.Impl<Closure<T>.AppliedToAction<U, V, W, TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueAction<U, V, W>.Impl<Closure<T>.AppliedToAction<U, V, W, TLambda>> PartialInvoke(
                 T arg0
                 )
             {
                 var closure = new Closure<T>.AppliedToAction<U, V, W, TLambda>(
                     arg0,
-                    this
+                    in this
                 );
                 return ValueAction<U, V, W>.New(closure);
             }
 
-            public ValueAction<V, W>.Impl<Closure<T, U>.AppliedToAction<V, W, TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueAction<V, W>.Impl<Closure<T, U>.AppliedToAction<V, W, TLambda>> PartialInvoke(
                 T arg0,
                 U arg1
                 )
@@ -284,12 +262,13 @@ namespace CareBoo.Burst.Delegates
                 var closure = new Closure<T, U>.AppliedToAction<V, W, TLambda>(
                     arg0,
                     arg1,
-                    this
+                    in this
                 );
                 return ValueAction<V, W>.New(closure);
             }
 
-            public ValueAction<W>.Impl<Closure<T, U, V>.AppliedToAction<W, TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueAction<W>.Impl<Closure<T, U, V>.AppliedToAction<W, TLambda>> PartialInvoke(
                 T arg0,
                 U arg1,
                 V arg2
@@ -299,12 +278,13 @@ namespace CareBoo.Burst.Delegates
                     arg0,
                     arg1,
                     arg2,
-                    this
+                    in this
                 );
                 return ValueAction<W>.New(closure);
             }
 
-            public ValueAction.Impl<Closure<T, U, V, W>.AppliedToAction<TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueAction.Impl<Closure<T, U, V, W>.AppliedToAction<TLambda>> PartialInvoke(
                 T arg0,
                 U arg1,
                 V arg2,
@@ -316,65 +296,60 @@ namespace CareBoo.Burst.Delegates
                     arg1,
                     arg2,
                     arg3,
-                    this
+                    in this
                 );
                 return ValueAction.New(closure);
             }
 
         }
 
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate void Delegate(T arg0, U arg1, V arg2, W arg3);
-
-        public static Impl<TLambda> New<TLambda>(TLambda lambda = default)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Impl<TLambda> New<TLambda>(TLambda Lambda = default)
             where TLambda : struct, IAction<T, U, V, W>
         {
-            return new Impl<TLambda>(lambda);
-        }
-
-        public static Impl<BurstAction<T, U, V, W>> Compile(Delegate action)
-        {
-            var ptr = BurstCompiler.CompileFunctionPointer(action);
-            var burstAction = new BurstAction<T, U, V, W>(ptr.Value);
-            return New(burstAction);
+            return new Impl<TLambda>(Lambda);
         }
     }
 
 
-    public readonly struct ValueAction<T, U, V, W, X>
+    public struct ValueAction<T, U, V, W, X>
         where T : struct
         where U : struct
         where V : struct
         where W : struct
         where X : struct
     {
-        public readonly struct Impl<TLambda>
+        public readonly ref struct Impl<TLambda>
             where TLambda : struct, IAction<T, U, V, W, X>
         {
-            internal readonly TLambda lambda;
+            public readonly TLambda Lambda;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public void Invoke(T arg0, U arg1, V arg2, W arg3, X arg4)
             {
-                lambda.Invoke(arg0, arg1, arg2, arg3, arg4);
+                Lambda.Invoke(arg0, arg1, arg2, arg3, arg4);
             }
 
-            internal Impl(TLambda lambda)
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal Impl(TLambda Lambda)
             {
-                this.lambda = lambda;
+                this.Lambda = Lambda;
             }
 
-            public ValueAction<U, V, W, X>.Impl<Closure<T>.AppliedToAction<U, V, W, X, TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueAction<U, V, W, X>.Impl<Closure<T>.AppliedToAction<U, V, W, X, TLambda>> PartialInvoke(
                 T arg0
                 )
             {
                 var closure = new Closure<T>.AppliedToAction<U, V, W, X, TLambda>(
                     arg0,
-                    this
+                    in this
                 );
                 return ValueAction<U, V, W, X>.New(closure);
             }
 
-            public ValueAction<V, W, X>.Impl<Closure<T, U>.AppliedToAction<V, W, X, TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueAction<V, W, X>.Impl<Closure<T, U>.AppliedToAction<V, W, X, TLambda>> PartialInvoke(
                 T arg0,
                 U arg1
                 )
@@ -382,12 +357,13 @@ namespace CareBoo.Burst.Delegates
                 var closure = new Closure<T, U>.AppliedToAction<V, W, X, TLambda>(
                     arg0,
                     arg1,
-                    this
+                    in this
                 );
                 return ValueAction<V, W, X>.New(closure);
             }
 
-            public ValueAction<W, X>.Impl<Closure<T, U, V>.AppliedToAction<W, X, TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueAction<W, X>.Impl<Closure<T, U, V>.AppliedToAction<W, X, TLambda>> PartialInvoke(
                 T arg0,
                 U arg1,
                 V arg2
@@ -397,12 +373,13 @@ namespace CareBoo.Burst.Delegates
                     arg0,
                     arg1,
                     arg2,
-                    this
+                    in this
                 );
                 return ValueAction<W, X>.New(closure);
             }
 
-            public ValueAction<X>.Impl<Closure<T, U, V, W>.AppliedToAction<X, TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueAction<X>.Impl<Closure<T, U, V, W>.AppliedToAction<X, TLambda>> PartialInvoke(
                 T arg0,
                 U arg1,
                 V arg2,
@@ -414,12 +391,13 @@ namespace CareBoo.Burst.Delegates
                     arg1,
                     arg2,
                     arg3,
-                    this
+                    in this
                 );
                 return ValueAction<X>.New(closure);
             }
 
-            public ValueAction.Impl<Closure<T, U, V, W, X>.AppliedToAction<TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueAction.Impl<Closure<T, U, V, W, X>.AppliedToAction<TLambda>> PartialInvoke(
                 T arg0,
                 U arg1,
                 V arg2,
@@ -433,32 +411,23 @@ namespace CareBoo.Burst.Delegates
                     arg2,
                     arg3,
                     arg4,
-                    this
+                    in this
                 );
                 return ValueAction.New(closure);
             }
 
         }
 
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate void Delegate(T arg0, U arg1, V arg2, W arg3, X arg4);
-
-        public static Impl<TLambda> New<TLambda>(TLambda lambda = default)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Impl<TLambda> New<TLambda>(TLambda Lambda = default)
             where TLambda : struct, IAction<T, U, V, W, X>
         {
-            return new Impl<TLambda>(lambda);
-        }
-
-        public static Impl<BurstAction<T, U, V, W, X>> Compile(Delegate action)
-        {
-            var ptr = BurstCompiler.CompileFunctionPointer(action);
-            var burstAction = new BurstAction<T, U, V, W, X>(ptr.Value);
-            return New(burstAction);
+            return new Impl<TLambda>(Lambda);
         }
     }
 
 
-    public readonly struct ValueAction<T, U, V, W, X, Y>
+    public struct ValueAction<T, U, V, W, X, Y>
         where T : struct
         where U : struct
         where V : struct
@@ -466,33 +435,37 @@ namespace CareBoo.Burst.Delegates
         where X : struct
         where Y : struct
     {
-        public readonly struct Impl<TLambda>
+        public readonly ref struct Impl<TLambda>
             where TLambda : struct, IAction<T, U, V, W, X, Y>
         {
-            internal readonly TLambda lambda;
+            public readonly TLambda Lambda;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public void Invoke(T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5)
             {
-                lambda.Invoke(arg0, arg1, arg2, arg3, arg4, arg5);
+                Lambda.Invoke(arg0, arg1, arg2, arg3, arg4, arg5);
             }
 
-            internal Impl(TLambda lambda)
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal Impl(TLambda Lambda)
             {
-                this.lambda = lambda;
+                this.Lambda = Lambda;
             }
 
-            public ValueAction<U, V, W, X, Y>.Impl<Closure<T>.AppliedToAction<U, V, W, X, Y, TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueAction<U, V, W, X, Y>.Impl<Closure<T>.AppliedToAction<U, V, W, X, Y, TLambda>> PartialInvoke(
                 T arg0
                 )
             {
                 var closure = new Closure<T>.AppliedToAction<U, V, W, X, Y, TLambda>(
                     arg0,
-                    this
+                    in this
                 );
                 return ValueAction<U, V, W, X, Y>.New(closure);
             }
 
-            public ValueAction<V, W, X, Y>.Impl<Closure<T, U>.AppliedToAction<V, W, X, Y, TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueAction<V, W, X, Y>.Impl<Closure<T, U>.AppliedToAction<V, W, X, Y, TLambda>> PartialInvoke(
                 T arg0,
                 U arg1
                 )
@@ -500,12 +473,13 @@ namespace CareBoo.Burst.Delegates
                 var closure = new Closure<T, U>.AppliedToAction<V, W, X, Y, TLambda>(
                     arg0,
                     arg1,
-                    this
+                    in this
                 );
                 return ValueAction<V, W, X, Y>.New(closure);
             }
 
-            public ValueAction<W, X, Y>.Impl<Closure<T, U, V>.AppliedToAction<W, X, Y, TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueAction<W, X, Y>.Impl<Closure<T, U, V>.AppliedToAction<W, X, Y, TLambda>> PartialInvoke(
                 T arg0,
                 U arg1,
                 V arg2
@@ -515,12 +489,13 @@ namespace CareBoo.Burst.Delegates
                     arg0,
                     arg1,
                     arg2,
-                    this
+                    in this
                 );
                 return ValueAction<W, X, Y>.New(closure);
             }
 
-            public ValueAction<X, Y>.Impl<Closure<T, U, V, W>.AppliedToAction<X, Y, TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueAction<X, Y>.Impl<Closure<T, U, V, W>.AppliedToAction<X, Y, TLambda>> PartialInvoke(
                 T arg0,
                 U arg1,
                 V arg2,
@@ -532,12 +507,13 @@ namespace CareBoo.Burst.Delegates
                     arg1,
                     arg2,
                     arg3,
-                    this
+                    in this
                 );
                 return ValueAction<X, Y>.New(closure);
             }
 
-            public ValueAction<Y>.Impl<Closure<T, U, V, W, X>.AppliedToAction<Y, TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueAction<Y>.Impl<Closure<T, U, V, W, X>.AppliedToAction<Y, TLambda>> PartialInvoke(
                 T arg0,
                 U arg1,
                 V arg2,
@@ -551,12 +527,13 @@ namespace CareBoo.Burst.Delegates
                     arg2,
                     arg3,
                     arg4,
-                    this
+                    in this
                 );
                 return ValueAction<Y>.New(closure);
             }
 
-            public ValueAction.Impl<Closure<T, U, V, W, X, Y>.AppliedToAction<TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueAction.Impl<Closure<T, U, V, W, X, Y>.AppliedToAction<TLambda>> PartialInvoke(
                 T arg0,
                 U arg1,
                 V arg2,
@@ -572,32 +549,23 @@ namespace CareBoo.Burst.Delegates
                     arg3,
                     arg4,
                     arg5,
-                    this
+                    in this
                 );
                 return ValueAction.New(closure);
             }
 
         }
 
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate void Delegate(T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5);
-
-        public static Impl<TLambda> New<TLambda>(TLambda lambda = default)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Impl<TLambda> New<TLambda>(TLambda Lambda = default)
             where TLambda : struct, IAction<T, U, V, W, X, Y>
         {
-            return new Impl<TLambda>(lambda);
-        }
-
-        public static Impl<BurstAction<T, U, V, W, X, Y>> Compile(Delegate action)
-        {
-            var ptr = BurstCompiler.CompileFunctionPointer(action);
-            var burstAction = new BurstAction<T, U, V, W, X, Y>(ptr.Value);
-            return New(burstAction);
+            return new Impl<TLambda>(Lambda);
         }
     }
 
 
-    public readonly struct ValueAction<T, U, V, W, X, Y, Z>
+    public struct ValueAction<T, U, V, W, X, Y, Z>
         where T : struct
         where U : struct
         where V : struct
@@ -606,33 +574,37 @@ namespace CareBoo.Burst.Delegates
         where Y : struct
         where Z : struct
     {
-        public readonly struct Impl<TLambda>
+        public readonly ref struct Impl<TLambda>
             where TLambda : struct, IAction<T, U, V, W, X, Y, Z>
         {
-            internal readonly TLambda lambda;
+            public readonly TLambda Lambda;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public void Invoke(T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5, Z arg6)
             {
-                lambda.Invoke(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
+                Lambda.Invoke(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
             }
 
-            internal Impl(TLambda lambda)
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal Impl(TLambda Lambda)
             {
-                this.lambda = lambda;
+                this.Lambda = Lambda;
             }
 
-            public ValueAction<U, V, W, X, Y, Z>.Impl<Closure<T>.AppliedToAction<U, V, W, X, Y, Z, TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueAction<U, V, W, X, Y, Z>.Impl<Closure<T>.AppliedToAction<U, V, W, X, Y, Z, TLambda>> PartialInvoke(
                 T arg0
                 )
             {
                 var closure = new Closure<T>.AppliedToAction<U, V, W, X, Y, Z, TLambda>(
                     arg0,
-                    this
+                    in this
                 );
                 return ValueAction<U, V, W, X, Y, Z>.New(closure);
             }
 
-            public ValueAction<V, W, X, Y, Z>.Impl<Closure<T, U>.AppliedToAction<V, W, X, Y, Z, TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueAction<V, W, X, Y, Z>.Impl<Closure<T, U>.AppliedToAction<V, W, X, Y, Z, TLambda>> PartialInvoke(
                 T arg0,
                 U arg1
                 )
@@ -640,12 +612,13 @@ namespace CareBoo.Burst.Delegates
                 var closure = new Closure<T, U>.AppliedToAction<V, W, X, Y, Z, TLambda>(
                     arg0,
                     arg1,
-                    this
+                    in this
                 );
                 return ValueAction<V, W, X, Y, Z>.New(closure);
             }
 
-            public ValueAction<W, X, Y, Z>.Impl<Closure<T, U, V>.AppliedToAction<W, X, Y, Z, TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueAction<W, X, Y, Z>.Impl<Closure<T, U, V>.AppliedToAction<W, X, Y, Z, TLambda>> PartialInvoke(
                 T arg0,
                 U arg1,
                 V arg2
@@ -655,12 +628,13 @@ namespace CareBoo.Burst.Delegates
                     arg0,
                     arg1,
                     arg2,
-                    this
+                    in this
                 );
                 return ValueAction<W, X, Y, Z>.New(closure);
             }
 
-            public ValueAction<X, Y, Z>.Impl<Closure<T, U, V, W>.AppliedToAction<X, Y, Z, TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueAction<X, Y, Z>.Impl<Closure<T, U, V, W>.AppliedToAction<X, Y, Z, TLambda>> PartialInvoke(
                 T arg0,
                 U arg1,
                 V arg2,
@@ -672,12 +646,13 @@ namespace CareBoo.Burst.Delegates
                     arg1,
                     arg2,
                     arg3,
-                    this
+                    in this
                 );
                 return ValueAction<X, Y, Z>.New(closure);
             }
 
-            public ValueAction<Y, Z>.Impl<Closure<T, U, V, W, X>.AppliedToAction<Y, Z, TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueAction<Y, Z>.Impl<Closure<T, U, V, W, X>.AppliedToAction<Y, Z, TLambda>> PartialInvoke(
                 T arg0,
                 U arg1,
                 V arg2,
@@ -691,12 +666,13 @@ namespace CareBoo.Burst.Delegates
                     arg2,
                     arg3,
                     arg4,
-                    this
+                    in this
                 );
                 return ValueAction<Y, Z>.New(closure);
             }
 
-            public ValueAction<Z>.Impl<Closure<T, U, V, W, X, Y>.AppliedToAction<Z, TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueAction<Z>.Impl<Closure<T, U, V, W, X, Y>.AppliedToAction<Z, TLambda>> PartialInvoke(
                 T arg0,
                 U arg1,
                 V arg2,
@@ -712,12 +688,13 @@ namespace CareBoo.Burst.Delegates
                     arg3,
                     arg4,
                     arg5,
-                    this
+                    in this
                 );
                 return ValueAction<Z>.New(closure);
             }
 
-            public ValueAction.Impl<Closure<T, U, V, W, X, Y, Z>.AppliedToAction<TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueAction.Impl<Closure<T, U, V, W, X, Y, Z>.AppliedToAction<TLambda>> PartialInvoke(
                 T arg0,
                 U arg1,
                 V arg2,
@@ -735,27 +712,18 @@ namespace CareBoo.Burst.Delegates
                     arg4,
                     arg5,
                     arg6,
-                    this
+                    in this
                 );
                 return ValueAction.New(closure);
             }
 
         }
 
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate void Delegate(T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5, Z arg6);
-
-        public static Impl<TLambda> New<TLambda>(TLambda lambda = default)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Impl<TLambda> New<TLambda>(TLambda Lambda = default)
             where TLambda : struct, IAction<T, U, V, W, X, Y, Z>
         {
-            return new Impl<TLambda>(lambda);
-        }
-
-        public static Impl<BurstAction<T, U, V, W, X, Y, Z>> Compile(Delegate action)
-        {
-            var ptr = BurstCompiler.CompileFunctionPointer(action);
-            var burstAction = new BurstAction<T, U, V, W, X, Y, Z>(ptr.Value);
-            return New(burstAction);
+            return new Impl<TLambda>(Lambda);
         }
     }
 

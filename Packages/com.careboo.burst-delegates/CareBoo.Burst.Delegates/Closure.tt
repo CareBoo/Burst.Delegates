@@ -6,11 +6,8 @@
 //     the code is regenerated.
 // </auto-generated>
 //------------------------------------------------------------------------------
-<#@ assembly name="System.Core" #>
-<#@ import namespace="System.Linq" #>
-<#@ output extension=".gen.cs" #>
-
-using System;
+<#@ assembly name="System.Core" #><#@ import namespace="System.Linq" #><#@ output extension=".gen.cs" #>
+using System.Runtime.CompilerServices;
 
 namespace CareBoo.Burst.Delegates
 {
@@ -68,46 +65,50 @@ for (var i = 0; i < GENERIC_PARAMS.Length; i++)
         var originalFunctionGenericParams = originalActionGenericParams.Append("TResult");
         var appliedFunctionGenericParams = appliedActionGenericParams.Append("TResult");
 #>
-        public struct AppliedToAction<#=GetGenericDefinition(appliedToActionGenericParams)#>
+        public readonly struct AppliedToAction<#=GetGenericDefinition(appliedToActionGenericParams)#>
             : IAction<#=GetGenericDefinition(appliedActionGenericParams)#>
             <#=GetGenericConstraint(appliedActionGenericParams, 3)#>
             where TAction : struct, IAction<#=GetGenericDefinition(originalActionGenericParams)#>
         {
             <#=string.Join("\n            ", closureGenericParams.Select((t, n) => $"readonly {t} arg{n};"))#>
-            readonly ValueAction<#=GetGenericDefinition(originalActionGenericParams)#>.Impl<TAction> action;
+            readonly TAction action;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToAction(
                 <#=string.Join("\n                ", closureGenericParams.Select((t, n) => $"{t} arg{n},"))#>
-                ValueAction<#=GetGenericDefinition(originalActionGenericParams)#>.Impl<TAction> action
+                in ValueAction<#=GetGenericDefinition(originalActionGenericParams)#>.Impl<TAction> action
                 )
             {
                 <#=string.Join("\n                ", closureGenericParams.Select((t, n) => $"this.arg{n} = arg{n};"))#>
-                this.action = action;
+                this.action = action.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public void Invoke(<#=string.Join(", ", appliedActionGenericParams.Select((t, n) => $"{t} arg{n + i + 1}"))#>)
             {
                 action.Invoke(<#=string.Join(", ", originalActionGenericParams.Select((_, n) => $"arg{n}"))#>);
             }
         }
 
-        public struct AppliedToFunc<#=GetGenericDefinition(appliedFunctionGenericParams.Append("TFunc"))#>
+        public readonly struct AppliedToFunc<#=GetGenericDefinition(appliedFunctionGenericParams.Append("TFunc"))#>
             : IFunc<<#=string.Join(", ", appliedFunctionGenericParams)#>>
             <#=GetGenericConstraint(appliedFunctionGenericParams, 3)#>
             where TFunc : struct, IFunc<#=GetGenericDefinition(originalFunctionGenericParams)#>
         {
             <#=string.Join("\n            ", closureGenericParams.Select((t, n) => $"readonly {t} arg{n};"))#>
-            readonly ValueFunc<#=GetGenericDefinition(originalFunctionGenericParams)#>.Impl<TFunc> func;
+            readonly TFunc func;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToFunc(
                 <#=string.Join("\n                ", closureGenericParams.Select((t, n) => $"{t} arg{n},"))#>
-                ValueFunc<#=GetGenericDefinition(originalFunctionGenericParams)#>.Impl<TFunc> func
-            )
+                in ValueFunc<#=GetGenericDefinition(originalFunctionGenericParams)#>.Impl<TFunc> func
+                )
             {
                 <#=string.Join("\n                ", closureGenericParams.Select((t, n) => $"this.arg{n} = arg{n};"))#>
-                this.func = func;
+                this.func = func.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public TResult Invoke(<#=string.Join(", ", appliedActionGenericParams.Select((t, n) => $"{t} arg{n + i + 1}"))#>)
             {
                 return func.Invoke(<#=string.Join(", ", originalActionGenericParams.Select((_, n) => $"arg{n}"))#>);
