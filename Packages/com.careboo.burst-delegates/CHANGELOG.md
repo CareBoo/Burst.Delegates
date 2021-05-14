@@ -3,6 +3,41 @@ All notable changes to this package will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+# [2.0.0-exp.1](https://github.com/CareBoo/Burst.Delegates/compare/v1.2.0...v2.0.0-exp.1) (2021-05-14)
+
+
+### Bug Fixes
+
+* :bug: Fix minimal unity version ([ea8b0f7](https://github.com/CareBoo/Burst.Delegates/commit/ea8b0f7fd8ae7039c761be895f47bff0ec66e242))
+
+
+### Code Refactoring
+
+* :fire: Remove ValueFunc, ValueAction, and use new C# 9 function pointer syntax ([e5ea11a](https://github.com/CareBoo/Burst.Delegates/commit/e5ea11aca68bf824cfc2d055b5ef23ee2feb189a))
+* :zap: Remove non-struct interface ([b05e8a8](https://github.com/CareBoo/Burst.Delegates/commit/b05e8a8754065e74f491a62fdba019ca860b92a7))
+
+
+### Features
+
+* :sparkles: Add implicit conversion from BurstDelegate to FunctionPointer ([98286a3](https://github.com/CareBoo/Burst.Delegates/commit/98286a3b8884adabe0e096f9334a12723ba8ec3b))
+* :sparkles: Add implicit operator for Burst Delegates and C# 9 Function Pointers ([53951a9](https://github.com/CareBoo/Burst.Delegates/commit/53951a9821cd18ca12d79dcb2571b61c1d886eb5))
+* :sparkles: Add partial application to Value Delegates ([6d16ffe](https://github.com/CareBoo/Burst.Delegates/commit/6d16ffef727733127a23ae797b142a3b7c8ea079))
+* :sparkles: ReAdd ValueFunc and ValueAction ([ab50da8](https://github.com/CareBoo/Burst.Delegates/commit/ab50da86064982de4737372c88cc35e9533b19b9))
+
+
+### Performance Improvements
+
+* :zap: Improve function pointer performance ([f621698](https://github.com/CareBoo/Burst.Delegates/commit/f6216982585de3032c59bd55ceb9205da1eb905e))
+* :zap: Use C# 9 function pointers ([bf91f66](https://github.com/CareBoo/Burst.Delegates/commit/bf91f66dca68720a09f453c603395e71a2392620))
+
+
+### BREAKING CHANGES
+
+* Remove most of the API dealing with function pointers
+* Move compile from Burst delegates to Value delegates
+* Minimum unity version has changed
+* Removed ValueFunc, ValueAction
+
 # [2.0.0-pre.6](https://github.com/CareBoo/Burst.Delegates/compare/v2.0.0-pre.5...v2.0.0-pre.6) (2021-04-26)
 
 
