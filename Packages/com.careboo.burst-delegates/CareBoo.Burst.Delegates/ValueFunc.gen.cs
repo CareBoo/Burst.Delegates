@@ -7,135 +7,122 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-
-
-
-using Unity.Burst;
-using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
 
 namespace CareBoo.Burst.Delegates
 {
 
-    public readonly struct ValueFunc<TResult>
+    public struct ValueFunc<TResult>
         where TResult : struct
     {
-        public readonly struct Impl<TLambda>
+        public readonly ref struct Impl<TLambda>
             where TLambda : struct, IFunc<TResult>
         {
-            internal readonly TLambda lambda;
+            public readonly TLambda Lambda;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public TResult Invoke()
             {
-                return lambda.Invoke();
+                return Lambda.Invoke();
             }
 
-            internal Impl(TLambda lambda)
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal Impl(TLambda Lambda)
             {
-                this.lambda = lambda;
+                this.Lambda = Lambda;
             }
 
         }
 
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate TResult Delegate();
-
-        public static Impl<TLambda> New<TLambda>(TLambda lambda = default)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Impl<TLambda> New<TLambda>(TLambda Lambda = default)
             where TLambda : struct, IFunc<TResult>
         {
-            return new Impl<TLambda>(lambda);
-        }
-
-        public static Impl<BurstFunc<TResult>> Compile(Delegate func)
-        {
-            var ptr = BurstCompiler.CompileFunctionPointer(func);
-            var burstFunc = new BurstFunc<TResult>(ptr.Value);
-            return New(burstFunc);
+            return new Impl<TLambda>(Lambda);
         }
     }
 
 
-    public readonly struct ValueFunc<T, TResult>
+    public struct ValueFunc<T, TResult>
         where T : struct
         where TResult : struct
     {
-        public readonly struct Impl<TLambda>
+        public readonly ref struct Impl<TLambda>
             where TLambda : struct, IFunc<T, TResult>
         {
-            internal readonly TLambda lambda;
+            public readonly TLambda Lambda;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public TResult Invoke(T arg0)
             {
-                return lambda.Invoke(arg0);
+                return Lambda.Invoke(arg0);
             }
 
-            internal Impl(TLambda lambda)
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal Impl(TLambda Lambda)
             {
-                this.lambda = lambda;
+                this.Lambda = Lambda;
             }
 
-            public ValueFunc<TResult>.Impl<Closure<T>.AppliedToFunc<TResult, TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueFunc<TResult>.Impl<Closure<T>.AppliedToFunc<TResult, TLambda>> PartialInvoke(
                 T arg0
                 )
             {
                 var closure = new Closure<T>.AppliedToFunc<TResult, TLambda>(
                     arg0,
-                    this
+                    in this
                 );
                 return ValueFunc<TResult>.New(closure);
             }
 
         }
 
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate TResult Delegate(T arg0);
-
-        public static Impl<TLambda> New<TLambda>(TLambda lambda = default)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Impl<TLambda> New<TLambda>(TLambda Lambda = default)
             where TLambda : struct, IFunc<T, TResult>
         {
-            return new Impl<TLambda>(lambda);
-        }
-
-        public static Impl<BurstFunc<T, TResult>> Compile(Delegate func)
-        {
-            var ptr = BurstCompiler.CompileFunctionPointer(func);
-            var burstFunc = new BurstFunc<T, TResult>(ptr.Value);
-            return New(burstFunc);
+            return new Impl<TLambda>(Lambda);
         }
     }
 
 
-    public readonly struct ValueFunc<T, U, TResult>
+    public struct ValueFunc<T, U, TResult>
         where T : struct
         where U : struct
         where TResult : struct
     {
-        public readonly struct Impl<TLambda>
+        public readonly ref struct Impl<TLambda>
             where TLambda : struct, IFunc<T, U, TResult>
         {
-            internal readonly TLambda lambda;
+            public readonly TLambda Lambda;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public TResult Invoke(T arg0, U arg1)
             {
-                return lambda.Invoke(arg0, arg1);
+                return Lambda.Invoke(arg0, arg1);
             }
 
-            internal Impl(TLambda lambda)
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal Impl(TLambda Lambda)
             {
-                this.lambda = lambda;
+                this.Lambda = Lambda;
             }
 
-            public ValueFunc<U, TResult>.Impl<Closure<T>.AppliedToFunc<U, TResult, TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueFunc<U, TResult>.Impl<Closure<T>.AppliedToFunc<U, TResult, TLambda>> PartialInvoke(
                 T arg0
                 )
             {
                 var closure = new Closure<T>.AppliedToFunc<U, TResult, TLambda>(
                     arg0,
-                    this
+                    in this
                 );
                 return ValueFunc<U, TResult>.New(closure);
             }
 
-            public ValueFunc<TResult>.Impl<Closure<T, U>.AppliedToFunc<TResult, TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueFunc<TResult>.Impl<Closure<T, U>.AppliedToFunc<TResult, TLambda>> PartialInvoke(
                 T arg0,
                 U arg1
                 )
@@ -143,64 +130,59 @@ namespace CareBoo.Burst.Delegates
                 var closure = new Closure<T, U>.AppliedToFunc<TResult, TLambda>(
                     arg0,
                     arg1,
-                    this
+                    in this
                 );
                 return ValueFunc<TResult>.New(closure);
             }
 
         }
 
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate TResult Delegate(T arg0, U arg1);
-
-        public static Impl<TLambda> New<TLambda>(TLambda lambda = default)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Impl<TLambda> New<TLambda>(TLambda Lambda = default)
             where TLambda : struct, IFunc<T, U, TResult>
         {
-            return new Impl<TLambda>(lambda);
-        }
-
-        public static Impl<BurstFunc<T, U, TResult>> Compile(Delegate func)
-        {
-            var ptr = BurstCompiler.CompileFunctionPointer(func);
-            var burstFunc = new BurstFunc<T, U, TResult>(ptr.Value);
-            return New(burstFunc);
+            return new Impl<TLambda>(Lambda);
         }
     }
 
 
-    public readonly struct ValueFunc<T, U, V, TResult>
+    public struct ValueFunc<T, U, V, TResult>
         where T : struct
         where U : struct
         where V : struct
         where TResult : struct
     {
-        public readonly struct Impl<TLambda>
+        public readonly ref struct Impl<TLambda>
             where TLambda : struct, IFunc<T, U, V, TResult>
         {
-            internal readonly TLambda lambda;
+            public readonly TLambda Lambda;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public TResult Invoke(T arg0, U arg1, V arg2)
             {
-                return lambda.Invoke(arg0, arg1, arg2);
+                return Lambda.Invoke(arg0, arg1, arg2);
             }
 
-            internal Impl(TLambda lambda)
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal Impl(TLambda Lambda)
             {
-                this.lambda = lambda;
+                this.Lambda = Lambda;
             }
 
-            public ValueFunc<U, V, TResult>.Impl<Closure<T>.AppliedToFunc<U, V, TResult, TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueFunc<U, V, TResult>.Impl<Closure<T>.AppliedToFunc<U, V, TResult, TLambda>> PartialInvoke(
                 T arg0
                 )
             {
                 var closure = new Closure<T>.AppliedToFunc<U, V, TResult, TLambda>(
                     arg0,
-                    this
+                    in this
                 );
                 return ValueFunc<U, V, TResult>.New(closure);
             }
 
-            public ValueFunc<V, TResult>.Impl<Closure<T, U>.AppliedToFunc<V, TResult, TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueFunc<V, TResult>.Impl<Closure<T, U>.AppliedToFunc<V, TResult, TLambda>> PartialInvoke(
                 T arg0,
                 U arg1
                 )
@@ -208,12 +190,13 @@ namespace CareBoo.Burst.Delegates
                 var closure = new Closure<T, U>.AppliedToFunc<V, TResult, TLambda>(
                     arg0,
                     arg1,
-                    this
+                    in this
                 );
                 return ValueFunc<V, TResult>.New(closure);
             }
 
-            public ValueFunc<TResult>.Impl<Closure<T, U, V>.AppliedToFunc<TResult, TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueFunc<TResult>.Impl<Closure<T, U, V>.AppliedToFunc<TResult, TLambda>> PartialInvoke(
                 T arg0,
                 U arg1,
                 V arg2
@@ -223,65 +206,60 @@ namespace CareBoo.Burst.Delegates
                     arg0,
                     arg1,
                     arg2,
-                    this
+                    in this
                 );
                 return ValueFunc<TResult>.New(closure);
             }
 
         }
 
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate TResult Delegate(T arg0, U arg1, V arg2);
-
-        public static Impl<TLambda> New<TLambda>(TLambda lambda = default)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Impl<TLambda> New<TLambda>(TLambda Lambda = default)
             where TLambda : struct, IFunc<T, U, V, TResult>
         {
-            return new Impl<TLambda>(lambda);
-        }
-
-        public static Impl<BurstFunc<T, U, V, TResult>> Compile(Delegate func)
-        {
-            var ptr = BurstCompiler.CompileFunctionPointer(func);
-            var burstFunc = new BurstFunc<T, U, V, TResult>(ptr.Value);
-            return New(burstFunc);
+            return new Impl<TLambda>(Lambda);
         }
     }
 
 
-    public readonly struct ValueFunc<T, U, V, W, TResult>
+    public struct ValueFunc<T, U, V, W, TResult>
         where T : struct
         where U : struct
         where V : struct
         where W : struct
         where TResult : struct
     {
-        public readonly struct Impl<TLambda>
+        public readonly ref struct Impl<TLambda>
             where TLambda : struct, IFunc<T, U, V, W, TResult>
         {
-            internal readonly TLambda lambda;
+            public readonly TLambda Lambda;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public TResult Invoke(T arg0, U arg1, V arg2, W arg3)
             {
-                return lambda.Invoke(arg0, arg1, arg2, arg3);
+                return Lambda.Invoke(arg0, arg1, arg2, arg3);
             }
 
-            internal Impl(TLambda lambda)
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal Impl(TLambda Lambda)
             {
-                this.lambda = lambda;
+                this.Lambda = Lambda;
             }
 
-            public ValueFunc<U, V, W, TResult>.Impl<Closure<T>.AppliedToFunc<U, V, W, TResult, TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueFunc<U, V, W, TResult>.Impl<Closure<T>.AppliedToFunc<U, V, W, TResult, TLambda>> PartialInvoke(
                 T arg0
                 )
             {
                 var closure = new Closure<T>.AppliedToFunc<U, V, W, TResult, TLambda>(
                     arg0,
-                    this
+                    in this
                 );
                 return ValueFunc<U, V, W, TResult>.New(closure);
             }
 
-            public ValueFunc<V, W, TResult>.Impl<Closure<T, U>.AppliedToFunc<V, W, TResult, TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueFunc<V, W, TResult>.Impl<Closure<T, U>.AppliedToFunc<V, W, TResult, TLambda>> PartialInvoke(
                 T arg0,
                 U arg1
                 )
@@ -289,12 +267,13 @@ namespace CareBoo.Burst.Delegates
                 var closure = new Closure<T, U>.AppliedToFunc<V, W, TResult, TLambda>(
                     arg0,
                     arg1,
-                    this
+                    in this
                 );
                 return ValueFunc<V, W, TResult>.New(closure);
             }
 
-            public ValueFunc<W, TResult>.Impl<Closure<T, U, V>.AppliedToFunc<W, TResult, TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueFunc<W, TResult>.Impl<Closure<T, U, V>.AppliedToFunc<W, TResult, TLambda>> PartialInvoke(
                 T arg0,
                 U arg1,
                 V arg2
@@ -304,12 +283,13 @@ namespace CareBoo.Burst.Delegates
                     arg0,
                     arg1,
                     arg2,
-                    this
+                    in this
                 );
                 return ValueFunc<W, TResult>.New(closure);
             }
 
-            public ValueFunc<TResult>.Impl<Closure<T, U, V, W>.AppliedToFunc<TResult, TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueFunc<TResult>.Impl<Closure<T, U, V, W>.AppliedToFunc<TResult, TLambda>> PartialInvoke(
                 T arg0,
                 U arg1,
                 V arg2,
@@ -321,32 +301,23 @@ namespace CareBoo.Burst.Delegates
                     arg1,
                     arg2,
                     arg3,
-                    this
+                    in this
                 );
                 return ValueFunc<TResult>.New(closure);
             }
 
         }
 
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate TResult Delegate(T arg0, U arg1, V arg2, W arg3);
-
-        public static Impl<TLambda> New<TLambda>(TLambda lambda = default)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Impl<TLambda> New<TLambda>(TLambda Lambda = default)
             where TLambda : struct, IFunc<T, U, V, W, TResult>
         {
-            return new Impl<TLambda>(lambda);
-        }
-
-        public static Impl<BurstFunc<T, U, V, W, TResult>> Compile(Delegate func)
-        {
-            var ptr = BurstCompiler.CompileFunctionPointer(func);
-            var burstFunc = new BurstFunc<T, U, V, W, TResult>(ptr.Value);
-            return New(burstFunc);
+            return new Impl<TLambda>(Lambda);
         }
     }
 
 
-    public readonly struct ValueFunc<T, U, V, W, X, TResult>
+    public struct ValueFunc<T, U, V, W, X, TResult>
         where T : struct
         where U : struct
         where V : struct
@@ -354,33 +325,37 @@ namespace CareBoo.Burst.Delegates
         where X : struct
         where TResult : struct
     {
-        public readonly struct Impl<TLambda>
+        public readonly ref struct Impl<TLambda>
             where TLambda : struct, IFunc<T, U, V, W, X, TResult>
         {
-            internal readonly TLambda lambda;
+            public readonly TLambda Lambda;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public TResult Invoke(T arg0, U arg1, V arg2, W arg3, X arg4)
             {
-                return lambda.Invoke(arg0, arg1, arg2, arg3, arg4);
+                return Lambda.Invoke(arg0, arg1, arg2, arg3, arg4);
             }
 
-            internal Impl(TLambda lambda)
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal Impl(TLambda Lambda)
             {
-                this.lambda = lambda;
+                this.Lambda = Lambda;
             }
 
-            public ValueFunc<U, V, W, X, TResult>.Impl<Closure<T>.AppliedToFunc<U, V, W, X, TResult, TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueFunc<U, V, W, X, TResult>.Impl<Closure<T>.AppliedToFunc<U, V, W, X, TResult, TLambda>> PartialInvoke(
                 T arg0
                 )
             {
                 var closure = new Closure<T>.AppliedToFunc<U, V, W, X, TResult, TLambda>(
                     arg0,
-                    this
+                    in this
                 );
                 return ValueFunc<U, V, W, X, TResult>.New(closure);
             }
 
-            public ValueFunc<V, W, X, TResult>.Impl<Closure<T, U>.AppliedToFunc<V, W, X, TResult, TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueFunc<V, W, X, TResult>.Impl<Closure<T, U>.AppliedToFunc<V, W, X, TResult, TLambda>> PartialInvoke(
                 T arg0,
                 U arg1
                 )
@@ -388,12 +363,13 @@ namespace CareBoo.Burst.Delegates
                 var closure = new Closure<T, U>.AppliedToFunc<V, W, X, TResult, TLambda>(
                     arg0,
                     arg1,
-                    this
+                    in this
                 );
                 return ValueFunc<V, W, X, TResult>.New(closure);
             }
 
-            public ValueFunc<W, X, TResult>.Impl<Closure<T, U, V>.AppliedToFunc<W, X, TResult, TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueFunc<W, X, TResult>.Impl<Closure<T, U, V>.AppliedToFunc<W, X, TResult, TLambda>> PartialInvoke(
                 T arg0,
                 U arg1,
                 V arg2
@@ -403,12 +379,13 @@ namespace CareBoo.Burst.Delegates
                     arg0,
                     arg1,
                     arg2,
-                    this
+                    in this
                 );
                 return ValueFunc<W, X, TResult>.New(closure);
             }
 
-            public ValueFunc<X, TResult>.Impl<Closure<T, U, V, W>.AppliedToFunc<X, TResult, TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueFunc<X, TResult>.Impl<Closure<T, U, V, W>.AppliedToFunc<X, TResult, TLambda>> PartialInvoke(
                 T arg0,
                 U arg1,
                 V arg2,
@@ -420,12 +397,13 @@ namespace CareBoo.Burst.Delegates
                     arg1,
                     arg2,
                     arg3,
-                    this
+                    in this
                 );
                 return ValueFunc<X, TResult>.New(closure);
             }
 
-            public ValueFunc<TResult>.Impl<Closure<T, U, V, W, X>.AppliedToFunc<TResult, TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueFunc<TResult>.Impl<Closure<T, U, V, W, X>.AppliedToFunc<TResult, TLambda>> PartialInvoke(
                 T arg0,
                 U arg1,
                 V arg2,
@@ -439,32 +417,23 @@ namespace CareBoo.Burst.Delegates
                     arg2,
                     arg3,
                     arg4,
-                    this
+                    in this
                 );
                 return ValueFunc<TResult>.New(closure);
             }
 
         }
 
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate TResult Delegate(T arg0, U arg1, V arg2, W arg3, X arg4);
-
-        public static Impl<TLambda> New<TLambda>(TLambda lambda = default)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Impl<TLambda> New<TLambda>(TLambda Lambda = default)
             where TLambda : struct, IFunc<T, U, V, W, X, TResult>
         {
-            return new Impl<TLambda>(lambda);
-        }
-
-        public static Impl<BurstFunc<T, U, V, W, X, TResult>> Compile(Delegate func)
-        {
-            var ptr = BurstCompiler.CompileFunctionPointer(func);
-            var burstFunc = new BurstFunc<T, U, V, W, X, TResult>(ptr.Value);
-            return New(burstFunc);
+            return new Impl<TLambda>(Lambda);
         }
     }
 
 
-    public readonly struct ValueFunc<T, U, V, W, X, Y, TResult>
+    public struct ValueFunc<T, U, V, W, X, Y, TResult>
         where T : struct
         where U : struct
         where V : struct
@@ -473,33 +442,37 @@ namespace CareBoo.Burst.Delegates
         where Y : struct
         where TResult : struct
     {
-        public readonly struct Impl<TLambda>
+        public readonly ref struct Impl<TLambda>
             where TLambda : struct, IFunc<T, U, V, W, X, Y, TResult>
         {
-            internal readonly TLambda lambda;
+            public readonly TLambda Lambda;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public TResult Invoke(T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5)
             {
-                return lambda.Invoke(arg0, arg1, arg2, arg3, arg4, arg5);
+                return Lambda.Invoke(arg0, arg1, arg2, arg3, arg4, arg5);
             }
 
-            internal Impl(TLambda lambda)
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal Impl(TLambda Lambda)
             {
-                this.lambda = lambda;
+                this.Lambda = Lambda;
             }
 
-            public ValueFunc<U, V, W, X, Y, TResult>.Impl<Closure<T>.AppliedToFunc<U, V, W, X, Y, TResult, TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueFunc<U, V, W, X, Y, TResult>.Impl<Closure<T>.AppliedToFunc<U, V, W, X, Y, TResult, TLambda>> PartialInvoke(
                 T arg0
                 )
             {
                 var closure = new Closure<T>.AppliedToFunc<U, V, W, X, Y, TResult, TLambda>(
                     arg0,
-                    this
+                    in this
                 );
                 return ValueFunc<U, V, W, X, Y, TResult>.New(closure);
             }
 
-            public ValueFunc<V, W, X, Y, TResult>.Impl<Closure<T, U>.AppliedToFunc<V, W, X, Y, TResult, TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueFunc<V, W, X, Y, TResult>.Impl<Closure<T, U>.AppliedToFunc<V, W, X, Y, TResult, TLambda>> PartialInvoke(
                 T arg0,
                 U arg1
                 )
@@ -507,12 +480,13 @@ namespace CareBoo.Burst.Delegates
                 var closure = new Closure<T, U>.AppliedToFunc<V, W, X, Y, TResult, TLambda>(
                     arg0,
                     arg1,
-                    this
+                    in this
                 );
                 return ValueFunc<V, W, X, Y, TResult>.New(closure);
             }
 
-            public ValueFunc<W, X, Y, TResult>.Impl<Closure<T, U, V>.AppliedToFunc<W, X, Y, TResult, TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueFunc<W, X, Y, TResult>.Impl<Closure<T, U, V>.AppliedToFunc<W, X, Y, TResult, TLambda>> PartialInvoke(
                 T arg0,
                 U arg1,
                 V arg2
@@ -522,12 +496,13 @@ namespace CareBoo.Burst.Delegates
                     arg0,
                     arg1,
                     arg2,
-                    this
+                    in this
                 );
                 return ValueFunc<W, X, Y, TResult>.New(closure);
             }
 
-            public ValueFunc<X, Y, TResult>.Impl<Closure<T, U, V, W>.AppliedToFunc<X, Y, TResult, TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueFunc<X, Y, TResult>.Impl<Closure<T, U, V, W>.AppliedToFunc<X, Y, TResult, TLambda>> PartialInvoke(
                 T arg0,
                 U arg1,
                 V arg2,
@@ -539,12 +514,13 @@ namespace CareBoo.Burst.Delegates
                     arg1,
                     arg2,
                     arg3,
-                    this
+                    in this
                 );
                 return ValueFunc<X, Y, TResult>.New(closure);
             }
 
-            public ValueFunc<Y, TResult>.Impl<Closure<T, U, V, W, X>.AppliedToFunc<Y, TResult, TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueFunc<Y, TResult>.Impl<Closure<T, U, V, W, X>.AppliedToFunc<Y, TResult, TLambda>> PartialInvoke(
                 T arg0,
                 U arg1,
                 V arg2,
@@ -558,12 +534,13 @@ namespace CareBoo.Burst.Delegates
                     arg2,
                     arg3,
                     arg4,
-                    this
+                    in this
                 );
                 return ValueFunc<Y, TResult>.New(closure);
             }
 
-            public ValueFunc<TResult>.Impl<Closure<T, U, V, W, X, Y>.AppliedToFunc<TResult, TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueFunc<TResult>.Impl<Closure<T, U, V, W, X, Y>.AppliedToFunc<TResult, TLambda>> PartialInvoke(
                 T arg0,
                 U arg1,
                 V arg2,
@@ -579,32 +556,23 @@ namespace CareBoo.Burst.Delegates
                     arg3,
                     arg4,
                     arg5,
-                    this
+                    in this
                 );
                 return ValueFunc<TResult>.New(closure);
             }
 
         }
 
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate TResult Delegate(T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5);
-
-        public static Impl<TLambda> New<TLambda>(TLambda lambda = default)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Impl<TLambda> New<TLambda>(TLambda Lambda = default)
             where TLambda : struct, IFunc<T, U, V, W, X, Y, TResult>
         {
-            return new Impl<TLambda>(lambda);
-        }
-
-        public static Impl<BurstFunc<T, U, V, W, X, Y, TResult>> Compile(Delegate func)
-        {
-            var ptr = BurstCompiler.CompileFunctionPointer(func);
-            var burstFunc = new BurstFunc<T, U, V, W, X, Y, TResult>(ptr.Value);
-            return New(burstFunc);
+            return new Impl<TLambda>(Lambda);
         }
     }
 
 
-    public readonly struct ValueFunc<T, U, V, W, X, Y, Z, TResult>
+    public struct ValueFunc<T, U, V, W, X, Y, Z, TResult>
         where T : struct
         where U : struct
         where V : struct
@@ -614,33 +582,37 @@ namespace CareBoo.Burst.Delegates
         where Z : struct
         where TResult : struct
     {
-        public readonly struct Impl<TLambda>
+        public readonly ref struct Impl<TLambda>
             where TLambda : struct, IFunc<T, U, V, W, X, Y, Z, TResult>
         {
-            internal readonly TLambda lambda;
+            public readonly TLambda Lambda;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public TResult Invoke(T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5, Z arg6)
             {
-                return lambda.Invoke(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
+                return Lambda.Invoke(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
             }
 
-            internal Impl(TLambda lambda)
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal Impl(TLambda Lambda)
             {
-                this.lambda = lambda;
+                this.Lambda = Lambda;
             }
 
-            public ValueFunc<U, V, W, X, Y, Z, TResult>.Impl<Closure<T>.AppliedToFunc<U, V, W, X, Y, Z, TResult, TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueFunc<U, V, W, X, Y, Z, TResult>.Impl<Closure<T>.AppliedToFunc<U, V, W, X, Y, Z, TResult, TLambda>> PartialInvoke(
                 T arg0
                 )
             {
                 var closure = new Closure<T>.AppliedToFunc<U, V, W, X, Y, Z, TResult, TLambda>(
                     arg0,
-                    this
+                    in this
                 );
                 return ValueFunc<U, V, W, X, Y, Z, TResult>.New(closure);
             }
 
-            public ValueFunc<V, W, X, Y, Z, TResult>.Impl<Closure<T, U>.AppliedToFunc<V, W, X, Y, Z, TResult, TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueFunc<V, W, X, Y, Z, TResult>.Impl<Closure<T, U>.AppliedToFunc<V, W, X, Y, Z, TResult, TLambda>> PartialInvoke(
                 T arg0,
                 U arg1
                 )
@@ -648,12 +620,13 @@ namespace CareBoo.Burst.Delegates
                 var closure = new Closure<T, U>.AppliedToFunc<V, W, X, Y, Z, TResult, TLambda>(
                     arg0,
                     arg1,
-                    this
+                    in this
                 );
                 return ValueFunc<V, W, X, Y, Z, TResult>.New(closure);
             }
 
-            public ValueFunc<W, X, Y, Z, TResult>.Impl<Closure<T, U, V>.AppliedToFunc<W, X, Y, Z, TResult, TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueFunc<W, X, Y, Z, TResult>.Impl<Closure<T, U, V>.AppliedToFunc<W, X, Y, Z, TResult, TLambda>> PartialInvoke(
                 T arg0,
                 U arg1,
                 V arg2
@@ -663,12 +636,13 @@ namespace CareBoo.Burst.Delegates
                     arg0,
                     arg1,
                     arg2,
-                    this
+                    in this
                 );
                 return ValueFunc<W, X, Y, Z, TResult>.New(closure);
             }
 
-            public ValueFunc<X, Y, Z, TResult>.Impl<Closure<T, U, V, W>.AppliedToFunc<X, Y, Z, TResult, TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueFunc<X, Y, Z, TResult>.Impl<Closure<T, U, V, W>.AppliedToFunc<X, Y, Z, TResult, TLambda>> PartialInvoke(
                 T arg0,
                 U arg1,
                 V arg2,
@@ -680,12 +654,13 @@ namespace CareBoo.Burst.Delegates
                     arg1,
                     arg2,
                     arg3,
-                    this
+                    in this
                 );
                 return ValueFunc<X, Y, Z, TResult>.New(closure);
             }
 
-            public ValueFunc<Y, Z, TResult>.Impl<Closure<T, U, V, W, X>.AppliedToFunc<Y, Z, TResult, TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueFunc<Y, Z, TResult>.Impl<Closure<T, U, V, W, X>.AppliedToFunc<Y, Z, TResult, TLambda>> PartialInvoke(
                 T arg0,
                 U arg1,
                 V arg2,
@@ -699,12 +674,13 @@ namespace CareBoo.Burst.Delegates
                     arg2,
                     arg3,
                     arg4,
-                    this
+                    in this
                 );
                 return ValueFunc<Y, Z, TResult>.New(closure);
             }
 
-            public ValueFunc<Z, TResult>.Impl<Closure<T, U, V, W, X, Y>.AppliedToFunc<Z, TResult, TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueFunc<Z, TResult>.Impl<Closure<T, U, V, W, X, Y>.AppliedToFunc<Z, TResult, TLambda>> PartialInvoke(
                 T arg0,
                 U arg1,
                 V arg2,
@@ -720,12 +696,13 @@ namespace CareBoo.Burst.Delegates
                     arg3,
                     arg4,
                     arg5,
-                    this
+                    in this
                 );
                 return ValueFunc<Z, TResult>.New(closure);
             }
 
-            public ValueFunc<TResult>.Impl<Closure<T, U, V, W, X, Y, Z>.AppliedToFunc<TResult, TLambda>> Apply(
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public ValueFunc<TResult>.Impl<Closure<T, U, V, W, X, Y, Z>.AppliedToFunc<TResult, TLambda>> PartialInvoke(
                 T arg0,
                 U arg1,
                 V arg2,
@@ -743,27 +720,18 @@ namespace CareBoo.Burst.Delegates
                     arg4,
                     arg5,
                     arg6,
-                    this
+                    in this
                 );
                 return ValueFunc<TResult>.New(closure);
             }
 
         }
 
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate TResult Delegate(T arg0, U arg1, V arg2, W arg3, X arg4, Y arg5, Z arg6);
-
-        public static Impl<TLambda> New<TLambda>(TLambda lambda = default)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Impl<TLambda> New<TLambda>(TLambda Lambda = default)
             where TLambda : struct, IFunc<T, U, V, W, X, Y, Z, TResult>
         {
-            return new Impl<TLambda>(lambda);
-        }
-
-        public static Impl<BurstFunc<T, U, V, W, X, Y, Z, TResult>> Compile(Delegate func)
-        {
-            var ptr = BurstCompiler.CompileFunctionPointer(func);
-            var burstFunc = new BurstFunc<T, U, V, W, X, Y, Z, TResult>(ptr.Value);
-            return New(burstFunc);
+            return new Impl<TLambda>(Lambda);
         }
     }
 

@@ -7,10 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-
-
-
-using System;
+using System.Runtime.CompilerServices;
 
 namespace CareBoo.Burst.Delegates
 {
@@ -19,46 +16,50 @@ namespace CareBoo.Burst.Delegates
         where T: struct
     {
 
-        public struct AppliedToAction<TAction>
+        public readonly struct AppliedToAction<TAction>
             : IAction
             
             where TAction : struct, IAction<T>
         {
             readonly T arg0;
-            readonly ValueAction<T>.Impl<TAction> action;
+            readonly TAction action;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToAction(
                 T arg0,
-                ValueAction<T>.Impl<TAction> action
+                in ValueAction<T>.Impl<TAction> action
                 )
             {
                 this.arg0 = arg0;
-                this.action = action;
+                this.action = action.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public void Invoke()
             {
                 action.Invoke(arg0);
             }
         }
 
-        public struct AppliedToFunc<TResult, TFunc>
+        public readonly struct AppliedToFunc<TResult, TFunc>
             : IFunc<TResult>
             where TResult: struct
             where TFunc : struct, IFunc<T, TResult>
         {
             readonly T arg0;
-            readonly ValueFunc<T, TResult>.Impl<TFunc> func;
+            readonly TFunc func;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToFunc(
                 T arg0,
-                ValueFunc<T, TResult>.Impl<TFunc> func
-            )
+                in ValueFunc<T, TResult>.Impl<TFunc> func
+                )
             {
                 this.arg0 = arg0;
-                this.func = func;
+                this.func = func.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public TResult Invoke()
             {
                 return func.Invoke(arg0);
@@ -66,47 +67,51 @@ namespace CareBoo.Burst.Delegates
         }
 
 
-        public struct AppliedToAction<U, TAction>
+        public readonly struct AppliedToAction<U, TAction>
             : IAction<U>
             where U: struct
             where TAction : struct, IAction<T, U>
         {
             readonly T arg0;
-            readonly ValueAction<T, U>.Impl<TAction> action;
+            readonly TAction action;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToAction(
                 T arg0,
-                ValueAction<T, U>.Impl<TAction> action
+                in ValueAction<T, U>.Impl<TAction> action
                 )
             {
                 this.arg0 = arg0;
-                this.action = action;
+                this.action = action.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public void Invoke(U arg1)
             {
                 action.Invoke(arg0, arg1);
             }
         }
 
-        public struct AppliedToFunc<U, TResult, TFunc>
+        public readonly struct AppliedToFunc<U, TResult, TFunc>
             : IFunc<U, TResult>
             where U: struct
             where TResult: struct
             where TFunc : struct, IFunc<T, U, TResult>
         {
             readonly T arg0;
-            readonly ValueFunc<T, U, TResult>.Impl<TFunc> func;
+            readonly TFunc func;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToFunc(
                 T arg0,
-                ValueFunc<T, U, TResult>.Impl<TFunc> func
-            )
+                in ValueFunc<T, U, TResult>.Impl<TFunc> func
+                )
             {
                 this.arg0 = arg0;
-                this.func = func;
+                this.func = func.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public TResult Invoke(U arg1)
             {
                 return func.Invoke(arg0, arg1);
@@ -114,31 +119,33 @@ namespace CareBoo.Burst.Delegates
         }
 
 
-        public struct AppliedToAction<U, V, TAction>
+        public readonly struct AppliedToAction<U, V, TAction>
             : IAction<U, V>
             where U: struct
             where V: struct
             where TAction : struct, IAction<T, U, V>
         {
             readonly T arg0;
-            readonly ValueAction<T, U, V>.Impl<TAction> action;
+            readonly TAction action;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToAction(
                 T arg0,
-                ValueAction<T, U, V>.Impl<TAction> action
+                in ValueAction<T, U, V>.Impl<TAction> action
                 )
             {
                 this.arg0 = arg0;
-                this.action = action;
+                this.action = action.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public void Invoke(U arg1, V arg2)
             {
                 action.Invoke(arg0, arg1, arg2);
             }
         }
 
-        public struct AppliedToFunc<U, V, TResult, TFunc>
+        public readonly struct AppliedToFunc<U, V, TResult, TFunc>
             : IFunc<U, V, TResult>
             where U: struct
             where V: struct
@@ -146,17 +153,19 @@ namespace CareBoo.Burst.Delegates
             where TFunc : struct, IFunc<T, U, V, TResult>
         {
             readonly T arg0;
-            readonly ValueFunc<T, U, V, TResult>.Impl<TFunc> func;
+            readonly TFunc func;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToFunc(
                 T arg0,
-                ValueFunc<T, U, V, TResult>.Impl<TFunc> func
-            )
+                in ValueFunc<T, U, V, TResult>.Impl<TFunc> func
+                )
             {
                 this.arg0 = arg0;
-                this.func = func;
+                this.func = func.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public TResult Invoke(U arg1, V arg2)
             {
                 return func.Invoke(arg0, arg1, arg2);
@@ -164,7 +173,7 @@ namespace CareBoo.Burst.Delegates
         }
 
 
-        public struct AppliedToAction<U, V, W, TAction>
+        public readonly struct AppliedToAction<U, V, W, TAction>
             : IAction<U, V, W>
             where U: struct
             where V: struct
@@ -172,24 +181,26 @@ namespace CareBoo.Burst.Delegates
             where TAction : struct, IAction<T, U, V, W>
         {
             readonly T arg0;
-            readonly ValueAction<T, U, V, W>.Impl<TAction> action;
+            readonly TAction action;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToAction(
                 T arg0,
-                ValueAction<T, U, V, W>.Impl<TAction> action
+                in ValueAction<T, U, V, W>.Impl<TAction> action
                 )
             {
                 this.arg0 = arg0;
-                this.action = action;
+                this.action = action.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public void Invoke(U arg1, V arg2, W arg3)
             {
                 action.Invoke(arg0, arg1, arg2, arg3);
             }
         }
 
-        public struct AppliedToFunc<U, V, W, TResult, TFunc>
+        public readonly struct AppliedToFunc<U, V, W, TResult, TFunc>
             : IFunc<U, V, W, TResult>
             where U: struct
             where V: struct
@@ -198,17 +209,19 @@ namespace CareBoo.Burst.Delegates
             where TFunc : struct, IFunc<T, U, V, W, TResult>
         {
             readonly T arg0;
-            readonly ValueFunc<T, U, V, W, TResult>.Impl<TFunc> func;
+            readonly TFunc func;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToFunc(
                 T arg0,
-                ValueFunc<T, U, V, W, TResult>.Impl<TFunc> func
-            )
+                in ValueFunc<T, U, V, W, TResult>.Impl<TFunc> func
+                )
             {
                 this.arg0 = arg0;
-                this.func = func;
+                this.func = func.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public TResult Invoke(U arg1, V arg2, W arg3)
             {
                 return func.Invoke(arg0, arg1, arg2, arg3);
@@ -216,7 +229,7 @@ namespace CareBoo.Burst.Delegates
         }
 
 
-        public struct AppliedToAction<U, V, W, X, TAction>
+        public readonly struct AppliedToAction<U, V, W, X, TAction>
             : IAction<U, V, W, X>
             where U: struct
             where V: struct
@@ -225,24 +238,26 @@ namespace CareBoo.Burst.Delegates
             where TAction : struct, IAction<T, U, V, W, X>
         {
             readonly T arg0;
-            readonly ValueAction<T, U, V, W, X>.Impl<TAction> action;
+            readonly TAction action;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToAction(
                 T arg0,
-                ValueAction<T, U, V, W, X>.Impl<TAction> action
+                in ValueAction<T, U, V, W, X>.Impl<TAction> action
                 )
             {
                 this.arg0 = arg0;
-                this.action = action;
+                this.action = action.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public void Invoke(U arg1, V arg2, W arg3, X arg4)
             {
                 action.Invoke(arg0, arg1, arg2, arg3, arg4);
             }
         }
 
-        public struct AppliedToFunc<U, V, W, X, TResult, TFunc>
+        public readonly struct AppliedToFunc<U, V, W, X, TResult, TFunc>
             : IFunc<U, V, W, X, TResult>
             where U: struct
             where V: struct
@@ -252,17 +267,19 @@ namespace CareBoo.Burst.Delegates
             where TFunc : struct, IFunc<T, U, V, W, X, TResult>
         {
             readonly T arg0;
-            readonly ValueFunc<T, U, V, W, X, TResult>.Impl<TFunc> func;
+            readonly TFunc func;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToFunc(
                 T arg0,
-                ValueFunc<T, U, V, W, X, TResult>.Impl<TFunc> func
-            )
+                in ValueFunc<T, U, V, W, X, TResult>.Impl<TFunc> func
+                )
             {
                 this.arg0 = arg0;
-                this.func = func;
+                this.func = func.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public TResult Invoke(U arg1, V arg2, W arg3, X arg4)
             {
                 return func.Invoke(arg0, arg1, arg2, arg3, arg4);
@@ -270,7 +287,7 @@ namespace CareBoo.Burst.Delegates
         }
 
 
-        public struct AppliedToAction<U, V, W, X, Y, TAction>
+        public readonly struct AppliedToAction<U, V, W, X, Y, TAction>
             : IAction<U, V, W, X, Y>
             where U: struct
             where V: struct
@@ -280,24 +297,26 @@ namespace CareBoo.Burst.Delegates
             where TAction : struct, IAction<T, U, V, W, X, Y>
         {
             readonly T arg0;
-            readonly ValueAction<T, U, V, W, X, Y>.Impl<TAction> action;
+            readonly TAction action;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToAction(
                 T arg0,
-                ValueAction<T, U, V, W, X, Y>.Impl<TAction> action
+                in ValueAction<T, U, V, W, X, Y>.Impl<TAction> action
                 )
             {
                 this.arg0 = arg0;
-                this.action = action;
+                this.action = action.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public void Invoke(U arg1, V arg2, W arg3, X arg4, Y arg5)
             {
                 action.Invoke(arg0, arg1, arg2, arg3, arg4, arg5);
             }
         }
 
-        public struct AppliedToFunc<U, V, W, X, Y, TResult, TFunc>
+        public readonly struct AppliedToFunc<U, V, W, X, Y, TResult, TFunc>
             : IFunc<U, V, W, X, Y, TResult>
             where U: struct
             where V: struct
@@ -308,17 +327,19 @@ namespace CareBoo.Burst.Delegates
             where TFunc : struct, IFunc<T, U, V, W, X, Y, TResult>
         {
             readonly T arg0;
-            readonly ValueFunc<T, U, V, W, X, Y, TResult>.Impl<TFunc> func;
+            readonly TFunc func;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToFunc(
                 T arg0,
-                ValueFunc<T, U, V, W, X, Y, TResult>.Impl<TFunc> func
-            )
+                in ValueFunc<T, U, V, W, X, Y, TResult>.Impl<TFunc> func
+                )
             {
                 this.arg0 = arg0;
-                this.func = func;
+                this.func = func.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public TResult Invoke(U arg1, V arg2, W arg3, X arg4, Y arg5)
             {
                 return func.Invoke(arg0, arg1, arg2, arg3, arg4, arg5);
@@ -326,7 +347,7 @@ namespace CareBoo.Burst.Delegates
         }
 
 
-        public struct AppliedToAction<U, V, W, X, Y, Z, TAction>
+        public readonly struct AppliedToAction<U, V, W, X, Y, Z, TAction>
             : IAction<U, V, W, X, Y, Z>
             where U: struct
             where V: struct
@@ -337,24 +358,26 @@ namespace CareBoo.Burst.Delegates
             where TAction : struct, IAction<T, U, V, W, X, Y, Z>
         {
             readonly T arg0;
-            readonly ValueAction<T, U, V, W, X, Y, Z>.Impl<TAction> action;
+            readonly TAction action;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToAction(
                 T arg0,
-                ValueAction<T, U, V, W, X, Y, Z>.Impl<TAction> action
+                in ValueAction<T, U, V, W, X, Y, Z>.Impl<TAction> action
                 )
             {
                 this.arg0 = arg0;
-                this.action = action;
+                this.action = action.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public void Invoke(U arg1, V arg2, W arg3, X arg4, Y arg5, Z arg6)
             {
                 action.Invoke(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
             }
         }
 
-        public struct AppliedToFunc<U, V, W, X, Y, Z, TResult, TFunc>
+        public readonly struct AppliedToFunc<U, V, W, X, Y, Z, TResult, TFunc>
             : IFunc<U, V, W, X, Y, Z, TResult>
             where U: struct
             where V: struct
@@ -366,17 +389,19 @@ namespace CareBoo.Burst.Delegates
             where TFunc : struct, IFunc<T, U, V, W, X, Y, Z, TResult>
         {
             readonly T arg0;
-            readonly ValueFunc<T, U, V, W, X, Y, Z, TResult>.Impl<TFunc> func;
+            readonly TFunc func;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToFunc(
                 T arg0,
-                ValueFunc<T, U, V, W, X, Y, Z, TResult>.Impl<TFunc> func
-            )
+                in ValueFunc<T, U, V, W, X, Y, Z, TResult>.Impl<TFunc> func
+                )
             {
                 this.arg0 = arg0;
-                this.func = func;
+                this.func = func.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public TResult Invoke(U arg1, V arg2, W arg3, X arg4, Y arg5, Z arg6)
             {
                 return func.Invoke(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
@@ -392,52 +417,56 @@ namespace CareBoo.Burst.Delegates
         where U: struct
     {
 
-        public struct AppliedToAction<TAction>
+        public readonly struct AppliedToAction<TAction>
             : IAction
             
             where TAction : struct, IAction<T, U>
         {
             readonly T arg0;
             readonly U arg1;
-            readonly ValueAction<T, U>.Impl<TAction> action;
+            readonly TAction action;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToAction(
                 T arg0,
                 U arg1,
-                ValueAction<T, U>.Impl<TAction> action
+                in ValueAction<T, U>.Impl<TAction> action
                 )
             {
                 this.arg0 = arg0;
                 this.arg1 = arg1;
-                this.action = action;
+                this.action = action.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public void Invoke()
             {
                 action.Invoke(arg0, arg1);
             }
         }
 
-        public struct AppliedToFunc<TResult, TFunc>
+        public readonly struct AppliedToFunc<TResult, TFunc>
             : IFunc<TResult>
             where TResult: struct
             where TFunc : struct, IFunc<T, U, TResult>
         {
             readonly T arg0;
             readonly U arg1;
-            readonly ValueFunc<T, U, TResult>.Impl<TFunc> func;
+            readonly TFunc func;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToFunc(
                 T arg0,
                 U arg1,
-                ValueFunc<T, U, TResult>.Impl<TFunc> func
-            )
+                in ValueFunc<T, U, TResult>.Impl<TFunc> func
+                )
             {
                 this.arg0 = arg0;
                 this.arg1 = arg1;
-                this.func = func;
+                this.func = func.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public TResult Invoke()
             {
                 return func.Invoke(arg0, arg1);
@@ -445,33 +474,35 @@ namespace CareBoo.Burst.Delegates
         }
 
 
-        public struct AppliedToAction<V, TAction>
+        public readonly struct AppliedToAction<V, TAction>
             : IAction<V>
             where V: struct
             where TAction : struct, IAction<T, U, V>
         {
             readonly T arg0;
             readonly U arg1;
-            readonly ValueAction<T, U, V>.Impl<TAction> action;
+            readonly TAction action;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToAction(
                 T arg0,
                 U arg1,
-                ValueAction<T, U, V>.Impl<TAction> action
+                in ValueAction<T, U, V>.Impl<TAction> action
                 )
             {
                 this.arg0 = arg0;
                 this.arg1 = arg1;
-                this.action = action;
+                this.action = action.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public void Invoke(V arg2)
             {
                 action.Invoke(arg0, arg1, arg2);
             }
         }
 
-        public struct AppliedToFunc<V, TResult, TFunc>
+        public readonly struct AppliedToFunc<V, TResult, TFunc>
             : IFunc<V, TResult>
             where V: struct
             where TResult: struct
@@ -479,19 +510,21 @@ namespace CareBoo.Burst.Delegates
         {
             readonly T arg0;
             readonly U arg1;
-            readonly ValueFunc<T, U, V, TResult>.Impl<TFunc> func;
+            readonly TFunc func;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToFunc(
                 T arg0,
                 U arg1,
-                ValueFunc<T, U, V, TResult>.Impl<TFunc> func
-            )
+                in ValueFunc<T, U, V, TResult>.Impl<TFunc> func
+                )
             {
                 this.arg0 = arg0;
                 this.arg1 = arg1;
-                this.func = func;
+                this.func = func.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public TResult Invoke(V arg2)
             {
                 return func.Invoke(arg0, arg1, arg2);
@@ -499,7 +532,7 @@ namespace CareBoo.Burst.Delegates
         }
 
 
-        public struct AppliedToAction<V, W, TAction>
+        public readonly struct AppliedToAction<V, W, TAction>
             : IAction<V, W>
             where V: struct
             where W: struct
@@ -507,26 +540,28 @@ namespace CareBoo.Burst.Delegates
         {
             readonly T arg0;
             readonly U arg1;
-            readonly ValueAction<T, U, V, W>.Impl<TAction> action;
+            readonly TAction action;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToAction(
                 T arg0,
                 U arg1,
-                ValueAction<T, U, V, W>.Impl<TAction> action
+                in ValueAction<T, U, V, W>.Impl<TAction> action
                 )
             {
                 this.arg0 = arg0;
                 this.arg1 = arg1;
-                this.action = action;
+                this.action = action.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public void Invoke(V arg2, W arg3)
             {
                 action.Invoke(arg0, arg1, arg2, arg3);
             }
         }
 
-        public struct AppliedToFunc<V, W, TResult, TFunc>
+        public readonly struct AppliedToFunc<V, W, TResult, TFunc>
             : IFunc<V, W, TResult>
             where V: struct
             where W: struct
@@ -535,19 +570,21 @@ namespace CareBoo.Burst.Delegates
         {
             readonly T arg0;
             readonly U arg1;
-            readonly ValueFunc<T, U, V, W, TResult>.Impl<TFunc> func;
+            readonly TFunc func;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToFunc(
                 T arg0,
                 U arg1,
-                ValueFunc<T, U, V, W, TResult>.Impl<TFunc> func
-            )
+                in ValueFunc<T, U, V, W, TResult>.Impl<TFunc> func
+                )
             {
                 this.arg0 = arg0;
                 this.arg1 = arg1;
-                this.func = func;
+                this.func = func.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public TResult Invoke(V arg2, W arg3)
             {
                 return func.Invoke(arg0, arg1, arg2, arg3);
@@ -555,7 +592,7 @@ namespace CareBoo.Burst.Delegates
         }
 
 
-        public struct AppliedToAction<V, W, X, TAction>
+        public readonly struct AppliedToAction<V, W, X, TAction>
             : IAction<V, W, X>
             where V: struct
             where W: struct
@@ -564,26 +601,28 @@ namespace CareBoo.Burst.Delegates
         {
             readonly T arg0;
             readonly U arg1;
-            readonly ValueAction<T, U, V, W, X>.Impl<TAction> action;
+            readonly TAction action;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToAction(
                 T arg0,
                 U arg1,
-                ValueAction<T, U, V, W, X>.Impl<TAction> action
+                in ValueAction<T, U, V, W, X>.Impl<TAction> action
                 )
             {
                 this.arg0 = arg0;
                 this.arg1 = arg1;
-                this.action = action;
+                this.action = action.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public void Invoke(V arg2, W arg3, X arg4)
             {
                 action.Invoke(arg0, arg1, arg2, arg3, arg4);
             }
         }
 
-        public struct AppliedToFunc<V, W, X, TResult, TFunc>
+        public readonly struct AppliedToFunc<V, W, X, TResult, TFunc>
             : IFunc<V, W, X, TResult>
             where V: struct
             where W: struct
@@ -593,19 +632,21 @@ namespace CareBoo.Burst.Delegates
         {
             readonly T arg0;
             readonly U arg1;
-            readonly ValueFunc<T, U, V, W, X, TResult>.Impl<TFunc> func;
+            readonly TFunc func;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToFunc(
                 T arg0,
                 U arg1,
-                ValueFunc<T, U, V, W, X, TResult>.Impl<TFunc> func
-            )
+                in ValueFunc<T, U, V, W, X, TResult>.Impl<TFunc> func
+                )
             {
                 this.arg0 = arg0;
                 this.arg1 = arg1;
-                this.func = func;
+                this.func = func.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public TResult Invoke(V arg2, W arg3, X arg4)
             {
                 return func.Invoke(arg0, arg1, arg2, arg3, arg4);
@@ -613,7 +654,7 @@ namespace CareBoo.Burst.Delegates
         }
 
 
-        public struct AppliedToAction<V, W, X, Y, TAction>
+        public readonly struct AppliedToAction<V, W, X, Y, TAction>
             : IAction<V, W, X, Y>
             where V: struct
             where W: struct
@@ -623,26 +664,28 @@ namespace CareBoo.Burst.Delegates
         {
             readonly T arg0;
             readonly U arg1;
-            readonly ValueAction<T, U, V, W, X, Y>.Impl<TAction> action;
+            readonly TAction action;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToAction(
                 T arg0,
                 U arg1,
-                ValueAction<T, U, V, W, X, Y>.Impl<TAction> action
+                in ValueAction<T, U, V, W, X, Y>.Impl<TAction> action
                 )
             {
                 this.arg0 = arg0;
                 this.arg1 = arg1;
-                this.action = action;
+                this.action = action.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public void Invoke(V arg2, W arg3, X arg4, Y arg5)
             {
                 action.Invoke(arg0, arg1, arg2, arg3, arg4, arg5);
             }
         }
 
-        public struct AppliedToFunc<V, W, X, Y, TResult, TFunc>
+        public readonly struct AppliedToFunc<V, W, X, Y, TResult, TFunc>
             : IFunc<V, W, X, Y, TResult>
             where V: struct
             where W: struct
@@ -653,19 +696,21 @@ namespace CareBoo.Burst.Delegates
         {
             readonly T arg0;
             readonly U arg1;
-            readonly ValueFunc<T, U, V, W, X, Y, TResult>.Impl<TFunc> func;
+            readonly TFunc func;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToFunc(
                 T arg0,
                 U arg1,
-                ValueFunc<T, U, V, W, X, Y, TResult>.Impl<TFunc> func
-            )
+                in ValueFunc<T, U, V, W, X, Y, TResult>.Impl<TFunc> func
+                )
             {
                 this.arg0 = arg0;
                 this.arg1 = arg1;
-                this.func = func;
+                this.func = func.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public TResult Invoke(V arg2, W arg3, X arg4, Y arg5)
             {
                 return func.Invoke(arg0, arg1, arg2, arg3, arg4, arg5);
@@ -673,7 +718,7 @@ namespace CareBoo.Burst.Delegates
         }
 
 
-        public struct AppliedToAction<V, W, X, Y, Z, TAction>
+        public readonly struct AppliedToAction<V, W, X, Y, Z, TAction>
             : IAction<V, W, X, Y, Z>
             where V: struct
             where W: struct
@@ -684,26 +729,28 @@ namespace CareBoo.Burst.Delegates
         {
             readonly T arg0;
             readonly U arg1;
-            readonly ValueAction<T, U, V, W, X, Y, Z>.Impl<TAction> action;
+            readonly TAction action;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToAction(
                 T arg0,
                 U arg1,
-                ValueAction<T, U, V, W, X, Y, Z>.Impl<TAction> action
+                in ValueAction<T, U, V, W, X, Y, Z>.Impl<TAction> action
                 )
             {
                 this.arg0 = arg0;
                 this.arg1 = arg1;
-                this.action = action;
+                this.action = action.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public void Invoke(V arg2, W arg3, X arg4, Y arg5, Z arg6)
             {
                 action.Invoke(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
             }
         }
 
-        public struct AppliedToFunc<V, W, X, Y, Z, TResult, TFunc>
+        public readonly struct AppliedToFunc<V, W, X, Y, Z, TResult, TFunc>
             : IFunc<V, W, X, Y, Z, TResult>
             where V: struct
             where W: struct
@@ -715,19 +762,21 @@ namespace CareBoo.Burst.Delegates
         {
             readonly T arg0;
             readonly U arg1;
-            readonly ValueFunc<T, U, V, W, X, Y, Z, TResult>.Impl<TFunc> func;
+            readonly TFunc func;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToFunc(
                 T arg0,
                 U arg1,
-                ValueFunc<T, U, V, W, X, Y, Z, TResult>.Impl<TFunc> func
-            )
+                in ValueFunc<T, U, V, W, X, Y, Z, TResult>.Impl<TFunc> func
+                )
             {
                 this.arg0 = arg0;
                 this.arg1 = arg1;
-                this.func = func;
+                this.func = func.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public TResult Invoke(V arg2, W arg3, X arg4, Y arg5, Z arg6)
             {
                 return func.Invoke(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
@@ -744,7 +793,7 @@ namespace CareBoo.Burst.Delegates
         where V: struct
     {
 
-        public struct AppliedToAction<TAction>
+        public readonly struct AppliedToAction<TAction>
             : IAction
             
             where TAction : struct, IAction<T, U, V>
@@ -752,28 +801,30 @@ namespace CareBoo.Burst.Delegates
             readonly T arg0;
             readonly U arg1;
             readonly V arg2;
-            readonly ValueAction<T, U, V>.Impl<TAction> action;
+            readonly TAction action;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToAction(
                 T arg0,
                 U arg1,
                 V arg2,
-                ValueAction<T, U, V>.Impl<TAction> action
+                in ValueAction<T, U, V>.Impl<TAction> action
                 )
             {
                 this.arg0 = arg0;
                 this.arg1 = arg1;
                 this.arg2 = arg2;
-                this.action = action;
+                this.action = action.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public void Invoke()
             {
                 action.Invoke(arg0, arg1, arg2);
             }
         }
 
-        public struct AppliedToFunc<TResult, TFunc>
+        public readonly struct AppliedToFunc<TResult, TFunc>
             : IFunc<TResult>
             where TResult: struct
             where TFunc : struct, IFunc<T, U, V, TResult>
@@ -781,21 +832,23 @@ namespace CareBoo.Burst.Delegates
             readonly T arg0;
             readonly U arg1;
             readonly V arg2;
-            readonly ValueFunc<T, U, V, TResult>.Impl<TFunc> func;
+            readonly TFunc func;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToFunc(
                 T arg0,
                 U arg1,
                 V arg2,
-                ValueFunc<T, U, V, TResult>.Impl<TFunc> func
-            )
+                in ValueFunc<T, U, V, TResult>.Impl<TFunc> func
+                )
             {
                 this.arg0 = arg0;
                 this.arg1 = arg1;
                 this.arg2 = arg2;
-                this.func = func;
+                this.func = func.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public TResult Invoke()
             {
                 return func.Invoke(arg0, arg1, arg2);
@@ -803,7 +856,7 @@ namespace CareBoo.Burst.Delegates
         }
 
 
-        public struct AppliedToAction<W, TAction>
+        public readonly struct AppliedToAction<W, TAction>
             : IAction<W>
             where W: struct
             where TAction : struct, IAction<T, U, V, W>
@@ -811,28 +864,30 @@ namespace CareBoo.Burst.Delegates
             readonly T arg0;
             readonly U arg1;
             readonly V arg2;
-            readonly ValueAction<T, U, V, W>.Impl<TAction> action;
+            readonly TAction action;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToAction(
                 T arg0,
                 U arg1,
                 V arg2,
-                ValueAction<T, U, V, W>.Impl<TAction> action
+                in ValueAction<T, U, V, W>.Impl<TAction> action
                 )
             {
                 this.arg0 = arg0;
                 this.arg1 = arg1;
                 this.arg2 = arg2;
-                this.action = action;
+                this.action = action.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public void Invoke(W arg3)
             {
                 action.Invoke(arg0, arg1, arg2, arg3);
             }
         }
 
-        public struct AppliedToFunc<W, TResult, TFunc>
+        public readonly struct AppliedToFunc<W, TResult, TFunc>
             : IFunc<W, TResult>
             where W: struct
             where TResult: struct
@@ -841,21 +896,23 @@ namespace CareBoo.Burst.Delegates
             readonly T arg0;
             readonly U arg1;
             readonly V arg2;
-            readonly ValueFunc<T, U, V, W, TResult>.Impl<TFunc> func;
+            readonly TFunc func;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToFunc(
                 T arg0,
                 U arg1,
                 V arg2,
-                ValueFunc<T, U, V, W, TResult>.Impl<TFunc> func
-            )
+                in ValueFunc<T, U, V, W, TResult>.Impl<TFunc> func
+                )
             {
                 this.arg0 = arg0;
                 this.arg1 = arg1;
                 this.arg2 = arg2;
-                this.func = func;
+                this.func = func.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public TResult Invoke(W arg3)
             {
                 return func.Invoke(arg0, arg1, arg2, arg3);
@@ -863,7 +920,7 @@ namespace CareBoo.Burst.Delegates
         }
 
 
-        public struct AppliedToAction<W, X, TAction>
+        public readonly struct AppliedToAction<W, X, TAction>
             : IAction<W, X>
             where W: struct
             where X: struct
@@ -872,28 +929,30 @@ namespace CareBoo.Burst.Delegates
             readonly T arg0;
             readonly U arg1;
             readonly V arg2;
-            readonly ValueAction<T, U, V, W, X>.Impl<TAction> action;
+            readonly TAction action;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToAction(
                 T arg0,
                 U arg1,
                 V arg2,
-                ValueAction<T, U, V, W, X>.Impl<TAction> action
+                in ValueAction<T, U, V, W, X>.Impl<TAction> action
                 )
             {
                 this.arg0 = arg0;
                 this.arg1 = arg1;
                 this.arg2 = arg2;
-                this.action = action;
+                this.action = action.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public void Invoke(W arg3, X arg4)
             {
                 action.Invoke(arg0, arg1, arg2, arg3, arg4);
             }
         }
 
-        public struct AppliedToFunc<W, X, TResult, TFunc>
+        public readonly struct AppliedToFunc<W, X, TResult, TFunc>
             : IFunc<W, X, TResult>
             where W: struct
             where X: struct
@@ -903,21 +962,23 @@ namespace CareBoo.Burst.Delegates
             readonly T arg0;
             readonly U arg1;
             readonly V arg2;
-            readonly ValueFunc<T, U, V, W, X, TResult>.Impl<TFunc> func;
+            readonly TFunc func;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToFunc(
                 T arg0,
                 U arg1,
                 V arg2,
-                ValueFunc<T, U, V, W, X, TResult>.Impl<TFunc> func
-            )
+                in ValueFunc<T, U, V, W, X, TResult>.Impl<TFunc> func
+                )
             {
                 this.arg0 = arg0;
                 this.arg1 = arg1;
                 this.arg2 = arg2;
-                this.func = func;
+                this.func = func.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public TResult Invoke(W arg3, X arg4)
             {
                 return func.Invoke(arg0, arg1, arg2, arg3, arg4);
@@ -925,7 +986,7 @@ namespace CareBoo.Burst.Delegates
         }
 
 
-        public struct AppliedToAction<W, X, Y, TAction>
+        public readonly struct AppliedToAction<W, X, Y, TAction>
             : IAction<W, X, Y>
             where W: struct
             where X: struct
@@ -935,28 +996,30 @@ namespace CareBoo.Burst.Delegates
             readonly T arg0;
             readonly U arg1;
             readonly V arg2;
-            readonly ValueAction<T, U, V, W, X, Y>.Impl<TAction> action;
+            readonly TAction action;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToAction(
                 T arg0,
                 U arg1,
                 V arg2,
-                ValueAction<T, U, V, W, X, Y>.Impl<TAction> action
+                in ValueAction<T, U, V, W, X, Y>.Impl<TAction> action
                 )
             {
                 this.arg0 = arg0;
                 this.arg1 = arg1;
                 this.arg2 = arg2;
-                this.action = action;
+                this.action = action.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public void Invoke(W arg3, X arg4, Y arg5)
             {
                 action.Invoke(arg0, arg1, arg2, arg3, arg4, arg5);
             }
         }
 
-        public struct AppliedToFunc<W, X, Y, TResult, TFunc>
+        public readonly struct AppliedToFunc<W, X, Y, TResult, TFunc>
             : IFunc<W, X, Y, TResult>
             where W: struct
             where X: struct
@@ -967,21 +1030,23 @@ namespace CareBoo.Burst.Delegates
             readonly T arg0;
             readonly U arg1;
             readonly V arg2;
-            readonly ValueFunc<T, U, V, W, X, Y, TResult>.Impl<TFunc> func;
+            readonly TFunc func;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToFunc(
                 T arg0,
                 U arg1,
                 V arg2,
-                ValueFunc<T, U, V, W, X, Y, TResult>.Impl<TFunc> func
-            )
+                in ValueFunc<T, U, V, W, X, Y, TResult>.Impl<TFunc> func
+                )
             {
                 this.arg0 = arg0;
                 this.arg1 = arg1;
                 this.arg2 = arg2;
-                this.func = func;
+                this.func = func.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public TResult Invoke(W arg3, X arg4, Y arg5)
             {
                 return func.Invoke(arg0, arg1, arg2, arg3, arg4, arg5);
@@ -989,7 +1054,7 @@ namespace CareBoo.Burst.Delegates
         }
 
 
-        public struct AppliedToAction<W, X, Y, Z, TAction>
+        public readonly struct AppliedToAction<W, X, Y, Z, TAction>
             : IAction<W, X, Y, Z>
             where W: struct
             where X: struct
@@ -1000,28 +1065,30 @@ namespace CareBoo.Burst.Delegates
             readonly T arg0;
             readonly U arg1;
             readonly V arg2;
-            readonly ValueAction<T, U, V, W, X, Y, Z>.Impl<TAction> action;
+            readonly TAction action;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToAction(
                 T arg0,
                 U arg1,
                 V arg2,
-                ValueAction<T, U, V, W, X, Y, Z>.Impl<TAction> action
+                in ValueAction<T, U, V, W, X, Y, Z>.Impl<TAction> action
                 )
             {
                 this.arg0 = arg0;
                 this.arg1 = arg1;
                 this.arg2 = arg2;
-                this.action = action;
+                this.action = action.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public void Invoke(W arg3, X arg4, Y arg5, Z arg6)
             {
                 action.Invoke(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
             }
         }
 
-        public struct AppliedToFunc<W, X, Y, Z, TResult, TFunc>
+        public readonly struct AppliedToFunc<W, X, Y, Z, TResult, TFunc>
             : IFunc<W, X, Y, Z, TResult>
             where W: struct
             where X: struct
@@ -1033,21 +1100,23 @@ namespace CareBoo.Burst.Delegates
             readonly T arg0;
             readonly U arg1;
             readonly V arg2;
-            readonly ValueFunc<T, U, V, W, X, Y, Z, TResult>.Impl<TFunc> func;
+            readonly TFunc func;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToFunc(
                 T arg0,
                 U arg1,
                 V arg2,
-                ValueFunc<T, U, V, W, X, Y, Z, TResult>.Impl<TFunc> func
-            )
+                in ValueFunc<T, U, V, W, X, Y, Z, TResult>.Impl<TFunc> func
+                )
             {
                 this.arg0 = arg0;
                 this.arg1 = arg1;
                 this.arg2 = arg2;
-                this.func = func;
+                this.func = func.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public TResult Invoke(W arg3, X arg4, Y arg5, Z arg6)
             {
                 return func.Invoke(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
@@ -1065,7 +1134,7 @@ namespace CareBoo.Burst.Delegates
         where W: struct
     {
 
-        public struct AppliedToAction<TAction>
+        public readonly struct AppliedToAction<TAction>
             : IAction
             
             where TAction : struct, IAction<T, U, V, W>
@@ -1074,30 +1143,32 @@ namespace CareBoo.Burst.Delegates
             readonly U arg1;
             readonly V arg2;
             readonly W arg3;
-            readonly ValueAction<T, U, V, W>.Impl<TAction> action;
+            readonly TAction action;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToAction(
                 T arg0,
                 U arg1,
                 V arg2,
                 W arg3,
-                ValueAction<T, U, V, W>.Impl<TAction> action
+                in ValueAction<T, U, V, W>.Impl<TAction> action
                 )
             {
                 this.arg0 = arg0;
                 this.arg1 = arg1;
                 this.arg2 = arg2;
                 this.arg3 = arg3;
-                this.action = action;
+                this.action = action.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public void Invoke()
             {
                 action.Invoke(arg0, arg1, arg2, arg3);
             }
         }
 
-        public struct AppliedToFunc<TResult, TFunc>
+        public readonly struct AppliedToFunc<TResult, TFunc>
             : IFunc<TResult>
             where TResult: struct
             where TFunc : struct, IFunc<T, U, V, W, TResult>
@@ -1106,23 +1177,25 @@ namespace CareBoo.Burst.Delegates
             readonly U arg1;
             readonly V arg2;
             readonly W arg3;
-            readonly ValueFunc<T, U, V, W, TResult>.Impl<TFunc> func;
+            readonly TFunc func;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToFunc(
                 T arg0,
                 U arg1,
                 V arg2,
                 W arg3,
-                ValueFunc<T, U, V, W, TResult>.Impl<TFunc> func
-            )
+                in ValueFunc<T, U, V, W, TResult>.Impl<TFunc> func
+                )
             {
                 this.arg0 = arg0;
                 this.arg1 = arg1;
                 this.arg2 = arg2;
                 this.arg3 = arg3;
-                this.func = func;
+                this.func = func.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public TResult Invoke()
             {
                 return func.Invoke(arg0, arg1, arg2, arg3);
@@ -1130,7 +1203,7 @@ namespace CareBoo.Burst.Delegates
         }
 
 
-        public struct AppliedToAction<X, TAction>
+        public readonly struct AppliedToAction<X, TAction>
             : IAction<X>
             where X: struct
             where TAction : struct, IAction<T, U, V, W, X>
@@ -1139,30 +1212,32 @@ namespace CareBoo.Burst.Delegates
             readonly U arg1;
             readonly V arg2;
             readonly W arg3;
-            readonly ValueAction<T, U, V, W, X>.Impl<TAction> action;
+            readonly TAction action;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToAction(
                 T arg0,
                 U arg1,
                 V arg2,
                 W arg3,
-                ValueAction<T, U, V, W, X>.Impl<TAction> action
+                in ValueAction<T, U, V, W, X>.Impl<TAction> action
                 )
             {
                 this.arg0 = arg0;
                 this.arg1 = arg1;
                 this.arg2 = arg2;
                 this.arg3 = arg3;
-                this.action = action;
+                this.action = action.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public void Invoke(X arg4)
             {
                 action.Invoke(arg0, arg1, arg2, arg3, arg4);
             }
         }
 
-        public struct AppliedToFunc<X, TResult, TFunc>
+        public readonly struct AppliedToFunc<X, TResult, TFunc>
             : IFunc<X, TResult>
             where X: struct
             where TResult: struct
@@ -1172,23 +1247,25 @@ namespace CareBoo.Burst.Delegates
             readonly U arg1;
             readonly V arg2;
             readonly W arg3;
-            readonly ValueFunc<T, U, V, W, X, TResult>.Impl<TFunc> func;
+            readonly TFunc func;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToFunc(
                 T arg0,
                 U arg1,
                 V arg2,
                 W arg3,
-                ValueFunc<T, U, V, W, X, TResult>.Impl<TFunc> func
-            )
+                in ValueFunc<T, U, V, W, X, TResult>.Impl<TFunc> func
+                )
             {
                 this.arg0 = arg0;
                 this.arg1 = arg1;
                 this.arg2 = arg2;
                 this.arg3 = arg3;
-                this.func = func;
+                this.func = func.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public TResult Invoke(X arg4)
             {
                 return func.Invoke(arg0, arg1, arg2, arg3, arg4);
@@ -1196,7 +1273,7 @@ namespace CareBoo.Burst.Delegates
         }
 
 
-        public struct AppliedToAction<X, Y, TAction>
+        public readonly struct AppliedToAction<X, Y, TAction>
             : IAction<X, Y>
             where X: struct
             where Y: struct
@@ -1206,30 +1283,32 @@ namespace CareBoo.Burst.Delegates
             readonly U arg1;
             readonly V arg2;
             readonly W arg3;
-            readonly ValueAction<T, U, V, W, X, Y>.Impl<TAction> action;
+            readonly TAction action;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToAction(
                 T arg0,
                 U arg1,
                 V arg2,
                 W arg3,
-                ValueAction<T, U, V, W, X, Y>.Impl<TAction> action
+                in ValueAction<T, U, V, W, X, Y>.Impl<TAction> action
                 )
             {
                 this.arg0 = arg0;
                 this.arg1 = arg1;
                 this.arg2 = arg2;
                 this.arg3 = arg3;
-                this.action = action;
+                this.action = action.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public void Invoke(X arg4, Y arg5)
             {
                 action.Invoke(arg0, arg1, arg2, arg3, arg4, arg5);
             }
         }
 
-        public struct AppliedToFunc<X, Y, TResult, TFunc>
+        public readonly struct AppliedToFunc<X, Y, TResult, TFunc>
             : IFunc<X, Y, TResult>
             where X: struct
             where Y: struct
@@ -1240,23 +1319,25 @@ namespace CareBoo.Burst.Delegates
             readonly U arg1;
             readonly V arg2;
             readonly W arg3;
-            readonly ValueFunc<T, U, V, W, X, Y, TResult>.Impl<TFunc> func;
+            readonly TFunc func;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToFunc(
                 T arg0,
                 U arg1,
                 V arg2,
                 W arg3,
-                ValueFunc<T, U, V, W, X, Y, TResult>.Impl<TFunc> func
-            )
+                in ValueFunc<T, U, V, W, X, Y, TResult>.Impl<TFunc> func
+                )
             {
                 this.arg0 = arg0;
                 this.arg1 = arg1;
                 this.arg2 = arg2;
                 this.arg3 = arg3;
-                this.func = func;
+                this.func = func.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public TResult Invoke(X arg4, Y arg5)
             {
                 return func.Invoke(arg0, arg1, arg2, arg3, arg4, arg5);
@@ -1264,7 +1345,7 @@ namespace CareBoo.Burst.Delegates
         }
 
 
-        public struct AppliedToAction<X, Y, Z, TAction>
+        public readonly struct AppliedToAction<X, Y, Z, TAction>
             : IAction<X, Y, Z>
             where X: struct
             where Y: struct
@@ -1275,30 +1356,32 @@ namespace CareBoo.Burst.Delegates
             readonly U arg1;
             readonly V arg2;
             readonly W arg3;
-            readonly ValueAction<T, U, V, W, X, Y, Z>.Impl<TAction> action;
+            readonly TAction action;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToAction(
                 T arg0,
                 U arg1,
                 V arg2,
                 W arg3,
-                ValueAction<T, U, V, W, X, Y, Z>.Impl<TAction> action
+                in ValueAction<T, U, V, W, X, Y, Z>.Impl<TAction> action
                 )
             {
                 this.arg0 = arg0;
                 this.arg1 = arg1;
                 this.arg2 = arg2;
                 this.arg3 = arg3;
-                this.action = action;
+                this.action = action.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public void Invoke(X arg4, Y arg5, Z arg6)
             {
                 action.Invoke(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
             }
         }
 
-        public struct AppliedToFunc<X, Y, Z, TResult, TFunc>
+        public readonly struct AppliedToFunc<X, Y, Z, TResult, TFunc>
             : IFunc<X, Y, Z, TResult>
             where X: struct
             where Y: struct
@@ -1310,23 +1393,25 @@ namespace CareBoo.Burst.Delegates
             readonly U arg1;
             readonly V arg2;
             readonly W arg3;
-            readonly ValueFunc<T, U, V, W, X, Y, Z, TResult>.Impl<TFunc> func;
+            readonly TFunc func;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToFunc(
                 T arg0,
                 U arg1,
                 V arg2,
                 W arg3,
-                ValueFunc<T, U, V, W, X, Y, Z, TResult>.Impl<TFunc> func
-            )
+                in ValueFunc<T, U, V, W, X, Y, Z, TResult>.Impl<TFunc> func
+                )
             {
                 this.arg0 = arg0;
                 this.arg1 = arg1;
                 this.arg2 = arg2;
                 this.arg3 = arg3;
-                this.func = func;
+                this.func = func.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public TResult Invoke(X arg4, Y arg5, Z arg6)
             {
                 return func.Invoke(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
@@ -1345,7 +1430,7 @@ namespace CareBoo.Burst.Delegates
         where X: struct
     {
 
-        public struct AppliedToAction<TAction>
+        public readonly struct AppliedToAction<TAction>
             : IAction
             
             where TAction : struct, IAction<T, U, V, W, X>
@@ -1355,15 +1440,16 @@ namespace CareBoo.Burst.Delegates
             readonly V arg2;
             readonly W arg3;
             readonly X arg4;
-            readonly ValueAction<T, U, V, W, X>.Impl<TAction> action;
+            readonly TAction action;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToAction(
                 T arg0,
                 U arg1,
                 V arg2,
                 W arg3,
                 X arg4,
-                ValueAction<T, U, V, W, X>.Impl<TAction> action
+                in ValueAction<T, U, V, W, X>.Impl<TAction> action
                 )
             {
                 this.arg0 = arg0;
@@ -1371,16 +1457,17 @@ namespace CareBoo.Burst.Delegates
                 this.arg2 = arg2;
                 this.arg3 = arg3;
                 this.arg4 = arg4;
-                this.action = action;
+                this.action = action.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public void Invoke()
             {
                 action.Invoke(arg0, arg1, arg2, arg3, arg4);
             }
         }
 
-        public struct AppliedToFunc<TResult, TFunc>
+        public readonly struct AppliedToFunc<TResult, TFunc>
             : IFunc<TResult>
             where TResult: struct
             where TFunc : struct, IFunc<T, U, V, W, X, TResult>
@@ -1390,25 +1477,27 @@ namespace CareBoo.Burst.Delegates
             readonly V arg2;
             readonly W arg3;
             readonly X arg4;
-            readonly ValueFunc<T, U, V, W, X, TResult>.Impl<TFunc> func;
+            readonly TFunc func;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToFunc(
                 T arg0,
                 U arg1,
                 V arg2,
                 W arg3,
                 X arg4,
-                ValueFunc<T, U, V, W, X, TResult>.Impl<TFunc> func
-            )
+                in ValueFunc<T, U, V, W, X, TResult>.Impl<TFunc> func
+                )
             {
                 this.arg0 = arg0;
                 this.arg1 = arg1;
                 this.arg2 = arg2;
                 this.arg3 = arg3;
                 this.arg4 = arg4;
-                this.func = func;
+                this.func = func.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public TResult Invoke()
             {
                 return func.Invoke(arg0, arg1, arg2, arg3, arg4);
@@ -1416,7 +1505,7 @@ namespace CareBoo.Burst.Delegates
         }
 
 
-        public struct AppliedToAction<Y, TAction>
+        public readonly struct AppliedToAction<Y, TAction>
             : IAction<Y>
             where Y: struct
             where TAction : struct, IAction<T, U, V, W, X, Y>
@@ -1426,15 +1515,16 @@ namespace CareBoo.Burst.Delegates
             readonly V arg2;
             readonly W arg3;
             readonly X arg4;
-            readonly ValueAction<T, U, V, W, X, Y>.Impl<TAction> action;
+            readonly TAction action;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToAction(
                 T arg0,
                 U arg1,
                 V arg2,
                 W arg3,
                 X arg4,
-                ValueAction<T, U, V, W, X, Y>.Impl<TAction> action
+                in ValueAction<T, U, V, W, X, Y>.Impl<TAction> action
                 )
             {
                 this.arg0 = arg0;
@@ -1442,16 +1532,17 @@ namespace CareBoo.Burst.Delegates
                 this.arg2 = arg2;
                 this.arg3 = arg3;
                 this.arg4 = arg4;
-                this.action = action;
+                this.action = action.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public void Invoke(Y arg5)
             {
                 action.Invoke(arg0, arg1, arg2, arg3, arg4, arg5);
             }
         }
 
-        public struct AppliedToFunc<Y, TResult, TFunc>
+        public readonly struct AppliedToFunc<Y, TResult, TFunc>
             : IFunc<Y, TResult>
             where Y: struct
             where TResult: struct
@@ -1462,25 +1553,27 @@ namespace CareBoo.Burst.Delegates
             readonly V arg2;
             readonly W arg3;
             readonly X arg4;
-            readonly ValueFunc<T, U, V, W, X, Y, TResult>.Impl<TFunc> func;
+            readonly TFunc func;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToFunc(
                 T arg0,
                 U arg1,
                 V arg2,
                 W arg3,
                 X arg4,
-                ValueFunc<T, U, V, W, X, Y, TResult>.Impl<TFunc> func
-            )
+                in ValueFunc<T, U, V, W, X, Y, TResult>.Impl<TFunc> func
+                )
             {
                 this.arg0 = arg0;
                 this.arg1 = arg1;
                 this.arg2 = arg2;
                 this.arg3 = arg3;
                 this.arg4 = arg4;
-                this.func = func;
+                this.func = func.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public TResult Invoke(Y arg5)
             {
                 return func.Invoke(arg0, arg1, arg2, arg3, arg4, arg5);
@@ -1488,7 +1581,7 @@ namespace CareBoo.Burst.Delegates
         }
 
 
-        public struct AppliedToAction<Y, Z, TAction>
+        public readonly struct AppliedToAction<Y, Z, TAction>
             : IAction<Y, Z>
             where Y: struct
             where Z: struct
@@ -1499,15 +1592,16 @@ namespace CareBoo.Burst.Delegates
             readonly V arg2;
             readonly W arg3;
             readonly X arg4;
-            readonly ValueAction<T, U, V, W, X, Y, Z>.Impl<TAction> action;
+            readonly TAction action;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToAction(
                 T arg0,
                 U arg1,
                 V arg2,
                 W arg3,
                 X arg4,
-                ValueAction<T, U, V, W, X, Y, Z>.Impl<TAction> action
+                in ValueAction<T, U, V, W, X, Y, Z>.Impl<TAction> action
                 )
             {
                 this.arg0 = arg0;
@@ -1515,16 +1609,17 @@ namespace CareBoo.Burst.Delegates
                 this.arg2 = arg2;
                 this.arg3 = arg3;
                 this.arg4 = arg4;
-                this.action = action;
+                this.action = action.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public void Invoke(Y arg5, Z arg6)
             {
                 action.Invoke(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
             }
         }
 
-        public struct AppliedToFunc<Y, Z, TResult, TFunc>
+        public readonly struct AppliedToFunc<Y, Z, TResult, TFunc>
             : IFunc<Y, Z, TResult>
             where Y: struct
             where Z: struct
@@ -1536,25 +1631,27 @@ namespace CareBoo.Burst.Delegates
             readonly V arg2;
             readonly W arg3;
             readonly X arg4;
-            readonly ValueFunc<T, U, V, W, X, Y, Z, TResult>.Impl<TFunc> func;
+            readonly TFunc func;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToFunc(
                 T arg0,
                 U arg1,
                 V arg2,
                 W arg3,
                 X arg4,
-                ValueFunc<T, U, V, W, X, Y, Z, TResult>.Impl<TFunc> func
-            )
+                in ValueFunc<T, U, V, W, X, Y, Z, TResult>.Impl<TFunc> func
+                )
             {
                 this.arg0 = arg0;
                 this.arg1 = arg1;
                 this.arg2 = arg2;
                 this.arg3 = arg3;
                 this.arg4 = arg4;
-                this.func = func;
+                this.func = func.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public TResult Invoke(Y arg5, Z arg6)
             {
                 return func.Invoke(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
@@ -1574,7 +1671,7 @@ namespace CareBoo.Burst.Delegates
         where Y: struct
     {
 
-        public struct AppliedToAction<TAction>
+        public readonly struct AppliedToAction<TAction>
             : IAction
             
             where TAction : struct, IAction<T, U, V, W, X, Y>
@@ -1585,8 +1682,9 @@ namespace CareBoo.Burst.Delegates
             readonly W arg3;
             readonly X arg4;
             readonly Y arg5;
-            readonly ValueAction<T, U, V, W, X, Y>.Impl<TAction> action;
+            readonly TAction action;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToAction(
                 T arg0,
                 U arg1,
@@ -1594,7 +1692,7 @@ namespace CareBoo.Burst.Delegates
                 W arg3,
                 X arg4,
                 Y arg5,
-                ValueAction<T, U, V, W, X, Y>.Impl<TAction> action
+                in ValueAction<T, U, V, W, X, Y>.Impl<TAction> action
                 )
             {
                 this.arg0 = arg0;
@@ -1603,16 +1701,17 @@ namespace CareBoo.Burst.Delegates
                 this.arg3 = arg3;
                 this.arg4 = arg4;
                 this.arg5 = arg5;
-                this.action = action;
+                this.action = action.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public void Invoke()
             {
                 action.Invoke(arg0, arg1, arg2, arg3, arg4, arg5);
             }
         }
 
-        public struct AppliedToFunc<TResult, TFunc>
+        public readonly struct AppliedToFunc<TResult, TFunc>
             : IFunc<TResult>
             where TResult: struct
             where TFunc : struct, IFunc<T, U, V, W, X, Y, TResult>
@@ -1623,8 +1722,9 @@ namespace CareBoo.Burst.Delegates
             readonly W arg3;
             readonly X arg4;
             readonly Y arg5;
-            readonly ValueFunc<T, U, V, W, X, Y, TResult>.Impl<TFunc> func;
+            readonly TFunc func;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToFunc(
                 T arg0,
                 U arg1,
@@ -1632,8 +1732,8 @@ namespace CareBoo.Burst.Delegates
                 W arg3,
                 X arg4,
                 Y arg5,
-                ValueFunc<T, U, V, W, X, Y, TResult>.Impl<TFunc> func
-            )
+                in ValueFunc<T, U, V, W, X, Y, TResult>.Impl<TFunc> func
+                )
             {
                 this.arg0 = arg0;
                 this.arg1 = arg1;
@@ -1641,9 +1741,10 @@ namespace CareBoo.Burst.Delegates
                 this.arg3 = arg3;
                 this.arg4 = arg4;
                 this.arg5 = arg5;
-                this.func = func;
+                this.func = func.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public TResult Invoke()
             {
                 return func.Invoke(arg0, arg1, arg2, arg3, arg4, arg5);
@@ -1651,7 +1752,7 @@ namespace CareBoo.Burst.Delegates
         }
 
 
-        public struct AppliedToAction<Z, TAction>
+        public readonly struct AppliedToAction<Z, TAction>
             : IAction<Z>
             where Z: struct
             where TAction : struct, IAction<T, U, V, W, X, Y, Z>
@@ -1662,8 +1763,9 @@ namespace CareBoo.Burst.Delegates
             readonly W arg3;
             readonly X arg4;
             readonly Y arg5;
-            readonly ValueAction<T, U, V, W, X, Y, Z>.Impl<TAction> action;
+            readonly TAction action;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToAction(
                 T arg0,
                 U arg1,
@@ -1671,7 +1773,7 @@ namespace CareBoo.Burst.Delegates
                 W arg3,
                 X arg4,
                 Y arg5,
-                ValueAction<T, U, V, W, X, Y, Z>.Impl<TAction> action
+                in ValueAction<T, U, V, W, X, Y, Z>.Impl<TAction> action
                 )
             {
                 this.arg0 = arg0;
@@ -1680,16 +1782,17 @@ namespace CareBoo.Burst.Delegates
                 this.arg3 = arg3;
                 this.arg4 = arg4;
                 this.arg5 = arg5;
-                this.action = action;
+                this.action = action.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public void Invoke(Z arg6)
             {
                 action.Invoke(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
             }
         }
 
-        public struct AppliedToFunc<Z, TResult, TFunc>
+        public readonly struct AppliedToFunc<Z, TResult, TFunc>
             : IFunc<Z, TResult>
             where Z: struct
             where TResult: struct
@@ -1701,8 +1804,9 @@ namespace CareBoo.Burst.Delegates
             readonly W arg3;
             readonly X arg4;
             readonly Y arg5;
-            readonly ValueFunc<T, U, V, W, X, Y, Z, TResult>.Impl<TFunc> func;
+            readonly TFunc func;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToFunc(
                 T arg0,
                 U arg1,
@@ -1710,8 +1814,8 @@ namespace CareBoo.Burst.Delegates
                 W arg3,
                 X arg4,
                 Y arg5,
-                ValueFunc<T, U, V, W, X, Y, Z, TResult>.Impl<TFunc> func
-            )
+                in ValueFunc<T, U, V, W, X, Y, Z, TResult>.Impl<TFunc> func
+                )
             {
                 this.arg0 = arg0;
                 this.arg1 = arg1;
@@ -1719,9 +1823,10 @@ namespace CareBoo.Burst.Delegates
                 this.arg3 = arg3;
                 this.arg4 = arg4;
                 this.arg5 = arg5;
-                this.func = func;
+                this.func = func.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public TResult Invoke(Z arg6)
             {
                 return func.Invoke(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
@@ -1742,7 +1847,7 @@ namespace CareBoo.Burst.Delegates
         where Z: struct
     {
 
-        public struct AppliedToAction<TAction>
+        public readonly struct AppliedToAction<TAction>
             : IAction
             
             where TAction : struct, IAction<T, U, V, W, X, Y, Z>
@@ -1754,8 +1859,9 @@ namespace CareBoo.Burst.Delegates
             readonly X arg4;
             readonly Y arg5;
             readonly Z arg6;
-            readonly ValueAction<T, U, V, W, X, Y, Z>.Impl<TAction> action;
+            readonly TAction action;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToAction(
                 T arg0,
                 U arg1,
@@ -1764,7 +1870,7 @@ namespace CareBoo.Burst.Delegates
                 X arg4,
                 Y arg5,
                 Z arg6,
-                ValueAction<T, U, V, W, X, Y, Z>.Impl<TAction> action
+                in ValueAction<T, U, V, W, X, Y, Z>.Impl<TAction> action
                 )
             {
                 this.arg0 = arg0;
@@ -1774,16 +1880,17 @@ namespace CareBoo.Burst.Delegates
                 this.arg4 = arg4;
                 this.arg5 = arg5;
                 this.arg6 = arg6;
-                this.action = action;
+                this.action = action.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public void Invoke()
             {
                 action.Invoke(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
             }
         }
 
-        public struct AppliedToFunc<TResult, TFunc>
+        public readonly struct AppliedToFunc<TResult, TFunc>
             : IFunc<TResult>
             where TResult: struct
             where TFunc : struct, IFunc<T, U, V, W, X, Y, Z, TResult>
@@ -1795,8 +1902,9 @@ namespace CareBoo.Burst.Delegates
             readonly X arg4;
             readonly Y arg5;
             readonly Z arg6;
-            readonly ValueFunc<T, U, V, W, X, Y, Z, TResult>.Impl<TFunc> func;
+            readonly TFunc func;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public AppliedToFunc(
                 T arg0,
                 U arg1,
@@ -1805,8 +1913,8 @@ namespace CareBoo.Burst.Delegates
                 X arg4,
                 Y arg5,
                 Z arg6,
-                ValueFunc<T, U, V, W, X, Y, Z, TResult>.Impl<TFunc> func
-            )
+                in ValueFunc<T, U, V, W, X, Y, Z, TResult>.Impl<TFunc> func
+                )
             {
                 this.arg0 = arg0;
                 this.arg1 = arg1;
@@ -1815,9 +1923,10 @@ namespace CareBoo.Burst.Delegates
                 this.arg4 = arg4;
                 this.arg5 = arg5;
                 this.arg6 = arg6;
-                this.func = func;
+                this.func = func.Lambda;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public TResult Invoke()
             {
                 return func.Invoke(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
